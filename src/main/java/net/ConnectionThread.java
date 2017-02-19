@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -24,9 +26,9 @@ public class ConnectionThread implements Runnable {
     @Override
     public void run() {
         try {
-            this.input = new BufferedReader(new InputStreamReader(this.sock.getInputStream()));
-            this.output = new PrintStream(this.sock.getOutputStream());
             while(sock.isConnected()) {
+                this.input = new BufferedReader(new InputStreamReader(this.sock.getInputStream()));
+                this.output = new PrintStream(this.sock.getOutputStream());
                 receiveRequest();
                 sendMessage();
             }
@@ -36,17 +38,16 @@ public class ConnectionThread implements Runnable {
     }
 
     private void receiveRequest() throws IOException {
-        String in;
-        while((in = input.readLine()) != null) {
-            //RequestParser.parse(/*Request object*/);
-            System.out.println("This is what I received: \n");
-            System.out.println(in);
+        Stream<String> in = input.lines();
+        if(in.count() > 1) {
+            return;
         }
+        System.out.println("Received message: \n" + in.collect(Collectors.toList()));
     }
-
+    
     private void sendMessage() throws IOException {
         this.output.println(Agent.BOARD.toString() + ": MSG OK.");
-        //this.output.flush();
+        this.output.flush();
     }
 
     
