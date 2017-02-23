@@ -11,8 +11,4 @@ package request;
  */
 public class RequestFactory {
     
-    
-    public static boolean parse(Request req) {
-        return true /*req is valid, false otherwise*/;
-    }
 }
