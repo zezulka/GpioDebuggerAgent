@@ -1,7 +1,7 @@
 package arm_agent;
 
 import request.Request;
-import request.RequestParser;
+import request.RequestFactory;
 
 /**
  * This represents all the features the agent is capable of.
@@ -11,7 +11,7 @@ public class AgentFeatures {
     
     
     public static void respondToRequest(Request req) {
-        if(RequestParser.parse(req)) {
+        if(RequestFactory.parse(req)) {
             sendAppropriateMessageToClient();
         } else {
             sendErrorMessageToClient();
