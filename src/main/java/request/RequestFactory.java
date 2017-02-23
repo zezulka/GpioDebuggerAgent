@@ -9,7 +9,7 @@ package request;
  * Class being used for validation when Request object is sent to server.
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParser {
+public class RequestFactory {
     
     
     public static boolean parse(Request req) {

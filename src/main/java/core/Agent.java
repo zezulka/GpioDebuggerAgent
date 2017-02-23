@@ -1,4 +1,4 @@
-package arm_agent;
+package core;
 
 import io.silverspoon.bulldog.core.platform.Board;
 import io.silverspoon.bulldog.core.platform.Platform;

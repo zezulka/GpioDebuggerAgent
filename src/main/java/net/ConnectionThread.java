@@ -1,6 +1,6 @@
 package net;
 
-import arm_agent.Agent;
+import core.Agent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
