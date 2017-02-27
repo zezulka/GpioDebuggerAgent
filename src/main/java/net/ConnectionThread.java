@@ -48,7 +48,7 @@ public class ConnectionThread implements Runnable {
     }
     
     private void sendMessage() throws IOException {
-        this.output.println(Agent.BOARD.toString() + ": MSG OK.");
+        this.output.println(Agent.BOARD.getName());
     }
 
     
