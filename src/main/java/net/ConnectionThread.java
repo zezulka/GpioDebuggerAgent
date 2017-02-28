@@ -26,9 +26,10 @@ public class ConnectionThread implements Runnable {
         try {
             this.input = new BufferedReader(new InputStreamReader(this.sock.getInputStream()));
             this.output = new PrintWriter(this.sock.getOutputStream(), true);
+            sendMessageName();
             while(true) {
                 if(receiveRequest()) {
-                    sendMessage();
+                    sendMessage("OK");
                 } else {
                     System.err.println(ProtocolMessages.S_CONNECTION_LOST_CLIENT.getMessage());
                     break;
@@ -47,8 +48,12 @@ public class ConnectionThread implements Runnable {
         return line != null;
     }
     
-    private void sendMessage() throws IOException {
-        this.output.println(Agent.BOARD.getName());
+    private void sendMessage(String msg) throws IOException {
+        this.output.println(msg);
+    }
+    
+    private void sendMessageName() throws IOException {
+        this.sendMessage(Agent.BOARD.getName());
     }
 
     
