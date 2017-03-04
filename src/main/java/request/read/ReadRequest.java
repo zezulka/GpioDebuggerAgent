@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package request;
+package request.read;
+
+import request.Operation;
+import request.Request;
 
 /**
- *
- * @author Miloslav Zezulka, 2017 
+ * @author Miloslav Zezulka, 2017
  */
-public interface Request {
-    void giveFeedbackToClient();
+public interface ReadRequest extends Request {
+    String read();
 }

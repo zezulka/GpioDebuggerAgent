@@ -1,6 +1,9 @@
 package net;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -16,6 +19,8 @@ public class ConnectionManager implements Runnable {
     private ServerSocket servSock;
     private Socket sock;
     private boolean isStopped;
+    private static BufferedReader input;
+    private static PrintWriter output;
     public static final int DEFAULT_SOCK_PORT = 1024;
     private static final int CLIENTS_UPPER_BOUND = 64;
     protected ExecutorService threadPool =
@@ -43,6 +48,14 @@ public class ConnectionManager implements Runnable {
         return new ConnectionManager(port);
     }
     
+    public static BufferedReader getInput() {
+        return ConnectionManager.input;
+    }
+    
+    public static PrintWriter getOutput() {
+        return ConnectionManager.output;
+    }
+    
     /**
      * Initializes network resources: {@code java.lang.Socket} the server is 
      * listening to, server input {@code java.io.BufferedReader} 
@@ -51,6 +64,8 @@ public class ConnectionManager implements Runnable {
      */
     public void initResources() throws IOException {
         this.sock = this.servSock.accept();
+        ConnectionManager.input = new BufferedReader(new InputStreamReader(this.sock.getInputStream()));
+        ConnectionManager.output = new PrintWriter(this.sock.getOutputStream(), true);
     }
     
     public synchronized boolean isStopped() {

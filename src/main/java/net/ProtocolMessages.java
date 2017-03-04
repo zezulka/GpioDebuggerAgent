@@ -8,7 +8,8 @@ public enum ProtocolMessages {
     S_START("Server is running..."), 
     S_CANNOT_CONNECT_TO_CLIENT("Cannot connect to client."),
     S_SERVER_REQUEST_WAIT("System is now waiting to receive a message from client."),
-    S_CONNECTION_LOST_CLIENT("Connection has been lost with client.");
+    S_CONNECTION_LOST_CLIENT("Connection has been lost with client."),
+    S_INVALID_REQUEST("Invalid request");
     
     private final String msg;
     
@@ -16,7 +17,8 @@ public enum ProtocolMessages {
         this.msg = msg;
     }
     
-    public String getMessage() {
+    @Override
+    public String toString() {
         return this.msg;
     }
 }

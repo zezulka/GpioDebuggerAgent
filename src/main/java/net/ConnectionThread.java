@@ -1,11 +1,15 @@
 package net;
 
 import core.Agent;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import request.IllegalRequestException;
+import request.Request;
+import request.RequestParser;
+import request.read.ReadRequest;
+import request.write.WriteRequest;
 
 /**
  *
@@ -14,8 +18,6 @@ import java.net.Socket;
 public class ConnectionThread implements Runnable {
 
     private final Socket sock;
-    private BufferedReader input;
-    private PrintWriter output;
     
     ConnectionThread(Socket sock) {
         this.sock = sock;
@@ -24,36 +26,53 @@ public class ConnectionThread implements Runnable {
     @Override
     public void run() {
         try {
-            this.input = new BufferedReader(new InputStreamReader(this.sock.getInputStream()));
-            this.output = new PrintWriter(this.sock.getOutputStream(), true);
             sendMessageName();
-            while(true) {
-                if(receiveRequest()) {
-                    sendMessage("OK");
+            Request request;
+            while(!sock.isClosed()) {
+                if((request = receiveRequest()) != null) {
+                    handleRequest(request);
+                    sendMessage("Server response: OK");
                 } else {
-                    System.err.println(ProtocolMessages.S_CONNECTION_LOST_CLIENT.getMessage());
+                    System.err.println(ProtocolMessages.S_CONNECTION_LOST_CLIENT);
                     break;
                 }
             }
         } catch (IOException ex) {
-            System.err.println(ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.getMessage() + ex);
+            System.err.println(ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.toString() + ex);
+        } catch (IllegalRequestException ex) {
+            System.err.println(ProtocolMessages.S_INVALID_REQUEST);
         }
     }
 
-    private boolean receiveRequest() throws IOException {
-        System.out.println(ProtocolMessages.S_SERVER_REQUEST_WAIT.getMessage());
+    private Request receiveRequest() throws IOException, IllegalRequestException {
+        System.out.println(ProtocolMessages.S_SERVER_REQUEST_WAIT);
         String line;
-        line = input.readLine();
-        System.out.println("\nReceived message:" + line);
-        return line != null;
+        line = ConnectionManager.getInput().readLine();
+        if(line == null) {
+            sock.close();
+            return null;
+        }
+        return RequestParser.parse(line);
     }
     
     private void sendMessage(String msg) throws IOException {
-        this.output.println(msg);
+        ConnectionManager.getOutput().println(msg);
     }
     
     private void sendMessageName() throws IOException {
         this.sendMessage(Agent.BOARD.getName());
+    }
+
+    private void handleRequest(Request request) {
+        if(request instanceof ReadRequest) {
+            ReadRequest req = (ReadRequest) request;
+            req.read();
+            
+        } else if(request instanceof WriteRequest) {
+            WriteRequest req = (WriteRequest) request;
+            req.write();
+        }
+        request.giveFeedbackToClient();
     }
 
     

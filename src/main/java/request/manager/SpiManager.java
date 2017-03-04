@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package request;
+package request.manager;
 
 /**
  *
- * @author Miloslav Zezulka, 2017 
+ * @author miloslav
  */
-public interface Request {
-    void giveFeedbackToClient();
+public class SpiManager{
+    
 }

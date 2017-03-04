@@ -6,9 +6,9 @@
 package request;
 
 /**
- * Class being used for validation when Request object is sent to server.
+ *
  * @author Miloslav Zezulka, 2017
  */
-public class RequestFactory {
-    
+public enum Operation {
+    READ, WRITE;
 }
