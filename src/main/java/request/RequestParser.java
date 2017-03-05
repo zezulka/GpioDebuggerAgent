@@ -21,16 +21,35 @@ public class RequestParser {
     
     public static final String SEPARATOR = ":";
     public static final String OP_SEPARATOR = " ";
-    public static final int REQ_ARGS = 3;
+    public static final int REQ_ARGS = 2;
     
     private RequestParser() {}
     
+    
+    /**
+     * Parses client request given by String read from agent's {@code InputStream}.
+     * The format of the request is as follows: 
+     * 
+     * <br/><br/>
+     * 
+     * 
+     * <ul>&lt;INTERFACE&gt;&lt;DELIMITER&gt;&lt;OPERATION&gt;[&lt;DELIMITER&gt;&lt;PIN_NAME&gt;],</ul>
+     * where delimiter is the ':' char symbol.
+     * 
+     * <br/><br/>
+     * 
+     * For available interfaces and operations, please consult documentation of 
+     * {@code request.Interface} and {@code request.Operation} classes.
+     * @param clientInput
+     * @return
+     * @throws IllegalRequestException 
+     */
     public static Request parse(String clientInput) throws IllegalRequestException {
         if(clientInput == null) {
             throw new IllegalArgumentException("request cannot be null");
         }
-        String[] request = clientInput.split(SEPARATOR, REQ_ARGS);
-        if(request.length != REQ_ARGS) {
+        String[] request = clientInput.split(SEPARATOR, REQ_ARGS + 1);
+        if(request.length < REQ_ARGS) {
             throw new IllegalRequestException(
                 String.format("request must have exactly %d arguments, "
                         + "supplied: %d", REQ_ARGS, request.length)

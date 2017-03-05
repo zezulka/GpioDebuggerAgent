@@ -25,6 +25,9 @@ public class GpioWriteRequest implements WriteRequest {
         return new GpioWriteRequest(name);
     }
 
+    /**
+     * Toggles the current value.
+     */
     @Override
     public void write() {
         if(GpioManager.readVoltage(this.pinName)) {
@@ -34,6 +37,10 @@ public class GpioWriteRequest implements WriteRequest {
         }
     }
 
+    /**
+     * Sends message to client whether the provided Pin (specified in {@code GpioWriteRequest.getInstance(name)} by {@code name} argument)
+     * is turned off or on.
+     */
     @Override
     public void giveFeedbackToClient() {
         ConnectionManager.getOutput().println(String.format("The pin %s is now %s", 

@@ -12,7 +12,8 @@ import request.read.ReadRequest;
 import request.write.WriteRequest;
 
 /**
- *
+ * Each thread is created when client connects to the server, therefore all 
+ * application logic (from client's view) is performed through this entity.
  * @author Miloslav Zezulka, 2017
  */
 public class ConnectionThread implements Runnable {
@@ -55,14 +56,30 @@ public class ConnectionThread implements Runnable {
         return RequestParser.parse(line);
     }
     
+    
     private void sendMessage(String msg) throws IOException {
+        if(ConnectionManager.getOutput() == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Connection has not been established properly with client");
+            throw new IOException("output stream is closed");
+        }
         ConnectionManager.getOutput().println(msg);
     }
     
+    /**
+     * Initial message sent to client.
+     * @param msg message representing the device (name of the device).
+     * @throws IOException 
+     */
     private void sendMessageName() throws IOException {
         this.sendMessage(Agent.BOARD.getName());
     }
 
+    /**
+     * This method takes care of determining which kind of request was sent
+     * to server and then calls the appropriate method in the given interface (please
+     * consult {@code request.read.ReadRequest} and {@code request.write.WriteRequest} for more information.
+     * @param request 
+     */
     private void handleRequest(Request request) {
         if(request instanceof ReadRequest) {
             ReadRequest req = (ReadRequest) request;
