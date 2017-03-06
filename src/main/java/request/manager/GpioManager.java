@@ -6,9 +6,10 @@
 package request.manager;
 
 import core.Agent;
+import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.gpio.DigitalInput;
 import io.silverspoon.bulldog.core.gpio.DigitalOutput;
-import net.ConnectionManager;
+import io.silverspoon.bulldog.core.pin.Pin;
 
 /**
  *
@@ -17,17 +18,38 @@ import net.ConnectionManager;
 public class GpioManager {
 
     private GpioManager() {}
-    
+
+    private static void applyVoltage(Signal sig, String pinName) {
+        Pin pin = Agent.BOARD.getPin(pinName);
+        if (pin == null) {
+            throw new IllegalArgumentException(String.format(
+                    "Pin with the descriptor '%s' has not been found.", pinName));
+        }
+        DigitalOutput output = Agent.BOARD.getPin(pinName).as(DigitalOutput.class);
+        output.applySignal(sig);
+
+    }
+
+    /**
+     * Sets pin's voltage to high.
+     *
+     * @param pinName
+     * @throws IllegalArgumentException if pin specified by {@code pinName} has
+     * not been found.
+     */
     public static void setHigh(String pinName) {
-        DigitalOutput output = Agent.BOARD.getPin(pinName).as(DigitalOutput.class);
-        output.high();
+        applyVoltage(Signal.High, pinName);
     }
-    
+
+    /**
+     * Sets pin's voltage to low.
+     *
+     * @param pinName
+     */
     public static void setLow(String pinName) {
-        DigitalOutput output = Agent.BOARD.getPin(pinName).as(DigitalOutput.class);
-        output.high();
+        applyVoltage(Signal.Low, pinName);
     }
-    
+
     public static boolean readVoltage(String pinName) {
         DigitalInput input = Agent.BOARD.getPin(pinName).as(DigitalInput.class);
         return input.read().getBooleanValue();

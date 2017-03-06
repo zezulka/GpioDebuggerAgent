@@ -22,7 +22,7 @@ public class ConnectionManager implements Runnable {
     private static BufferedReader input;
     private static PrintWriter output;
     public static final int DEFAULT_SOCK_PORT = 1024;
-    private static final int CLIENTS_UPPER_BOUND = 64;
+    private static final int CLIENTS_UPPER_BOUND = 8;
     protected ExecutorService threadPool =
         Executors.newFixedThreadPool(CLIENTS_UPPER_BOUND);
     

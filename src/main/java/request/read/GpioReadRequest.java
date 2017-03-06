@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package request.read;
-
 import net.ConnectionManager;
 import request.manager.GpioManager;
 
@@ -23,13 +22,21 @@ public class GpioReadRequest implements ReadRequest {
         return new GpioReadRequest(pinName);
     }
 
+    /**
+     * Attempts to read input denoted in getInstance() method and if successful, 
+     * returns the pin numeric value as a result. String containing number is
+     * returned due to interface which this class implements.
+     * @return String numeric representation of the read signal
+     */
     @Override
     public String read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return GpioManager.readVoltage(pinName) ? "1" : "0";
     }
 
     @Override
     public void giveFeedbackToClient() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ConnectionManager.getOutput().println(String.format(
+                "Pin '%s' is currently %s", pinName, 
+                Integer.parseInt(read()) == 0 ? "off" : "on"));
     }
 }
