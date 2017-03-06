@@ -8,17 +8,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Responsibilities: manage all the connections binded to the device. This
  * is the most abstract manager representing the whole application running on the 
  * board device.
- * @author 
+ * @author Miloslav Zezulka, 2017
  */
 public class ConnectionManager implements Runnable {
     private ServerSocket servSock;
     private Socket sock;
-    private boolean isStopped;
     private static BufferedReader input;
     private static PrintWriter output;
     public static final int DEFAULT_SOCK_PORT = 1024;
@@ -29,9 +30,9 @@ public class ConnectionManager implements Runnable {
     private ConnectionManager(int port) {
         try {
             this.servSock = new ServerSocket(port);
-            System.out.println("Server is running.");
+            Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_START.toString());
         } catch (IOException ex) {
-            System.err.println("There was an error creating a server socket: " + ex);
+            Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_SERV_SOCK_ERR.toString());
         }
     }
     
@@ -68,34 +69,32 @@ public class ConnectionManager implements Runnable {
         ConnectionManager.output = new PrintWriter(this.sock.getOutputStream(), true);
     }
     
-    public synchronized boolean isStopped() {
-        return this.isStopped;
-    }
-    
     @Override
     public void run() {
-        while(!isStopped()) {
+        while(!sock.isClosed()) {
             try {
                 initResources();
-                System.out.println("Listening on port: " + this.sock.getLocalPort());
+                Logger.getAnonymousLogger().log(Level.INFO, 
+                        ProtocolMessages.S_PORT_INFO.toString(), this.sock.getLocalPort());
             } catch (IOException ex) {
-                if(this.isStopped()) {
+                if(sock.isClosed()) {
                     break;
                 }
-                System.err.println("Unable to create listener socket." + ex);
+                Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_SOCK_ERR.toString(), ex);
             }
             threadPool.execute(new ConnectionThread(this.sock));
         }
         threadPool.shutdown();
-        System.out.println("Server shutting donwn...");
+        Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_FINISHED.toString());
     }
     
     public synchronized void stop() {
         try {
-            servSock.close();
-            this.isStopped = true;
+            if(!servSock.isClosed()) {
+                servSock.close();
+            }
         } catch (IOException ex) {
-            System.err.println("Cannot stop server." + ex);
+            System.err.println(ProtocolMessages.S_STOP_ERR.toString() + ex);
         }
     }
 }

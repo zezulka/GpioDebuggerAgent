@@ -34,19 +34,19 @@ public class ConnectionThread implements Runnable {
                     handleRequest(request);
                     sendMessage("Server response: OK");
                 } else {
-                    System.err.println(ProtocolMessages.S_CONNECTION_LOST_CLIENT);
+                    Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_CONNECTION_LOST_CLIENT.toString());
                     break;
                 }
             }
         } catch (IOException ex) {
-            System.err.println(ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.toString() + ex);
+           Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.toString(), ex);
         } catch (IllegalRequestException ex) {
-            System.err.println(ProtocolMessages.S_INVALID_REQUEST);
+           Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_INVALID_REQUEST.toString(), ex);
         }
     }
 
     private Request receiveRequest() throws IOException, IllegalRequestException {
-        System.out.println(ProtocolMessages.S_SERVER_REQUEST_WAIT);
+        Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_SERVER_REQUEST_WAIT.toString());
         String line;
         line = ConnectionManager.getInput().readLine();
         if(line == null) {
@@ -59,7 +59,7 @@ public class ConnectionThread implements Runnable {
     
     private void sendMessage(String msg) throws IOException {
         if(ConnectionManager.getOutput() == null) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, "Connection has not been established properly with client");
+            Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_INVALID_CONNECTION_CLIENT.toString());
             throw new IOException("output stream is closed");
         }
         ConnectionManager.getOutput().println(msg);
