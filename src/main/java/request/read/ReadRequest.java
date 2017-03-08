@@ -5,7 +5,7 @@
  */
 package request.read;
 
-import request.Operation;
+import java.io.IOException;
 import request.Request;
 
 /**

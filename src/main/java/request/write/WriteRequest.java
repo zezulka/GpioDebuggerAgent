@@ -1,6 +1,6 @@
 package request.write;
 
-import request.Operation;
+import java.io.IOException;
 import request.Request;
 
 /**

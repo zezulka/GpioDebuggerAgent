@@ -5,6 +5,8 @@
  */
 package request;
 
+import java.io.IOException;
+
 /**
  * This represents a Request on the agent's side. Please note that client does
  * not work with this request representation in any way.
@@ -14,6 +16,7 @@ public interface Request {
     /**
      * After the request has been processed, information is sent back to client
      * (via {@code OutputStream} of the opened socket).
+     * @throws java.io.IOException connection to client has been lost
      */
-    void giveFeedbackToClient();
+    void giveFeedbackToClient() throws IOException;
 }

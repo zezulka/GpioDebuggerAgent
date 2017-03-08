@@ -23,8 +23,7 @@ public class RequestParser {
     public static final String OP_SEPARATOR = " ";
     public static final int REQ_ARGS = 2;
     
-    private RequestParser() {}
-    
+    private RequestParser() {}   
     
     /**
      * Parses client request given by String read from agent's {@code InputStream}.
@@ -42,7 +41,9 @@ public class RequestParser {
      * {@code request.Interface} and {@code request.Operation} classes.
      * @param clientInput
      * @return
-     * @throws IllegalRequestException 
+     * @throws IllegalRequestException in case illegal String request has been
+     * provided
+     * @throws IllegalArgumentException null as input was provided
      */
     public static Request parse(String clientInput) throws IllegalRequestException {
         if(clientInput == null) {
@@ -55,9 +56,18 @@ public class RequestParser {
                         + "supplied: %d", REQ_ARGS, request.length)
             );
         }
-        switch(Operation.valueOf(request[1].toUpperCase())) {
+        Interface interfc;
+        Operation op;
+        try {
+            interfc = Interface.valueOf(request[0].trim().toUpperCase());
+            op = Operation.valueOf(request[1].trim().toUpperCase());
+        } catch(IllegalArgumentException ex) {
+            throw new IllegalRequestException(ex);
+        }
+        
+        switch(op) {
             case READ: {
-                switch(Interface.valueOf(request[0].toUpperCase())) {
+                switch(interfc) {
                     case GPIO: return GpioReadRequest.getInstance(request[2]);
                     case I2C: return I2cReadRequest.getInstance();
                     case SPI : return SpiReadRequest.getInstance();
@@ -65,7 +75,7 @@ public class RequestParser {
                 }
             }
             case WRITE: {
-                switch(Interface.valueOf(request[0].toUpperCase())) {
+                switch(interfc) {
                     case GPIO: return GpioWriteRequest.getInstance(request[2]);
                     case I2C: return I2cWriteRequest.getInstance();
                     case SPI : return SpiWriteRequest.getInstance();

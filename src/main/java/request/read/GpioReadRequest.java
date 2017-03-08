@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package request.read;
+import java.io.IOException;
 import net.ConnectionManager;
 import request.manager.GpioManager;
 
@@ -25,7 +26,7 @@ public class GpioReadRequest implements ReadRequest {
     /**
      * Attempts to read input denoted in getInstance() method and if successful, 
      * returns the pin numeric value as a result. String containing number is
-     * returned due to interface which this class implements.
+     * returned due to interface which this class implements. 
      * @return String numeric representation of the read signal
      */
     @Override
@@ -34,8 +35,8 @@ public class GpioReadRequest implements ReadRequest {
     }
 
     @Override
-    public void giveFeedbackToClient() {
-        ConnectionManager.getOutput().println(String.format(
+    public void giveFeedbackToClient() throws IOException {
+        ConnectionManager.writeToOutput(String.format(
                 "Pin '%s' is currently %s", pinName, 
                 Integer.parseInt(read()) == 0 ? "off" : "on"));
     }

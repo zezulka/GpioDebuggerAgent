@@ -17,11 +17,8 @@ import request.write.WriteRequest;
  * @author Miloslav Zezulka, 2017
  */
 public class ConnectionThread implements Runnable {
-
-    private final Socket sock;
     
-    ConnectionThread(Socket sock) {
-        this.sock = sock;
+    ConnectionThread() {
     }
     
     @Override
@@ -29,10 +26,10 @@ public class ConnectionThread implements Runnable {
         try {
             sendMessageName();
             Request request;
-            while(!sock.isClosed()) {
+            while(!ConnectionManager.isConnectionClosed()) {
                 if((request = receiveRequest()) != null) {
                     handleRequest(request);
-                    sendMessage("Server response: OK");
+                    request.giveFeedbackToClient();
                 } else {
                     Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_CONNECTION_LOST_CLIENT.toString());
                     break;
@@ -46,23 +43,11 @@ public class ConnectionThread implements Runnable {
     }
 
     private Request receiveRequest() throws IOException, IllegalRequestException {
-        Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_SERVER_REQUEST_WAIT.toString());
-        String line;
-        line = ConnectionManager.getInput().readLine();
-        if(line == null) {
-            sock.close();
-            return null;
+        String line = ConnectionManager.readFromInput();
+        if(line == null && ConnectionManager.isConnectionClosed()) {
+            ConnectionManager.closeConnection();
         }
         return RequestParser.parse(line);
-    }
-    
-    
-    private void sendMessage(String msg) throws IOException {
-        if(ConnectionManager.getOutput() == null) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_INVALID_CONNECTION_CLIENT.toString());
-            throw new IOException("output stream is closed");
-        }
-        ConnectionManager.getOutput().println(msg);
     }
     
     /**
@@ -71,7 +56,7 @@ public class ConnectionThread implements Runnable {
      * @throws IOException 
      */
     private void sendMessageName() throws IOException {
-        this.sendMessage(Agent.BOARD.getName());
+        ConnectionManager.writeToOutput(Agent.BOARD.getName());
     }
 
     /**
@@ -89,7 +74,6 @@ public class ConnectionThread implements Runnable {
             WriteRequest req = (WriteRequest) request;
             req.write();
         }
-        request.giveFeedbackToClient();
     }
 
     

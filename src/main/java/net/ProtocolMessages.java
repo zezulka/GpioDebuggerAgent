@@ -16,7 +16,7 @@ public enum ProtocolMessages {
     S_CONNECTION_LOST_CLIENT("Connection has been lost with client."),
     S_INVALID_CONNECTION_CLIENT("Connection has not been established properly with client"),
     S_INVALID_REQUEST("Invalid request");
-    
+  
     private final String msg;
     
     ProtocolMessages(String msg) {

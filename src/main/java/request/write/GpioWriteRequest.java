@@ -5,9 +5,8 @@
  */
 package request.write;
 
-import java.util.List;
+import java.io.IOException;
 import net.ConnectionManager;
-import request.Interface;
 import request.manager.GpioManager;
 
 /**
@@ -42,8 +41,8 @@ public class GpioWriteRequest implements WriteRequest {
      * is turned off or on.
      */
     @Override
-    public void giveFeedbackToClient() {
-        ConnectionManager.getOutput().println(String.format("The pin %s is now %s", 
+    public void giveFeedbackToClient() throws IOException {
+        ConnectionManager.writeToOutput(String.format("The pin %s is now %s", 
                 this.pinName, GpioManager.readVoltage(this.pinName) ? "on" : "off"));
     }
     

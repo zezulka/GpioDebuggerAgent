@@ -12,85 +12,106 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Responsibilities: manage all the connections binded to the device. This
- * is the most abstract manager representing the whole application running on the 
+ * Responsibilities: manage all the connections binded to the device. This is
+ * the most abstract manager representing the whole application running on the
  * board device.
+ *
  * @author Miloslav Zezulka, 2017
  */
 public class ConnectionManager implements Runnable {
-    private ServerSocket servSock;
-    private Socket sock;
+
+    private static ServerSocket servSock;
+    private static Socket sock;
     private static BufferedReader input;
     private static PrintWriter output;
     public static final int DEFAULT_SOCK_PORT = 1024;
-    private static final int CLIENTS_UPPER_BOUND = 8;
-    protected ExecutorService threadPool =
-        Executors.newFixedThreadPool(CLIENTS_UPPER_BOUND);
-    
+
     private ConnectionManager(int port) {
         try {
-            this.servSock = new ServerSocket(port);
+            servSock = new ServerSocket(port);
             Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_START.toString());
         } catch (IOException ex) {
             Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_SERV_SOCK_ERR.toString());
         }
     }
-    
+
     public static ConnectionManager getManagerWithDefaultPort() {
         return ConnectionManager.getManager(ConnectionManager.DEFAULT_SOCK_PORT);
     }
-    
+
     /**
      * Static factory method used for getting instance of an agent.
+     *
      * @param port
-     * @return 
+     * @return
      */
     public static ConnectionManager getManager(int port) {
         return new ConnectionManager(port);
     }
-    
-    public static BufferedReader getInput() {
-        return ConnectionManager.input;
+
+    public static void writeToOutput(String msg) throws IOException {
+        if (isConnectionClosed() || output == null) {
+            throw new IOException(ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.toString());
+        }
+        output.println(msg);
+        output.flush();
     }
-    
-    public static PrintWriter getOutput() {
-        return ConnectionManager.output;
+
+    public static String readFromInput() throws IOException {
+        if (isConnectionClosed() || input == null) {
+            throw new IOException(ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.toString());
+        }
+        return input.readLine();
     }
-    
+
+    public static boolean isConnectionClosed() {
+        return sock.isClosed();
+    }
+
+    public static boolean isConnectionReady() throws IOException {
+        return sock.getInputStream().available() > 0;
+    }
+
+    public static void closeConnection() throws IOException {
+        if (!servSock.isClosed()) {
+            servSock.close();
+        }
+    }
+
     /**
-     * Initializes network resources: {@code java.lang.Socket} the server is 
-     * listening to, server input {@code java.io.BufferedReader} 
-     * and server output {@code java.io.PrintStream}.
+     * Initializes network resources: {@code java.lang.Socket} the server is
+     * listening to, server input {@code java.io.BufferedReader} and server
+     * output {@code java.io.PrintStream}.
+     *
      * @throws java.io.IOException I/O error occurs
      */
     public void initResources() throws IOException {
-        this.sock = this.servSock.accept();
-        ConnectionManager.input = new BufferedReader(new InputStreamReader(this.sock.getInputStream()));
-        ConnectionManager.output = new PrintWriter(this.sock.getOutputStream(), true);
+        sock = servSock.accept();
+        ConnectionManager.input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+        ConnectionManager.output = new PrintWriter(sock.getOutputStream(), true);
     }
-    
+
     @Override
     public void run() {
-        while(!sock.isClosed()) {
-            try {
-                initResources();
-                Logger.getAnonymousLogger().log(Level.INFO, 
-                        ProtocolMessages.S_PORT_INFO.toString(), this.sock.getLocalPort());
-            } catch (IOException ex) {
-                if(sock.isClosed()) {
-                    break;
-                }
-                Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_SOCK_ERR.toString(), ex);
+        try {
+            initResources();
+            while (!isConnectionReady()) {
+                Thread.sleep(2500);
             }
-            threadPool.execute(new ConnectionThread(this.sock));
+            (new ConnectionThread()).run();
+            closeConnection();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        threadPool.shutdown();
+        
         Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_FINISHED.toString());
     }
-    
+
     public synchronized void stop() {
         try {
-            if(!servSock.isClosed()) {
+            if (!servSock.isClosed()) {
                 servSock.close();
             }
         } catch (IOException ex) {
