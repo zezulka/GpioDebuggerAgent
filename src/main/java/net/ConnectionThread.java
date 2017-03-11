@@ -2,9 +2,8 @@ package net;
 
 import core.Agent;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import request.IllegalRequestException;
 import request.Request;
 import request.RequestParser;
@@ -17,6 +16,8 @@ import request.write.WriteRequest;
  * @author Miloslav Zezulka, 2017
  */
 public class ConnectionThread implements Runnable {
+    
+    private final Logger threadLogger = LoggerFactory.getLogger(ConnectionThread.class);
     
     ConnectionThread() {
     }
@@ -31,14 +32,14 @@ public class ConnectionThread implements Runnable {
                     handleRequest(request);
                     request.giveFeedbackToClient();
                 } else {
-                    Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_CONNECTION_LOST_CLIENT.toString());
+                    threadLogger.error(ProtocolMessages.S_CONNECTION_LOST_CLIENT.toString());
                     break;
                 }
             }
         } catch (IOException ex) {
-           Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.toString(), ex);
+            threadLogger.error(ProtocolMessages.S_CANNOT_CONNECT_TO_CLIENT.toString(), ex);
         } catch (IllegalRequestException ex) {
-           Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_INVALID_REQUEST.toString(), ex);
+            threadLogger.error(ProtocolMessages.S_INVALID_REQUEST.toString(), ex);
         }
     }
 

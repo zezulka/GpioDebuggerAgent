@@ -6,10 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Responsibilities: manage all the connections binded to the device. This is
@@ -25,13 +23,14 @@ public class ConnectionManager implements Runnable {
     private static BufferedReader input;
     private static PrintWriter output;
     public static final int DEFAULT_SOCK_PORT = 1024;
-
+    private final Logger managerLogger = LoggerFactory.getLogger(ConnectionManager.class);
+    
     private ConnectionManager(int port) {
         try {
             servSock = new ServerSocket(port);
-            Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_START.toString());
+            managerLogger.info(ProtocolMessages.S_START.toString());
         } catch (IOException ex) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, ProtocolMessages.S_SERV_SOCK_ERR.toString());
+            managerLogger.error(ProtocolMessages.S_SERV_SOCK_ERR.toString(), ex);
         }
     }
 
@@ -101,12 +100,11 @@ public class ConnectionManager implements Runnable {
             (new ConnectionThread()).run();
             closeConnection();
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+            managerLogger.error("I/O error", ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+            managerLogger.error("thread has been interrupted: ", ex);
         }
-        
-        Logger.getAnonymousLogger().log(Level.INFO, ProtocolMessages.S_FINISHED.toString());
+        managerLogger.info(ProtocolMessages.S_FINISHED.toString());
     }
 
     public synchronized void stop() {
@@ -115,7 +113,7 @@ public class ConnectionManager implements Runnable {
                 servSock.close();
             }
         } catch (IOException ex) {
-            System.err.println(ProtocolMessages.S_STOP_ERR.toString() + ex);
+            managerLogger.info(ProtocolMessages.S_STOP_ERR.toString());
         }
     }
 }
