@@ -11,9 +11,15 @@ import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import request.IllegalRequestException;
+import request.Request;
+import request.RequestParser;
+import request.read.ReadRequest;
+import request.write.WriteRequest;
 
 /**
  * Responsibilities: manage all the connections binded to the device. This is
@@ -111,28 +117,33 @@ public class ConnectionManager implements Runnable {
                     if (!key.isValid()) {
                         continue;
                     }
-
                     if (key.isAcceptable()) {
                         accept(key);
                         managerLogger.info("Now accepting connection.");
                     }
-                    
-                    if(this.msg != null && key.isConnectable()) {
-                        fetchMessageToBuffer(key);
+
+                    if (key.isReadable()) {
+                        managerLogger.info("Reading incoming connection...");
+                        String requestMessage = read(key);
+                        managerLogger.info("Captured message '" + this.msg + "' is about to get processed.");
+                        Request req = RequestParser.parse(requestMessage);
+                        handleRequest(req);
+                        managerLogger.info("Request successfully processed.");
+                        if (this.msg != null && key.isConnectable()) {
+                            fetchMessageToBuffer(key);
+                        }
                     }
 
                     if (key.isWritable()) {
-                        managerLogger.info("Key writable, performing write operation...");
+                        managerLogger.info("Sending information back to client...");
                         write(key);
-                    }
-                    if (key.isReadable()) {
-                        managerLogger.info("Reading incoming connection...");
-                        read(key);
                     }
                 }
             }
         } catch (IOException ex) {
             managerLogger.error("I/O exception: ", ex);
+        } catch (IllegalRequestException ex) {
+            managerLogger.error(ProtocolMessages.S_INVALID_REQUEST.toString(), ex);
         } finally {
             closeConnection();
         }
@@ -140,81 +151,88 @@ public class ConnectionManager implements Runnable {
 
     /**
      * Enables server to accept incoming connections. Accept method also stores
-     * initial message into map which contains name of the device.
+     * initial message into map which contains name of the device, thus forcing
+     * server to send this message as the first one.
      *
      * @param key
      * @throws IOException
      */
-    private void accept(SelectionKey key) {
-        try {
-            ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
-            SocketChannel socketChannel = serverSocketChannel.accept();
-            socketChannel.configureBlocking(false);
+    private void accept(SelectionKey key) throws IOException {
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+        SocketChannel socketChannel = serverSocketChannel.accept();
+        socketChannel.configureBlocking(false);
 
-            socketChannel.register(selector, SelectionKey.OP_WRITE);
-            byte[] hello = Agent.BOARD.getName().getBytes();
-            dataTracking.put(socketChannel, hello);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        socketChannel.register(selector, SelectionKey.OP_WRITE);
+        byte[] hello = Agent.BOARD.getName().getBytes();
+        dataTracking.put(socketChannel, hello);
     }
 
     /**
-     * 
+     * Enables Request manager to set appropriate response, which will be sent
+     * back to the client.
+     *
      * @param msg message to write to buffer
      * @throws IllegalArgumentException if msg is null
      */
     public void setMessage(String msg) {
-        if(msg == null) {
+        if (msg == null) {
             throw new IllegalArgumentException("msg cannot be null");
         }
         this.msg = msg;
     }
-    
+
     private void setMessageNull() {
         this.msg = null;
     }
-    
+
+    /**
+     * Fetches message into buffer. This message should represent response to
+     * the request which was sent by client.
+     *
+     * @param key
+     * @throws IOException
+     */
     private void fetchMessageToBuffer(SelectionKey key) throws IOException {
         SocketChannel socketChannel = ((ServerSocketChannel) key.channel()).accept();
         socketChannel.configureBlocking(false);
         socketChannel.register(selector, SelectionKey.OP_WRITE);
-        
+
         dataTracking.put(socketChannel, this.msg.getBytes());
         setMessageNull();
     }
 
-    private void write(SelectionKey key) {
+    /**
+     * Performs the actual write operation. Reads data stored in internal buffer
+     * and attempts to send them to the output stream.
+     *
+     * @param key
+     */
+    private void write(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
         byte[] data = dataTracking.get(channel);
         dataTracking.remove(channel);
-
-        try {
-            channel.write(ByteBuffer.wrap(data));
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        channel.write(ByteBuffer.wrap(data));
 
         key.interestOps(SelectionKey.OP_READ);
     }
 
+    /**
+     * Reads data stored in internal buffer.
+     *
+     * @param key
+     * @return String representation of data received. Data sent to the server
+     * should be a sequence of characters convertible into String.
+     * @throws IOException
+     */
     private String read(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer readBuffer = ByteBuffer.allocate(1024);
         readBuffer.clear();
-        int read;
-        try {
-            read = channel.read(readBuffer);
-            if (read == -1) {
-                managerLogger.info("Read request WARNING: there is nothing to read, closing connection...");
-                channel.close();
-                key.cancel();
-                return null;
-            }
-        } catch (IOException ex) {
-            managerLogger.error("There has been a problem serving a read request, closing connection...", ex);
-            key.cancel();
+        int read = channel.read(readBuffer);
+        if (read == -1) {
+            managerLogger.info("Read request WARNING: there is nothing to read, closing connection...");
             channel.close();
+            key.cancel();
             return null;
         }
         readBuffer.flip();
@@ -233,6 +251,25 @@ public class ConnectionManager implements Runnable {
             } catch (IOException ex) {
                 managerLogger.error("I/O error", ex);
             }
+        }
+    }
+
+    /**
+     * This method takes care of determining which kind of request was sent to
+     * server and then calls the appropriate method in the given interface
+     * (please consult {@code request.read.ReadRequest} and
+     * {@code request.write.WriteRequest} for more information.
+     *
+     * @param request
+     */
+    private void handleRequest(Request request) {
+        if (request instanceof ReadRequest) {
+            ReadRequest req = (ReadRequest) request;
+            req.read();
+
+        } else if (request instanceof WriteRequest) {
+            WriteRequest req = (WriteRequest) request;
+            req.write();
         }
     }
 
