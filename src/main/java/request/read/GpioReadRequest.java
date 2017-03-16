@@ -36,7 +36,7 @@ public class GpioReadRequest implements ReadRequest {
 
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ConnectionManager.writeToOutput(String.format(
+        ConnectionManager.getManagerWithDefaultPort().setMessage(String.format(
                 "Pin '%s' is currently %s", pinName, 
                 Integer.parseInt(read()) == 0 ? "off" : "on"));
     }

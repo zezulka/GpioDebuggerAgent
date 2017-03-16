@@ -12,15 +12,15 @@ public class Agent {
     public final static Board BOARD = Platform.createBoard();
     public final static ConnectionManager CM = ConnectionManager.getManagerWithDefaultPort();
     
-    private Agent() {}
+    private Agent() {
+    }
     
     public static void main(String[] args) {
         new Thread(CM).start();
-        try {
-            Thread.sleep(180 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        CM.stop();
+//        try {
+//            Thread.sleep(180 * 1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 }

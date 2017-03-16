@@ -42,7 +42,7 @@ public class GpioWriteRequest implements WriteRequest {
      */
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ConnectionManager.writeToOutput(String.format("The pin %s is now %s", 
+        ConnectionManager.getManagerWithDefaultPort().setMessage(String.format("The pin %s is now %s", 
                 this.pinName, GpioManager.readVoltage(this.pinName) ? "on" : "off"));
     }
     

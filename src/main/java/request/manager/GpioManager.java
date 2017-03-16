@@ -17,7 +17,11 @@ import io.silverspoon.bulldog.core.pin.Pin;
  */
 public class GpioManager {
 
-    private GpioManager() {}
+    private GpioManager() {
+        if (Agent.BOARD == null) {
+            throw new IllegalStateException("Board has not been instantiated but client attempted to make a request.");
+        }
+    }
 
     private static void applyVoltage(Signal sig, String pinName) {
         Pin pin = Agent.BOARD.getPin(pinName);
@@ -26,7 +30,9 @@ public class GpioManager {
                     "Pin with the descriptor '%s' has not been found.", pinName));
         }
         DigitalOutput output = Agent.BOARD.getPin(pinName).as(DigitalOutput.class);
-        output.applySignal(sig);
+        if (GpioManager.readVoltage(pinName) != sig.getBooleanValue()) {
+            output.applySignal(sig);
+        }
 
     }
 
