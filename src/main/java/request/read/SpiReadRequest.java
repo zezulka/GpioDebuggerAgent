@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 package request.read;
-
-import java.util.List;
-import request.Interface;
-
 /**
  *
  * @author Miloslav Zezulka, 2017

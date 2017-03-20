@@ -5,7 +5,7 @@
  */
 package request.read;
 import java.io.IOException;
-import net.ConnectionManager;
+import net.ProtocolManager;
 import request.manager.GpioManager;
 
 /**
@@ -36,7 +36,7 @@ public class GpioReadRequest implements ReadRequest {
 
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ConnectionManager.getManagerWithDefaultPort().setMessage(String.format(
+        ProtocolManager.setMessageToSend(String.format(
                 "Pin '%s' is currently %s", pinName, 
                 Integer.parseInt(read()) == 0 ? "off" : "on"));
     }

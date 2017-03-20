@@ -5,17 +5,17 @@ package net;
  * @author Miloslav Zezulka, 2017
  */
 public enum ProtocolMessages {
-    S_START("Server is running..."), 
-    S_FINISHED("Server has been shut down."),
-    S_SERV_SOCK_ERR("There was an error creating a server socket: "),
-    S_SOCK_ERR("Unable to create listener socket."),
-    S_STOP_ERR("Cannot stop server."),
-    S_CANNOT_CONNECT_TO_CLIENT("Cannot connect to client."),
-    S_PORT_INFO("Listening on port: "),
-    S_SERVER_REQUEST_WAIT("System is now waiting to receive a message from client."),
-    S_CONNECTION_LOST_CLIENT("Connection has been lost with client."),
-    S_INVALID_CONNECTION_CLIENT("Connection has not been established properly with client"),
-    S_INVALID_REQUEST("Invalid request");
+      S_SERVER_INIT("Initializing server..."),
+      S_SERVER_INIT_SUCCESS("...initialization successful."),
+      S_CONNECTION_ACCEPT("Now accepting connection."), 
+      S_FINISHED("Server has been shut down."),
+      S_CLIENT_FEEDBACK("Sending information back to client..."),
+      S_ERR_INIT_MORE_THAN_ONCE("Init method called more than once!"),
+      S_NOTHING_TO_READ("Read request WARNING: there is nothing to read, closing connection..."),
+      S_IO_EXCEPTION("I/O exception"),
+      S_REQUEST_OK("Request successfully processed"),
+      S_REQUEST_CAPTURED("Captured request is about to get processed"),
+      S_INVALID_REQUEST("Invalid request");
   
     private final String msg;
     

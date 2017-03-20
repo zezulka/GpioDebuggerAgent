@@ -6,7 +6,7 @@
 package request.write;
 
 import java.io.IOException;
-import net.ConnectionManager;
+import net.ProtocolManager;
 import request.manager.GpioManager;
 
 /**
@@ -42,7 +42,7 @@ public class GpioWriteRequest implements WriteRequest {
      */
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ConnectionManager.getManagerWithDefaultPort().setMessage(String.format("The pin %s is now %s", 
+        ProtocolManager.setMessageToSend(String.format("The pin %s is now %s", 
                 this.pinName, GpioManager.readVoltage(this.pinName) ? "on" : "off"));
     }
     
