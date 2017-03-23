@@ -1,18 +1,18 @@
 package request;
 
+import io.silverspoon.bulldog.core.Signal;
+import io.silverspoon.bulldog.core.mocks.MockedBoard;
+import io.silverspoon.bulldog.core.mocks.MockedDigitalInput;
+import io.silverspoon.bulldog.core.platform.Board;
+
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+
 import request.read.GpioReadRequest;
-import request.read.I2cReadRequest;
-import request.read.SpiReadRequest;
 import request.write.GpioWriteRequest;
-import request.write.SpiWriteRequest;
+import static org.assertj.core.api.Assertions.*;
+import request.write.WriteRequest;
 
 /**
  *
@@ -20,22 +20,14 @@ import request.write.SpiWriteRequest;
  */
 public class RequestParserTest {
 
+    private Board boardMock;
+    
     public RequestParserTest() {
-    }
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
     }
 
     @Before
     public void setUp() {
+        boardMock = new MockedBoard();
     }
 
     @After
@@ -46,45 +38,100 @@ public class RequestParserTest {
      * Happy scenario test.
      */
     @Test
-    public void allInterfacesTest() {
+    public void gpioTest() {
         String requestedPin = "22";
-        Request gpioRead, gpioWrite, spiRead, spiWrite, i2cRead;
+        Request gpioRead, gpioWrite;
         try {
-
             gpioRead = RequestParser.parse("gpio: read:" + requestedPin);
             gpioWrite = RequestParser.parse("gpio:write:" + requestedPin);
 
-            spiWrite = RequestParser.parse("spi:WritE");
-            spiRead = RequestParser.parse("spi  :  read:");
-
-            i2cRead = RequestParser.parse("i2C:read");
-            //comparing the actual objects does not help - new instance of XXXRequest is created
-            assertEquals(gpioRead.getClass(), GpioReadRequest.class);
-            assertEquals(gpioWrite.getClass(), GpioWriteRequest.class);
-            assertEquals(spiWrite.getClass(), SpiWriteRequest.class);
-            assertEquals(spiRead.getClass(), SpiReadRequest.class);
-            assertEquals(i2cRead.getClass(), I2cReadRequest.class);
+            assertThat(gpioRead.getClass()).isEqualTo(GpioReadRequest.class);
+            assertThat(gpioWrite.getClass()).isEqualTo(GpioWriteRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }
     }
-    
+
     @Test
     public void nullTest() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
-        RequestParser.parse(null);
+        assertThatThrownBy(() -> RequestParser.parse(null)).
+                isInstanceOf(IllegalRequestException.class);
+    }
+
+    @Test
+    public void gpioWriteWithDesiredVoltageLow() {
+        String requestedPin = "22";
+        WriteRequest gpioWrite;
+        try {
+            gpioWrite = (WriteRequest) RequestParser.parse("gpio: write:" + requestedPin + ":0");
+            gpioWrite.write();
+            assertThat(new MockedDigitalInput(boardMock.getPin("P22"))
+                    .read())
+                    .isEqualTo(Signal.Low);
+        } catch (IllegalRequestException ex) {
+            fail(ex.getMessage());
+        }
+    }
+
+    @Test
+    public void gpioWriteWithDesiredVoltageHigh() {
+        String requestedPin = "22";
+        WriteRequest gpioWrite;
+        try {
+            gpioWrite = (WriteRequest) RequestParser.parse("gpio: write:" + requestedPin + ":1");
+            gpioWrite.write();
+            assertThat(new MockedDigitalInput(boardMock.getPin("P22"))
+                    .read())
+                    .isEqualTo(Signal.High);
+        } catch (IllegalRequestException ex) {
+            fail(ex.getMessage());
+        }
+    }
+
+    @Test
+    public void gpioWriteWithDesiredVoltageFail() {
+        String requestedPin = "22";
+        assertThatThrownBy(
+                () -> RequestParser.parse("gpio: write:" + requestedPin + ":42"))
+                .isInstanceOf(IllegalRequestException.class);
     }
     
     @Test
-    public void nonsenseRequestTest1() throws Exception {
-        expectedException.expect(IllegalRequestException.class);
-        RequestParser.parse("");
+    public void gpioWriteExplicitWithImplicit() {
+        String requestedPin = "22";
+        WriteRequest gpioWrite;
+        try {
+            gpioWrite = (WriteRequest) RequestParser.parse("gpio: write:" + requestedPin + ":1");
+            gpioWrite.write();
+            assertThat(new MockedDigitalInput(boardMock.getPin("P22"))
+                    .read())
+                    .isEqualTo(Signal.High);
+            gpioWrite = (WriteRequest) RequestParser.parse("gpio: write:" + requestedPin);
+            gpioWrite.write();
+            assertThat(new MockedDigitalInput(boardMock.getPin("P22"))
+                    .read())
+                    .isEqualTo(Signal.Low);
+        } catch (IllegalRequestException ex) {
+            fail(ex.getMessage());
+        }
     }
-    
+
     @Test
-    public void nonsenseRequestTest2() throws Exception {
-        expectedException.expect(IllegalRequestException.class);
-        RequestParser.parse("::");
+    public void nonsenseRequestTestEmptyString() throws Exception {
+        assertThatThrownBy(() -> RequestParser.parse("")).
+                isInstanceOf(IllegalRequestException.class);
+    }
+
+    @Test
+    public void nonsenseRequestTestEmptyRequest() throws Exception {
+        assertThatThrownBy(() -> RequestParser.parse("::")).
+                isInstanceOf(IllegalRequestException.class);
+    }
+
+    @Test
+    public void nonsenseRequestTestWrongOrderOfArgs() {
+        assertThatThrownBy(() -> RequestParser.parse("read:gpio:14")).
+                isInstanceOf(IllegalRequestException.class);
     }
 
 }

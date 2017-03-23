@@ -15,58 +15,70 @@
  */
 package request.manager;
 
-import core.Agent;
-import io.silverspoon.bulldog.raspberrypi.RaspiNames;
-import org.junit.After;
+import io.silverspoon.bulldog.core.mocks.MockedBoard;
+import io.silverspoon.bulldog.core.mocks.MockedDigitalInput;
+import io.silverspoon.bulldog.core.pin.Pin;
+import io.silverspoon.bulldog.core.platform.Board;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  *
- * @author Miloslav
+ * @author Miloslav Zezulka, 2017
  */
 public class GpioManagerTest {
 
-//    public GpioManagerTest() {
-//    }
-//
-//    @Rule
-//    public ExpectedException expectedException = ExpectedException.none();
-//
-//    @Before
-//    public void setUp() {
-//    }
-//
-//    @After
-//    public void tearDown() {
-//        GpioManager.setLow(RaspiNames.P1_3);
-//    }
-//
-//    @Test
-//    public void testApplyVoltageToNonexisting() {
-//        expectedException.expect(IllegalArgumentException.class);
-//        GpioManager.setHigh("-1");
-//    }
-//
-//    @Test
-//    public void testApplyVoltageToExistingTwice() {
-//        GpioManager.setHigh(RaspiNames.P1_3);
-//        GpioManager.setHigh(RaspiNames.P1_3);
-//    }
-//
-//    @Test
-//    public void testApplyVoltageToggle() {
-//        GpioManager.setLow(RaspiNames.P1_3);
-//        assertEquals(GpioManager.readVoltage(RaspiNames.P1_3), 0);
-//        GpioManager.setHigh(RaspiNames.P1_3);
-//        assertEquals(GpioManager.readVoltage(RaspiNames.P1_3), 1);
-//        GpioManager.setLow(RaspiNames.P1_3);
-//        assertEquals(GpioManager.readVoltage(RaspiNames.P1_3), 0);
-//    }
+    private Board boardMock;
+
+    @Before
+    public void setUp() {
+        boardMock = new MockedBoard();
+    }
+
+    @Test
+    public void testReadPin() {
+        int index = 0;
+        Pin pin = boardMock.getPin(index);
+        
+        MockedDigitalInput di = new MockedDigitalInput(pin);
+        assertThat(GpioManager.readVoltage(pin)).isEqualTo(di.read().getBooleanValue());
+    }
+
+    @Test
+    public void testReadInvalidPin() {
+        assertThatThrownBy(() -> GpioManager.readVoltage("NONEXISTENT")).isInstanceOf(IllegalArgumentException.class);
+    }
     
+    @Test
+    public void testSetHigh() {
+
+        Pin pin = boardMock.getPin(0);
+        GpioManager.setHigh(pin.getName());
+        assertThat(GpioManager.readVoltage(pin)).isTrue();
+    }
+
+    @Test
+    public void testSetLow() {
+        Pin pin = boardMock.getPin(0);
+        GpioManager.setLow(pin.getName());
+        assertThat(GpioManager.readVoltage(pin)).isFalse();
+    }
+
+    @Test
+    public void testSetHighApplyTwice() {
+        Pin pin = boardMock.getPin(0);
+        GpioManager.setHigh(pin.getName());
+        GpioManager.setHigh(pin.getName());
+        assertThat(GpioManager.readVoltage(pin)).isTrue();
+    }
     
+    @Test
+    public void testSetToggle() {
+        Pin pin = boardMock.getPin(0);
+        GpioManager.setHigh(pin.getName());
+        assertThat(GpioManager.readVoltage(pin)).isTrue();
+        GpioManager.setLow(pin.getName());
+        assertThat(GpioManager.readVoltage(pin.getName())).isFalse();
+    }
 }

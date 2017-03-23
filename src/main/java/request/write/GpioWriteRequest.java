@@ -15,24 +15,34 @@ import request.manager.GpioManager;
  */
 public class GpioWriteRequest implements WriteRequest {
     private final String pinName;
+    private final boolean desiredVoltage;
     
-    private GpioWriteRequest(String pinName) {
+    private GpioWriteRequest(String pinName, boolean desiredVoltage) {
         this.pinName = pinName;
+        this.desiredVoltage = desiredVoltage;
     }
     
-    public static GpioWriteRequest getInstance(String name) {
+    private GpioWriteRequest(String pinName) {
+        this(pinName, !GpioManager.readVoltage(pinName));
+    }
+    
+    public static GpioWriteRequest getInstanceImplicitVoltage(String name) {
         return new GpioWriteRequest(name);
     }
 
+    public static GpioWriteRequest getInstanceExplicitVoltage(String name, boolean desiredVoltage) {
+        return new GpioWriteRequest(name, desiredVoltage);
+    }
+    
     /**
      * Toggles the current value.
      */
     @Override
     public void write() {
-        if(GpioManager.readVoltage(this.pinName)) {
-            GpioManager.setLow(this.pinName);
-        } else {
+        if(desiredVoltage) {
             GpioManager.setHigh(this.pinName);
+        } else {
+            GpioManager.setLow(this.pinName);
         }
     }
 
@@ -42,7 +52,7 @@ public class GpioWriteRequest implements WriteRequest {
      */
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ProtocolManager.setMessageToSend(String.format("The pin %s is now %s", 
+        ProtocolManager.getInstance().setMessageToSend(String.format("The pin %s is now %s", 
                 this.pinName, GpioManager.readVoltage(this.pinName) ? "on" : "off"));
     }
     

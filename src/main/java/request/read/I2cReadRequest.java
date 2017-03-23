@@ -5,12 +5,16 @@
  */
 package request.read;
 
+import net.ProtocolManager;
+import request.manager.I2cManager;
+
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
 public class I2cReadRequest implements ReadRequest {
     private static final I2cReadRequest INSTANCE = new I2cReadRequest();
+    private static final I2cManager MANAGER = I2cManager.getInstance();
     
     private I2cReadRequest() {
     }
@@ -21,12 +25,13 @@ public class I2cReadRequest implements ReadRequest {
 
     @Override
     public String read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return MANAGER.readFromI2c();
     }
 
     @Override
     public void giveFeedbackToClient() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ProtocolManager.getInstance().setMessageToSend("I2C interface sent "
+                + "the following value:" + read());
     }
     
 }

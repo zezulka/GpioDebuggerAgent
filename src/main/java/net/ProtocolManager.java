@@ -16,8 +16,6 @@
 package net;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,19 +27,24 @@ import request.read.ReadRequest;
 import request.write.WriteRequest;
 
 /**
- * Responsibilities: provide static utility methods which are going to perform
- * read/write operations and enable request processing.
+ * Responsibilities: provide static utility methods which are going to 
+ * enable request processing.
  *
  * @author Miloslav Zezulka, 2017
  */
 public class ProtocolManager {
 
     private static final Logger protocolManagerLogger = LoggerFactory.getLogger(ProtocolManager.class);
-    private static final AgentConnectionManager ACM = AgentConnectionManager.getManagerWithDefaultPort();
     private static String receivedMessage = null;
     private static String messageToSend = null;
 
+    private static final ProtocolManager INSTANCE = new ProtocolManager();
+    
     private ProtocolManager() {
+    }
+    
+    public static ProtocolManager getInstance() {
+        return INSTANCE;
     }
 
     /**
@@ -51,70 +54,40 @@ public class ProtocolManager {
      * @param messageToSend message to write to buffer
      * @throws IllegalArgumentException if {@code messageToSend} is null
      */
-    public static void setMessageToSend(String messageToSend) {
+    public void setMessageToSend(String messageToSend) {
         if (messageToSend == null) {
             throw new IllegalArgumentException("msg cannot be null");
         }
         ProtocolManager.messageToSend = messageToSend;
     }
 
-    public static void setReceivedMessage(String message) {
+    public void setReceivedMessage(String message) {
         receivedMessage = message;
     }
 
-    public static String getReceivedMessage() {
+    public String getReceivedMessage() {
         return receivedMessage;
     }
 
-    public static String getMessageToSend() {
+    public String getMessageToSend() {
         return messageToSend;
     }
-
-    private static void resetMessageToSend() {
+    /**
+     * Sets message to send to null. This is to indicate that the previous 
+     * message has been processed.
+     */
+    public void resetMessageToSend() {
         messageToSend = null;
     }
-
+    
     /**
-     * Performs the actual write operation. Reads data stored in internal buffer
-     * and attempts to send them to the output stream.
-     *
-     * @param key
+     * Takes message which was read from the input stream and tries to parse it.
+     * If the String representing the current request is not valid, IllegalRequestException
+     * is thrown. In case request is valid, ProtocolManager.handleRequest is invoked.
+     * @throws IllegalRequestException if request is not valid
+     * @throws IOException 
      */
-    static void write(SelectionKey key) throws IOException {
-        protocolManagerLogger.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
-        ACM.getSocketChannel().write(ByteBuffer.wrap(messageToSend.getBytes()));
-        key.interestOps(SelectionKey.OP_READ);
-        resetMessageToSend();
-    }
-
-    /**
-     * Reads data stored in internal buffer.
-     *
-     * @param key
-     * @return String representation of data received. Data sent to the server
-     * should be a sequence of characters convertible into String.
-     * @throws IOException
-     */
-    static int read(SelectionKey key) throws IOException {
-        ByteBuffer readBuffer = ByteBuffer.allocate(1024);
-        readBuffer.clear();
-        int read = ACM.getSocketChannel().read(readBuffer);
-        if (read == -1) {
-            protocolManagerLogger.info(ProtocolMessages.S_NOTHING_TO_READ.toString());
-            ACM.getSocketChannel().close();
-            key.cancel();
-            return read;
-        }
-        readBuffer.flip();
-        byte[] data = new byte[1024];
-        readBuffer.get(data, 0, read);
-        String msg = new String(data).replaceAll("\0", "");
-        setReceivedMessage(msg);
-        ACM.getSocketChannel().register(ACM.getSelector(), SelectionKey.OP_WRITE);
-        return 0;
-    }
-
-    static void processRequest() throws IllegalRequestException, IOException {
+    public void processRequest() throws IllegalRequestException, IOException {
         protocolManagerLogger.info(ProtocolMessages.S_REQUEST_CAPTURED + " " +receivedMessage);
         Request req = RequestParser.parse(receivedMessage);
         handleRequest(req);
@@ -128,12 +101,13 @@ public class ProtocolManager {
      * {@code request.write.WriteRequest} for more information.
      *
      * @param request
+     * @throws java.io.IOException
      */
-    static void handleRequest(Request request) throws IOException {
+    public void handleRequest(Request request) throws IOException {
         if (request instanceof ReadRequest) {
             ReadRequest req = (ReadRequest) request;
-            req.read();
-
+            protocolManagerLogger.info(String.format("Request of type %s has "
+                    + "been submitted, the result was=%s",request.getClass(), req.read()));
         } else if (request instanceof WriteRequest) {
             WriteRequest req = (WriteRequest) request;
             req.write();

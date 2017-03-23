@@ -5,7 +5,7 @@
  */
 package request.manager;
 
-import core.Agent;
+import core.DeviceManager;
 import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.gpio.DigitalInput;
 import io.silverspoon.bulldog.core.gpio.DigitalOutput;
@@ -17,25 +17,22 @@ import io.silverspoon.bulldog.core.pin.Pin;
  */
 public class GpioManager {
 
-    private GpioManager() {
-        if (Agent.BOARD == null) {
-            throw new IllegalStateException("Board has not been instantiated but client attempted to make a request.");
-        }
-    }
+    private static final DeviceManager DEVICE_MANAGER = DeviceManager.getInstance();
+    
+    private GpioManager() {}
 
     private static void applyVoltage(Signal sig, String pinName) {
-        Pin pin = Agent.BOARD.getPin(pinName);
+        Pin pin = DEVICE_MANAGER.getPinFromName(pinName);
         if (pin == null) {
             throw new IllegalArgumentException(String.format(
                     "Pin with the descriptor '%s' has not been found.", pinName));
         }
-        DigitalOutput output = Agent.BOARD.getPin(pinName).as(DigitalOutput.class);
+        DigitalOutput output = pin.as(DigitalOutput.class);
         if (GpioManager.readVoltage(pinName) != sig.getBooleanValue()) {
             output.applySignal(sig);
         }
 
     }
-
     /**
      * Sets pin's voltage to high.
      *
@@ -56,8 +53,22 @@ public class GpioManager {
         applyVoltage(Signal.Low, pinName);
     }
 
+    
+    /**
+     * Reads voltage from the pin specified by {@code pinName} argument. 
+     * @param pinName
+     * @return voltage level represented by boolean value 
+     * {@code 1: Signal.HIGH, 0: Signal.LOW}
+     */
     public static boolean readVoltage(String pinName) {
-        DigitalInput input = Agent.BOARD.getPin(pinName).as(DigitalInput.class);
+        return readVoltage(DEVICE_MANAGER.getPinFromName(pinName));
+    }
+    
+    public static boolean readVoltage(Pin pin) {
+        if(pin == null) {
+            throw new IllegalArgumentException("pin cannot be null");
+        }
+        DigitalInput input = pin.as(DigitalInput.class);
         return input.read().getBooleanValue();
     }
 }

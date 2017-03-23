@@ -1,7 +1,5 @@
 package core;
 
-import io.silverspoon.bulldog.core.platform.Board;
-import io.silverspoon.bulldog.core.platform.Platform;
 import net.AgentConnectionManager;
 
 /**
@@ -11,13 +9,10 @@ import net.AgentConnectionManager;
  */
 public class Agent {
 
-    public final static Board BOARD = Platform.createBoard();
-    public final static AgentConnectionManager CM = AgentConnectionManager.getManagerWithDefaultPort();
-
     private Agent() {
     }
 
     public static void main(String[] args) {
-        new Thread(CM).start();
+        new Thread(AgentConnectionManager.getManagerWithDefaultPort()).start();
     }
 }

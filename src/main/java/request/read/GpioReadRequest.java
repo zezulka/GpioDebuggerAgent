@@ -13,14 +13,18 @@ import request.manager.GpioManager;
  * @author Miloslav Zezulka, 2017
  */
 public class GpioReadRequest implements ReadRequest {
-    private final String pinName;
+    private static final GpioReadRequest INSTANCE = new GpioReadRequest();
+    private static String pinName;
     
-    private GpioReadRequest(String pinName) {
-        this.pinName = pinName;
+    private GpioReadRequest() {
     }
     
     public static GpioReadRequest getInstance(String pinName) {
-        return new GpioReadRequest(pinName);
+        return INSTANCE;
+    }
+    
+    public static void setPinName(String pinName) {
+        GpioReadRequest.pinName = pinName;
     }
 
     /**
@@ -36,7 +40,7 @@ public class GpioReadRequest implements ReadRequest {
 
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ProtocolManager.setMessageToSend(String.format(
+        ProtocolManager.getInstance().setMessageToSend(String.format(
                 "Pin '%s' is currently %s", pinName, 
                 Integer.parseInt(read()) == 0 ? "off" : "on"));
     }

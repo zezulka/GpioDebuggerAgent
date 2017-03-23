@@ -1,8 +1,10 @@
 package net;
 
 import core.Agent;
+import core.DeviceManager;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -24,17 +26,33 @@ public class AgentConnectionManager implements Runnable {
     private ServerSocketChannel serverSocketChannel;
     private SocketChannel socketChannel;
     private Selector selector;
-
+    /**
+     * Default socket port.
+     */
     public static final int DEFAULT_SOCK_PORT = 8088;
+
+    /**
+     * Timeout used in connection manager thread. Generally, the time which the
+     * agent waits for incoming connections for.
+     */
     public static final long TIMEOUT = 10 * 1000;
 
     private static final AgentConnectionManager INSTANCE = new AgentConnectionManager();
+    private final ProtocolManager protocolManager = ProtocolManager.getInstance();
     private final Logger connectionManagerLogger = LoggerFactory.getLogger(AgentConnectionManager.class);
 
+    /**
+     * Creates connection manager with default socket port.
+     */
     private AgentConnectionManager() {
         initDefaultPort();
     }
 
+    /**
+     * Creates connection manager with the port given.
+     *
+     * @param port
+     */
     private AgentConnectionManager(int port) {
         init(port);
     }
@@ -67,6 +85,12 @@ public class AgentConnectionManager implements Runnable {
         init(DEFAULT_SOCK_PORT);
     }
 
+    /**
+     * Returns connection manager which listens to the default port
+     * {@code AgentConnectionManager.DEFAULT_SOCKET_PORT}.
+     *
+     * @return
+     */
     public static AgentConnectionManager getManagerWithDefaultPort() {
         return INSTANCE;
     }
@@ -80,7 +104,7 @@ public class AgentConnectionManager implements Runnable {
     public static AgentConnectionManager getManager(int port) {
         return new AgentConnectionManager(port);
     }
-    
+
     public SocketChannel getSocketChannel() {
         return this.socketChannel;
     }
@@ -88,7 +112,7 @@ public class AgentConnectionManager implements Runnable {
     public Selector getSelector() {
         return selector;
     }
-    
+
     @Override
     public void run() {
         try {
@@ -107,17 +131,17 @@ public class AgentConnectionManager implements Runnable {
                         connectionManagerLogger.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
                     }
                     if (key.isReadable()) {
-                        int readVal = ProtocolManager.read(key);
-                        if(readVal == -1) {
+                        int readVal = read();
+                        if (readVal == -1) {
                             closeConnection();
                         }
-                        if (ProtocolManager.getReceivedMessage() == null) {
+                        if (protocolManager.getReceivedMessage() == null) {
                             continue;
                         }
-                        ProtocolManager.processRequest();
+                        protocolManager.processRequest();
                     }
-                    if (key.isWritable() && ProtocolManager.getMessageToSend() != null) {
-                        ProtocolManager.write(key);
+                    if (key.isWritable() && protocolManager.getMessageToSend() != null) {
+                        write(key);
                     }
                     keys.remove();
                 }
@@ -142,10 +166,52 @@ public class AgentConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        ProtocolManager.setMessageToSend(Agent.BOARD.getName());
+        protocolManager.setMessageToSend(DeviceManager.getInstance().getDeviceName());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
+    /**
+     * Performs the actual write operation. Reads data stored in internal buffer
+     * and attempts to send them to the output stream.
+     *
+     * @param key
+     */
+    private void write(SelectionKey key) throws IOException {
+        connectionManagerLogger.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
+        socketChannel.write(ByteBuffer.wrap(protocolManager.getMessageToSend().getBytes()));
+        key.interestOps(SelectionKey.OP_READ);
+        protocolManager.resetMessageToSend();
+    }
+
+    /**
+     * Reads data stored in internal buffer.
+     *
+     * @param key
+     * @return String representation of data received. Data sent to the server
+     * should be a sequence of characters convertible into String.
+     * @throws IOException
+     */
+    private int read() throws IOException {
+        ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+        readBuffer.clear();
+        int read = socketChannel.read(readBuffer);
+        if (read == -1) {
+            connectionManagerLogger.info(ProtocolMessages.S_NOTHING_TO_READ.toString());
+            return read;
+        }
+        readBuffer.flip();
+        byte[] data = new byte[1024];
+        readBuffer.get(data, 0, read);
+        String msg = new String(data).replaceAll("\0", "");
+        protocolManager.setReceivedMessage(msg);
+        socketChannel.register(selector, SelectionKey.OP_WRITE);
+        return 0;
+    }
+
+    /**
+     * Closes connection, thus closing all resources which were binded to this
+     * connection manager.
+     */
     private void closeConnection() {
         connectionManagerLogger.info(ProtocolMessages.S_FINISHED.toString());
         if (selector != null) {
