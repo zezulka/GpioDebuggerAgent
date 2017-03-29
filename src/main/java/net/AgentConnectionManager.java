@@ -138,7 +138,12 @@ public class AgentConnectionManager implements Runnable {
                         if (protocolManager.getReceivedMessage() == null) {
                             continue;
                         }
-                        protocolManager.processRequest();
+                        try {
+                            protocolManager.processRequest();
+                        } catch (IllegalRequestException ex) {
+                            connectionManagerLogger.error(null, ex);
+                            ProtocolManager.getInstance().setMessageToSend("Illegal Request.");
+                        }
                     }
                     if (key.isWritable() && protocolManager.getMessageToSend() != null) {
                         write(key);
@@ -148,8 +153,6 @@ public class AgentConnectionManager implements Runnable {
             }
         } catch (IOException ex) {
             connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
-        } catch (IllegalRequestException ex) {
-            connectionManagerLogger.error(ProtocolMessages.S_INVALID_REQUEST.toString(), ex);
         } finally {
             closeConnection();
         }

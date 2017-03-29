@@ -14,7 +14,7 @@ import request.manager.I2cManager;
  */
 public class I2cReadRequest implements ReadRequest {
     private static final I2cReadRequest INSTANCE = new I2cReadRequest();
-    private static final I2cManager MANAGER = I2cManager.getInstance();
+    private static final I2cManager MANAGER = I2cManager.fromDefaultAddress();
     
     private I2cReadRequest() {
     }
@@ -30,8 +30,8 @@ public class I2cReadRequest implements ReadRequest {
 
     @Override
     public void giveFeedbackToClient() {
-        ProtocolManager.getInstance().setMessageToSend("I2C interface sent "
-                + "the following value:" + read());
+        ProtocolManager.getInstance().setMessageToSend("I2C interface read"
+                + " response: \n" + read());
     }
     
 }

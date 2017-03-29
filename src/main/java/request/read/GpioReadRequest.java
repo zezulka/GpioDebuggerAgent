@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package request.read;
+import core.DeviceManager;
+import io.silverspoon.bulldog.core.pin.Pin;
 import java.io.IOException;
 import net.ProtocolManager;
 import request.manager.GpioManager;
@@ -13,18 +15,10 @@ import request.manager.GpioManager;
  * @author Miloslav Zezulka, 2017
  */
 public class GpioReadRequest implements ReadRequest {
-    private static final GpioReadRequest INSTANCE = new GpioReadRequest();
-    private static String pinName;
+    private final Pin pin;
     
-    private GpioReadRequest() {
-    }
-    
-    public static GpioReadRequest getInstance(String pinName) {
-        return INSTANCE;
-    }
-    
-    public static void setPinName(String pinName) {
-        GpioReadRequest.pinName = pinName;
+    public GpioReadRequest(Pin pin) {
+        this.pin = pin;
     }
 
     /**
@@ -35,13 +29,13 @@ public class GpioReadRequest implements ReadRequest {
      */
     @Override
     public String read() {
-        return GpioManager.readVoltage(pinName) ? "1" : "0";
+        return GpioManager.readVoltage(this.pin) ? "1" : "0";
     }
 
     @Override
     public void giveFeedbackToClient() throws IOException {
         ProtocolManager.getInstance().setMessageToSend(String.format(
-                "Pin '%s' is currently %s", pinName, 
+                "Pin '%s' is currently %s", this.pin.getName(), 
                 Integer.parseInt(read()) == 0 ? "off" : "on"));
     }
 }

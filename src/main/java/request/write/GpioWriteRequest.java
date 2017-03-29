@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.write;
 
+import io.silverspoon.bulldog.core.pin.Pin;
 import java.io.IOException;
 import net.ProtocolManager;
 import request.manager.GpioManager;
@@ -14,24 +10,16 @@ import request.manager.GpioManager;
  * @author Miloslav Zezulka, 2017
  */
 public class GpioWriteRequest implements WriteRequest {
-    private final String pinName;
+    private final Pin pin;
     private final boolean desiredVoltage;
     
-    private GpioWriteRequest(String pinName, boolean desiredVoltage) {
-        this.pinName = pinName;
+    public GpioWriteRequest(Pin pin, boolean desiredVoltage) {
+        this.pin = pin;
         this.desiredVoltage = desiredVoltage;
     }
     
-    private GpioWriteRequest(String pinName) {
-        this(pinName, !GpioManager.readVoltage(pinName));
-    }
-    
-    public static GpioWriteRequest getInstanceImplicitVoltage(String name) {
-        return new GpioWriteRequest(name);
-    }
-
-    public static GpioWriteRequest getInstanceExplicitVoltage(String name, boolean desiredVoltage) {
-        return new GpioWriteRequest(name, desiredVoltage);
+    public GpioWriteRequest(Pin pin) {
+        this(pin, !GpioManager.readVoltage(pin));
     }
     
     /**
@@ -40,9 +28,9 @@ public class GpioWriteRequest implements WriteRequest {
     @Override
     public void write() {
         if(desiredVoltage) {
-            GpioManager.setHigh(this.pinName);
+            GpioManager.setHigh(this.pin);
         } else {
-            GpioManager.setLow(this.pinName);
+            GpioManager.setLow(this.pin);
         }
     }
 
@@ -53,7 +41,7 @@ public class GpioWriteRequest implements WriteRequest {
     @Override
     public void giveFeedbackToClient() throws IOException {
         ProtocolManager.getInstance().setMessageToSend(String.format("The pin %s is now %s", 
-                this.pinName, GpioManager.readVoltage(this.pinName) ? "on" : "off"));
+                this.pin.getName(), GpioManager.readVoltage(this.pin) ? "on" : "off"));
     }
     
 }
