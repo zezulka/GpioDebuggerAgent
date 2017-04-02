@@ -7,8 +7,7 @@ package request.manager;
 
 import core.DeviceManager;
 import io.silverspoon.bulldog.core.Signal;
-import io.silverspoon.bulldog.core.gpio.DigitalInput;
-import io.silverspoon.bulldog.core.gpio.DigitalOutput;
+import io.silverspoon.bulldog.core.gpio.base.DigitalIOFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
 import request.IllegalRequestException;
 
@@ -16,58 +15,66 @@ import request.IllegalRequestException;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class GpioManager {
+public class GpioManager implements InterfaceManager {
+
+    private static final GpioManager INSTANCE = new GpioManager();
+    private static final String ON = "1";
+    private static final String OFF = "0";
 
     private GpioManager() {
     }
+    
+    public static GpioManager getInstance() {
+        return INSTANCE;
+    }
 
     private static void applyVoltage(Signal sig, Pin pin) {
-        DigitalOutput output = pin.as(DigitalOutput.class);
-        if (GpioManager.readVoltage(pin) != sig.getBooleanValue()) {
-            output.applySignal(sig);
-        }
-    }
-    
-    public static Pin getPinFromName(String name) throws IllegalRequestException {
-        Pin pin =  DeviceManager.getInstance().getPin(name);
-        if(pin == null) {
-            throw new IllegalRequestException("pin " + name + " has not been found on this board");
-        }
-        return pin;
-    }
-
-    /**
-     * Sets pin's voltage to high.
-     *
-     * @param pin
-     * @throws IllegalArgumentException if pin specified by {@code pinName} has
-     * not been found.
-     */
-    public static void setHigh(Pin pin) {
-        applyVoltage(Signal.High, pin);
-    }
-
-    /**
-     * Sets pin's voltage to low.
-     *
-     * @param pin
-     */
-    public static void setLow(Pin pin) {
-        applyVoltage(Signal.Low, pin);
+        pin.getFeature(DigitalIOFeature.class).write(sig);
     }
 
     /**
      * Reads voltage from the pin specified by {@code pin} argument.
      *
-     * @param pin
+     * @param descriptor
      * @return voltage level represented by boolean value
      * {@code 1: Signal.HIGH, 0: Signal.LOW}
+     * @throws request.IllegalRequestException
      */
-    public static boolean readVoltage(Pin pin) {
-        if (pin == null) {
-            throw new IllegalArgumentException("pin cannot be null");
+    @Override
+    public String read(String descriptor) throws IllegalRequestException {
+        if (descriptor == null) {
+            throw new IllegalRequestException("descriptor cannot be null");
         }
-        DigitalInput input = pin.as(DigitalInput.class);
-        return input.read().getBooleanValue();
+        Pin pin = DeviceManager.getPin(descriptor);
+        if (pin == null) {
+            throw new IllegalRequestException("descriptor does not have any mapping to it on this board");
+        }
+        return Integer.toString(pin.getFeature(DigitalIOFeature.class).read().getNumericValue());
+    }
+    
+    public boolean getBooleanRead(String descriptor) throws IllegalRequestException {
+        return read(descriptor).equals(ON);
+    }
+    
+
+    /**
+     *
+     * @param descriptor
+     * @param message
+     * @throws IllegalRequestException
+     */
+    @Override
+    public void write(String descriptor, String message) throws IllegalRequestException {
+        Pin pin = DeviceManager.getPin(descriptor);
+        if (pin == null) {
+            throw new IllegalRequestException("descriptor does not have any mapping to it on this board");
+        }
+        Signal sig;
+        try {
+            sig = Signal.fromString(message);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalRequestException(ex);
+        }
+        applyVoltage(sig, pin);
     }
 }

@@ -11,13 +11,14 @@ import java.io.IOException;
 import net.ProtocolMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.IllegalRequestException;
 import request.StringConstants;
 
 /**
  *
  * @author miloslav
  */
-public class I2cManager {
+public class I2cManager implements InterfaceManager {
     
     private static DeviceManager deviceManager;
     private static final Logger LOGGER = LoggerFactory.getLogger(I2cManager.class);
@@ -80,11 +81,21 @@ public class I2cManager {
         int upperBound = read > READ_BUFFER_SIZE ? READ_BUFFER_SIZE : read;
         StringBuilder response = new StringBuilder();
         for(int i = 0; i < upperBound ; i++) {
-            response.append(Integer.toHexString(buff[i]));
-            if(i > 0 && i % 4 == 0) {
+            if(i % 4 == 0) {
                 response.append("\n");
             } 
+            response.append(Integer.toHexString(buff[i]));     
         }
         return response.toString();
+    }
+
+    @Override
+    public String read(String descriptor) throws IllegalRequestException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void write(String descriptor, String message) throws IllegalRequestException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

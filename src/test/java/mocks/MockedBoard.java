@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ****************************************************************************** */
-package io.silverspoon.bulldog.core.mocks;
-
+package mocks;
 import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.platform.AbstractBoard;
 
@@ -22,7 +21,8 @@ public class MockedBoard extends AbstractBoard {
 
     public MockedBoard() {
         for (int i = 0; i < 10; i++) {
-            getPins().add(new Pin("P" + i, i, "A", i));
+            Pin pin = new Pin("P" + i, i, "A", i);
+            getPins().add(pin.addFeature(new MockedDigitalIoFeature(pin, new MockedDigitalInput(pin), new MockedDigitalOutput(pin))));
             getI2cBuses().add(new MockedI2cBus("I2C" + i));
             getSerialPorts().add(new MockedSerialPort("Serial" + i));
         }

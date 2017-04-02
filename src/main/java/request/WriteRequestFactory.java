@@ -15,8 +15,8 @@
  */
 package request;
 
+import core.DeviceManager;
 import io.silverspoon.bulldog.core.pin.Pin;
-import request.manager.GpioManager;
 import request.write.GpioWriteRequest;
 import request.write.I2cWriteRequest;
 
@@ -27,36 +27,44 @@ import request.write.I2cWriteRequest;
 public class WriteRequestFactory {
 
     public static Request of(Interface interfc, String content) throws IllegalRequestException {
-        switch(interfc) {
+        switch (interfc) {
             case GPIO: {
-                Pin pin = GpioManager.getPinFromName(content);
+                Pin pin = DeviceManager.getPin(content);
+                if (pin == null) {
+                    throw new IllegalRequestException("pin with the given descriptor has not been found");
+                }
                 return new GpioWriteRequest(pin);
             }
             case I2C: {
                 return new I2cWriteRequest(content);
             }
-            default: throw new UnsupportedOperationException("Not supported yet.");
+            default:
+                throw new UnsupportedOperationException("Not supported yet.");
         }
     }
-    
+
     public static Request of(Interface interfc, String content1, String content2) throws IllegalRequestException {
-        switch(interfc) {
+        switch (interfc) {
             case GPIO: {
                 int desiredVoltage;
                 Pin pin;
                 try {
                     desiredVoltage = Integer.parseInt(content2);
-                    pin = GpioManager.getPinFromName(content1);
-                    if(desiredVoltage != 1 && desiredVoltage != 0) {
+                    pin = DeviceManager.getPin(content1);
+                    if (pin == null) {
+                        throw new IllegalRequestException("pin with the given descriptor has not been found");
+                    }
+                    if (desiredVoltage != 1 && desiredVoltage != 0) {
                         throw new IllegalRequestException("voltage 0 or 1, provided:" + desiredVoltage);
                     }
-                } catch(NumberFormatException nfe) {
+                } catch (NumberFormatException nfe) {
                     throw new IllegalRequestException(nfe);
                 }
                 return new GpioWriteRequest(pin, desiredVoltage == 1);
             }
-            default: throw new UnsupportedOperationException("Not supported yet.");
+            default:
+                throw new UnsupportedOperationException("Not supported yet.");
         }
     }
-    
+
 }

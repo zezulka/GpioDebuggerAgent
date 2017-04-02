@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package io.silverspoon.bulldog.core.mocks;
+package mocks;
 
 import io.silverspoon.bulldog.core.pin.AbstractPinFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
 
-public class MockedPinFeature1 extends AbstractPinFeature {
-
-	public MockedPinFeature1(Pin pin) {
+public class MockedPinFeature2 extends AbstractPinFeature {
+	
+	public MockedPinFeature2(Pin pin) {
 		super(pin);
 	
 	}
@@ -38,3 +38,4 @@ public class MockedPinFeature1 extends AbstractPinFeature {
 	protected void teardownImpl() {
 	}
 }
+

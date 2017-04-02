@@ -3,6 +3,7 @@ package request.write;
 import io.silverspoon.bulldog.core.pin.Pin;
 import java.io.IOException;
 import net.ProtocolManager;
+import request.IllegalRequestException;
 import request.manager.GpioManager;
 
 /**
@@ -19,18 +20,21 @@ public class GpioWriteRequest implements WriteRequest {
     }
     
     public GpioWriteRequest(Pin pin) {
-        this(pin, !GpioManager.readVoltage(pin));
+        this.pin = pin;
+        try {
+            this.desiredVoltage = !GpioManager.getInstance().getBooleanRead(pin.getName());
+        } catch (IllegalRequestException ex) {
+            //something to write to logger
+            throw new IllegalArgumentException("pin provided is not available on this board");
+        }
     }
     
-    /**
-     * Toggles the current value.
-     */
     @Override
     public void write() {
-        if(desiredVoltage) {
-            GpioManager.setHigh(this.pin);
-        } else {
-            GpioManager.setLow(this.pin);
+        try {
+            GpioManager.getInstance().write(pin.getName(), desiredVoltage ? "1" : "0");
+        } catch (IllegalRequestException ex) {
+            //something to write to logger?
         }
     }
 
@@ -41,7 +45,7 @@ public class GpioWriteRequest implements WriteRequest {
     @Override
     public void giveFeedbackToClient() throws IOException {
         ProtocolManager.getInstance().setMessageToSend(String.format("The pin %s is now %s", 
-                this.pin.getName(), GpioManager.readVoltage(this.pin) ? "on" : "off"));
+                this.pin.getName(), this.desiredVoltage ? "on" : "off"));
     }
     
 }

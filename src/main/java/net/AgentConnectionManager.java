@@ -169,7 +169,7 @@ public class AgentConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        protocolManager.setMessageToSend(DeviceManager.getInstance().getDeviceName());
+        protocolManager.setMessageToSend(DeviceManager.getDeviceName());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
@@ -217,14 +217,15 @@ public class AgentConnectionManager implements Runnable {
      */
     private void closeConnection() {
         connectionManagerLogger.info(ProtocolMessages.S_FINISHED.toString());
-        if (selector != null) {
             try {
-                selector.close();
-                serverSocketChannel.socket().close();
-                serverSocketChannel.close();
+                if (selector != null) {
+                    selector.close();
+                    serverSocketChannel.socket().close();
+                    serverSocketChannel.close();
+                }
+                DeviceManager.cleanUpResources();
             } catch (IOException ex) {
                 connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
             }
         }
-    }
 }

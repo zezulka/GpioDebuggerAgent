@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package io.silverspoon.bulldog.core.mocks;
+package mocks;
 
-import io.silverspoon.bulldog.core.pin.AbstractPinFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
+import io.silverspoon.bulldog.core.pwm.AbstractPwm;
 
-public class MockedPinFeature2 extends AbstractPinFeature {
+public class MockedPwm extends AbstractPwm {
+
+	private boolean enableImplCalled = false;
+	private boolean disableImplCalled = false;
+	private boolean pwmImplCalled = false;
 	
-	public MockedPinFeature2(Pin pin) {
+	public MockedPwm(Pin pin) {
 		super(pin);
-	
-	}
-
-	@Override
-	public String getName() {
-		return "Mocked Feature";
 	}
 
 	@Override
@@ -37,5 +35,40 @@ public class MockedPinFeature2 extends AbstractPinFeature {
 	@Override
 	protected void teardownImpl() {
 	}
-}
 
+	@Override
+	protected void setPwmImpl(double frequency, double duty) {
+		pwmImplCalled = true;
+	}
+	
+	public boolean pwmImplCalled() {
+		return pwmImplCalled;
+	}
+
+	@Override
+	protected void enableImpl() {
+		enableImplCalled = true;
+	}
+	
+	public boolean enableImplCalled() {
+		return enableImplCalled;
+	}
+
+	@Override
+	protected void disableImpl() {
+		disableImplCalled = true;
+	}
+	
+	public boolean disableImplCalled() {
+		return disableImplCalled;
+	}
+	
+	public void reset() {
+		disableImplCalled = false;
+		enableImplCalled = false;
+		pwmImplCalled = false;
+	}
+	
+
+
+}

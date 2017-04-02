@@ -1,6 +1,8 @@
 package request;
 
 import io.silverspoon.bulldog.raspberrypi.RaspiNames;
+import mocks.MockedBoard;
+import mocks.MockedDeviceManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
  */
 public class RequestParserTest {
 
-    private final String requestedPin = RaspiNames.P1_3;
+    private final String requestedPin = MockedDeviceManager.getPin(0).getName();
     
     public RequestParserTest() {
     }

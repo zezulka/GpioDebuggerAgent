@@ -15,10 +15,49 @@
  */
 package mocks;
 
+import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
+import io.silverspoon.bulldog.core.pin.Pin;
+import io.silverspoon.bulldog.core.platform.Board;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  *
  * @author Miloslav
  */
 public class MockedDeviceManager {
+    private static final Board BOARD = new MockedBoard();
+    private static List<I2cBus> I2CBUSES = Collections.EMPTY_LIST;
+    private static final MockedDeviceManager INSTANCE = new MockedDeviceManager();
     
+    private MockedDeviceManager() {
+        if(BOARD == null) {
+            throw new IllegalArgumentException("board cannot be null");
+        }
+        I2CBUSES = new ArrayList<>(BOARD.getI2cBuses());
+    }
+    
+    public static MockedDeviceManager getInstance() {
+        return INSTANCE;
+    }
+    /**
+     * Returns device descriptor.
+     * @return String representation of the device. 
+     */
+    public static String getDeviceName() {
+        return BOARD.getName();
+    }
+    
+    public static Pin getPin(String pinName) {
+        return BOARD.getPin(pinName);
+    }
+    
+    public static Pin getPin(int i) {
+        return BOARD.getPin(i);
+    }
+    
+    public static I2cBus getI2c() {
+        return I2CBUSES.size() < 1 ? null : I2CBUSES.get(0);
+    }
 }

@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package request.read;
-import core.DeviceManager;
 import io.silverspoon.bulldog.core.pin.Pin;
 import java.io.IOException;
 import net.ProtocolManager;
+import request.IllegalRequestException;
 import request.manager.GpioManager;
 
 /**
@@ -29,13 +29,25 @@ public class GpioReadRequest implements ReadRequest {
      */
     @Override
     public String read() {
-        return GpioManager.readVoltage(this.pin) ? "1" : "0";
+        try {
+            return GpioManager.getInstance().read(this.pin.getName());
+        } catch (IllegalRequestException ex) {
+            return "-1";
+        }
     }
 
     @Override
     public void giveFeedbackToClient() throws IOException {
+        int status = Integer.parseInt(read()); 
+        String voltageLvl = "N/A";
+        if(status == 0) {
+            voltageLvl = "LOW";
+        }
+        if(status == 1) {
+            voltageLvl = "HIGH";
+        }
         ProtocolManager.getInstance().setMessageToSend(String.format(
-                "Pin '%s' is currently %s", this.pin.getName(), 
-                Integer.parseInt(read()) == 0 ? "off" : "on"));
+                "Pin '%s' is '%s' and its voltage level is %s", this.pin.getName(), 
+                status == -1 ? "not available" : "available", voltageLvl));
     }
 }

@@ -13,63 +13,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package io.silverspoon.bulldog.core.mocks;
+package mocks;
 
+import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
+import io.silverspoon.bulldog.core.io.bus.i2c.I2cConnection;
 import io.silverspoon.bulldog.core.pin.Pin;
-import io.silverspoon.bulldog.core.pwm.AbstractAnalogInput;
 
-import java.util.concurrent.Future;
+import java.io.IOException;
 
-public class MockedAnalogInput extends AbstractAnalogInput {
+public class MockedI2cBus extends MockedBus implements I2cBus {
 
-	private double value;
-	private double[] samples;
-	
-	public MockedAnalogInput(Pin pin) {
-		super(pin);
+	public MockedI2cBus(String name) {
+		super(name);
 	}
 
-	public void setValueToRead(double value) {
-		this.value = value;
-	}
-	
-	public void setSamples(double[] samples) {
-		this.samples = samples;
-	}
-	
-	@Override
-	public double read() {
-		return value;
+        @Override
+	public Pin getSDA() {
+		return null;
 	}
 
-	@Override
-	public double[] sample(int amountSamples) {
-		return samples;
-	}
-
-	@Override
-	public double[] sample(int amountSamples, float frequency) {
-		return samples;
-	}
-
-	@Override
-	public Future<double[]> sampleAsync(int amountSamples) {
-		// TODO Auto-generated method stub
+        @Override
+	public Pin getSCL() {
 		return null;
 	}
 
 	@Override
-	public Future<double[]> sampleAsync(int amountSamples, float frequency) {
+	public int getFrequency() {
+		return 0;
+	}
+
+	@Override
+	public void writeByteToRegister(int register, int b) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeBytesToRegister(int register, byte[] bytes)
+			throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public byte readByteFromRegister(int register) throws IOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int readBytesFromRegister(int register, byte[] buffer)
+			throws IOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public I2cConnection createI2cConnection(int address) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	protected void setupImpl() {
-	}
-
-	@Override
-	protected void teardownImpl() {
 	}
 
 }
