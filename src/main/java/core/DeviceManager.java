@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class which takes care of communicating with the device itself, namely using
@@ -36,6 +38,7 @@ public class DeviceManager {
     
     private static final Board BOARD = Platform.createBoard();
     private static List<I2cBus> I2CBUSES = Collections.EMPTY_LIST;
+    private static final Logger DEVICE_MANAGER_LOGGER = LoggerFactory.getLogger(DeviceManager.class);
     private static final DeviceManager INSTANCE = new DeviceManager();
     
     public DeviceManager() {

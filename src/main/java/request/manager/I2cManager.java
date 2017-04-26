@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.manager;
 
 import core.DeviceManager;
@@ -20,7 +15,7 @@ import request.StringConstants;
  * @author miloslav
  */
 public class I2cManager implements InterfaceManager {
-
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(I2cManager.class);
     private static I2cConnection i2cConnection;
     private static final int I2CADDR = 0x68;
@@ -72,7 +67,6 @@ public class I2cManager implements InterfaceManager {
      */
     public String readFromI2c() {
         byte[] buff = new byte[READ_BUFFER_SIZE];
-        int read;
         NativeI2c.i2cOpen();
         NativeI2c.i2cRead(buff, READ_BUFFER_SIZE);
         StringBuilder response = new StringBuilder();
@@ -86,8 +80,8 @@ public class I2cManager implements InterfaceManager {
     }
 
     @Override
-    public String read(String descriptor) throws IllegalRequestException {
-        return readFromI2c();
+    public String read(String str) throws IllegalRequestException {
+        return readFromI2c(); //str argument needs to be transformed into integer.
     }
 
     @Override

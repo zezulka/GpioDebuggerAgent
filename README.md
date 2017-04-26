@@ -1,0 +1,2 @@
+This is an agent to be run on the ARM device. Please note that the resulting jar file must be run under root privileges as the agent communicates with various interfaces placed on the board.
+For users who want to make their own build on an ARM device, it is necessary to have Maven install and to copy contents of settings.xml file to the maven directory of superuser (for Raspberry Pi users with Raspbian the path is /root/.m2/settings.xml).

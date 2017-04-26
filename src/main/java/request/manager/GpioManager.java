@@ -29,7 +29,7 @@ public class GpioManager implements InterfaceManager {
     }
 
     private static void applyVoltage(Signal sig, Pin pin) {
-        pin.getFeature(DigitalIOFeature.class).applySignal(sig);
+        pin.getFeature(DigitalIOFeature.class).write(sig);
     }
 
     /**
