@@ -15,6 +15,7 @@
  */
 package request;
 
+import core.DeviceManager;
 import io.silverspoon.bulldog.core.pin.Pin;
 import request.manager.GpioManager;
 import request.read.GpioReadRequest;
@@ -34,11 +35,15 @@ public class ReadRequestFactory {
      * @param content String variable which has got different meaning based
      * upon the interface it is being passed to
      * @return 
+     * @throws request.IllegalRequestException 
      */
     public static Request of(Interface interfc, String content) throws IllegalRequestException {
         switch (interfc) {
             case GPIO:
-                Pin pin = GpioManager.getPinFromName(content);
+                Pin pin = DeviceManager.getPin(content);
+                if(pin == null) {
+                    throw new IllegalRequestException("pin with the given descriptor has not been found");
+                }
                 return new GpioReadRequest(pin);
             case I2C:
                 //return new I2cReadRequest(content);
