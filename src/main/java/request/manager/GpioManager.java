@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.manager;
 
 import core.DeviceManager;
@@ -20,10 +15,11 @@ public class GpioManager implements InterfaceManager {
     private static final GpioManager INSTANCE = new GpioManager();
     private static final String ON = "1";
     private static final String OFF = "0";
+    public static final String RESPONSE_FORMAT = "Voltage level of pin '%s' is %s";
 
     private GpioManager() {
     }
-    
+
     public static GpioManager getInstance() {
         return INSTANCE;
     }
@@ -51,11 +47,11 @@ public class GpioManager implements InterfaceManager {
         }
         return Integer.toString(pin.getFeature(DigitalIOFeature.class).read().getNumericValue());
     }
-    
+
     public boolean getBooleanRead(String descriptor) throws IllegalRequestException {
         return read(descriptor).equals(ON);
     }
-    
+
 
     /**
      *

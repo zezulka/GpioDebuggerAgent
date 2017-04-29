@@ -35,9 +35,6 @@ public class WriteRequestFactory {
                 }
                 return new GpioWriteRequest(pin);
             }
-            case I2C: {
-                return new I2cWriteRequest(content);
-            }
             default:
                 throw new UnsupportedOperationException("Not supported yet.");
         }
@@ -54,17 +51,34 @@ public class WriteRequestFactory {
                     if (pin == null) {
                         throw new IllegalRequestException("pin with the given descriptor has not been found");
                     }
-                    if (desiredVoltage != 1 && desiredVoltage != 0) {
-                        throw new IllegalRequestException("voltage 0 or 1, provided:" + desiredVoltage);
-                    }
                 } catch (NumberFormatException nfe) {
                     throw new IllegalRequestException(nfe);
                 }
-                return new GpioWriteRequest(pin, desiredVoltage == 1);
+                return new GpioWriteRequest(pin, desiredVoltage != 0);
             }
             default:
                 throw new UnsupportedOperationException("Not supported yet.");
         }
     }
+
+
+    public static Request of(Interface interfc, String content, String content1, String content2) throws IllegalRequestException {
+        switch (interfc) {
+          case I2C: {
+            int slaveAddress;
+            int registerAddress;
+            try {
+                slaveAddress = Integer.parseInt(content, 16);
+                registerAddress = Integer.parseInt(content1, 16);
+            } catch(NumberFormatException nfe) {
+                throw new IllegalRequestException(nfe);
+            }
+            return new I2cWriteRequest(slaveAddress, registerAddress, content2);
+          }
+          default:
+             throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
 
 }

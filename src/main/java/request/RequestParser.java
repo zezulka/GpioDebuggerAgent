@@ -18,10 +18,10 @@ public class RequestParser {
      *
      * <ul>
      * <li>GPIO:READ:{PIN_NAME}</li>
-     * <li>GPIO:WRITE:{PIN_NAME}:{0,1}?</li>
-     * <li>I2C:READALL:{INTERFACE_NAME}?</li>
-     * <li>I2C:READ:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?</li>
-     * <li>I2C:WRITE{:{INTERFACE_NAME}}?:{CONTENT}</li>
+     * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
+     * <li>I2C:READALL:{SLAVE_ADDRESS_HEX}{:INTERFACE_NAME}?</li>
+     * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?</li>
+     * <li>I2C:WRITE{:INTERFACE_NAME}?:{CONTENT}</li>
      * </ul>
      * ,':' being the delimiter symbol.
      *
@@ -50,18 +50,21 @@ public class RequestParser {
 
         switch (op) {
             case READALL: {
-                if(request.length == 2) {
-                    return ReadRequestFactory.of(interfc);
-                } else if(request.length == 3) {
+                if(request.length < 3) {
+                  throw new IllegalRequestException("too few arguments for I2c read operation. Usage:\n" +
+                                                    "I2C:READALL:{SLAVE_ADDRESS_HEX}{:INTERFACE_NAME}?");
+                } else {
                     return ReadRequestFactory.of(interfc, request[2]);
                 }
             }
             case READ: {
                 if(request.length < 3) {
                     throw new IllegalRequestException("too few arguments for I2c read operation (register specific). Usage:\n" +
-                                                      "I2C:READ:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?");
-                } else {
+                                                      "I2C:READ:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?");
+                } else if(request.length == 3) {
                    return ReadRequestFactory.of(interfc, request[2]);
+                } else if(request.length == 4) {
+                   return ReadRequestFactory.of(interfc, request[2], request[3]);
                 }
             }
             case WRITE: {

@@ -18,24 +18,15 @@ public class I2cManager implements InterfaceManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(I2cManager.class);
     private static I2cConnection i2cConnection;
-    private static final int I2CADDR = 0x68;
-    private static final I2cManager DEF_MANAGER = new I2cManager();
     private static final int READ_BUFFER_SIZE = 64;
-
-    private I2cManager() {
-        this(I2CADDR);
-    }
 
     private I2cManager(int address) {
         i2cConnection = DeviceManager.getI2c().createI2cConnection(address);
     }
 
     public static I2cManager fromAddress(int address) {
+        LOGGER.info(String.format("I2c read request, the selected slave address is %x.", address));
         return new I2cManager(address);
-    }
-
-    public static I2cManager fromDefaultAddress() {
-        return DEF_MANAGER;
     }
 
     public void writeIntoI2c(String msg) {

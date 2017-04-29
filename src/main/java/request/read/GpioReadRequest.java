@@ -16,15 +16,15 @@ import request.manager.GpioManager;
  */
 public class GpioReadRequest implements ReadRequest {
     private final Pin pin;
-    
+
     public GpioReadRequest(Pin pin) {
         this.pin = pin;
     }
 
     /**
-     * Attempts to read input denoted in getInstance() method and if successful, 
+     * Attempts to read input denoted in getInstance() method and if successful,
      * returns the pin numeric value as a result. String containing number is
-     * returned due to interface which this class implements. 
+     * returned due to interface which this class implements.
      * @return String numeric representation of the read signal
      */
     @Override
@@ -38,7 +38,7 @@ public class GpioReadRequest implements ReadRequest {
 
     @Override
     public void giveFeedbackToClient() throws IOException {
-        int status = Integer.parseInt(read()); 
+        int status = Integer.parseInt(read());
         String voltageLvl = "N/A";
         if(status == 0) {
             voltageLvl = "LOW";
@@ -47,7 +47,6 @@ public class GpioReadRequest implements ReadRequest {
             voltageLvl = "HIGH";
         }
         ProtocolManager.getInstance().setMessageToSend(String.format(
-                "Pin '%s' is '%s' and its voltage level is %s", this.pin.getName(), 
-                status == -1 ? "not available" : "available", voltageLvl));
+                GpioManager.RESPONSE_FORMAT, this.pin.getName(), voltageLvl));
     }
 }

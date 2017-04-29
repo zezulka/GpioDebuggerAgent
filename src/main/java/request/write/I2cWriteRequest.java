@@ -14,14 +14,23 @@ import request.manager.I2cManager;
  */
 public class I2cWriteRequest implements WriteRequest {
 
-    private static final I2cManager MANAGER = I2cManager.fromDefaultAddress();
+    private static I2cManager MANAGER;
     private final String content;
-    
-    public I2cWriteRequest(String content) {
+    private int registerAddress;
+
+    public I2cWriteRequest(int slaveAddress, int registerAddress, String content) {
         if(content == null) {
             throw new IllegalArgumentException("content cannot be null");
         }
+        if(slaveAddress < 0x00) {
+            throw new IllegalArgumentException("slave address must be an positive integer");
+        }
+        if(registerAddress < 0x00) {
+            throw new IllegalArgumentException("register address must be an positive integer");
+        }
         this.content = content;
+        this.registerAddress = registerAddress;
+        MANAGER = I2cManager.fromAddress(slaveAddress);
     }
 
     @Override
@@ -35,5 +44,5 @@ public class I2cWriteRequest implements WriteRequest {
                 + "submitted; result="+ MANAGER.readFromI2c());
     }
 
-    
+
 }

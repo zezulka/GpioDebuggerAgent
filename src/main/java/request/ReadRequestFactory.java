@@ -46,13 +46,13 @@ public class ReadRequestFactory {
                 }
                 return new GpioReadRequest(pin);
             case I2C:
-                int registerAddress;
+                int slaveAddress;
                 try {
-                    registerAddress = Integer.parseInt(content, 16);
+                    slaveAddress = Integer.parseInt(content, 16);
                 } catch(NumberFormatException nfe) {
                     throw new IllegalRequestException(nfe);
                 }
-                return I2cReadRequest.getRegisterSpecificInstance(registerAddress);
+                return I2cReadRequest.getInstance(slaveAddress);
             case SPI:
                 //return SpiReadRequest.getInstance();
             default:
@@ -64,23 +64,31 @@ public class ReadRequestFactory {
     /**
      * Returns ReadRequest instance based on the {@code interfc} Interface.
      * @param interfc
-     * @throws request.IllegalRequestException
-     * @throws IllegalArgumentException if the input given is not supported
-     * by this implementation
+     * @param content String variable which has got different meaning based
+     * upon the interface it is being passed to
+     * @param content1 another String variable which has got different meaning based
+     * upon the interface it is being passed to
      * @return
+     * @throws request.IllegalRequestException
      */
-    public static Request of(Interface interfc) throws IllegalRequestException {
+    public static Request of(Interface interfc, String content, String content1) throws IllegalRequestException {
         switch (interfc) {
-            case GPIO:
-                throw new IllegalRequestException("Gpio interface must always"
-                        + "specify the name of the pin the client wishes to read from");
-            case I2C:
-                return I2cReadRequest.getInstance();
+          case I2C:
+              int slaveAddress;
+              int registerAddress;
+              try {
+                  slaveAddress = Integer.parseInt(content, 16);
+                  registerAddress = Integer.parseInt(content1, 16);
+              } catch(NumberFormatException nfe) {
+                  throw new IllegalRequestException(nfe);
+              }
+              return I2cReadRequest.getRegisterSpecificInstance(slaveAddress, registerAddress);
             case SPI:
                 //return SpiReadRequest.getInstance();
-                //break;
             default:
-                throw new UnsupportedOperationException(interfc + "not supported");
+                throw new UnsupportedOperationException(interfc +
+                        "not supported with the name parameter");
         }
     }
+
 }
