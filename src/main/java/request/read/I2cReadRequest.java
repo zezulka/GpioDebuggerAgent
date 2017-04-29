@@ -15,17 +15,36 @@ import request.manager.I2cManager;
 public class I2cReadRequest implements ReadRequest {
     private static final I2cReadRequest INSTANCE = new I2cReadRequest();
     private static final I2cManager MANAGER = I2cManager.fromDefaultAddress();
-    
+
+    private int register;
+    private boolean isRegisterSpecific = false;
+
     private I2cReadRequest() {
     }
-    
+
+    private I2cReadRequest(int registerAddress) {
+        if(registerAddress < 0x00) {
+            throw new IllegalArgumentException("register address must be positive");
+        }
+        this.register = registerAddress;
+        this.isRegisterSpecific = true;
+    }
+
+    public static I2cReadRequest getRegisterSpecificInstance(int registerAddress) {
+        return new I2cReadRequest(registerAddress);
+    }
+
     public static I2cReadRequest getInstance() {
         return INSTANCE;
     }
 
     @Override
     public String read() {
-        return MANAGER.readFromI2c();
+        if(isRegisterSpecific) {
+            return MANAGER.readFromI2cRegister(this.register);
+        } else {
+            return MANAGER.readFromI2c();
+        }
     }
 
     @Override
@@ -33,5 +52,5 @@ public class I2cReadRequest implements ReadRequest {
         ProtocolManager.getInstance().setMessageToSend("I2C interface read"
                 + " response: \n" + read());
     }
-    
+
 }

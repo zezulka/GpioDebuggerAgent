@@ -34,8 +34,8 @@ public class ReadRequestFactory {
      * @param interfc
      * @param content String variable which has got different meaning based
      * upon the interface it is being passed to
-     * @return 
-     * @throws request.IllegalRequestException 
+     * @return
+     * @throws request.IllegalRequestException
      */
     public static Request of(Interface interfc, String content) throws IllegalRequestException {
         switch (interfc) {
@@ -46,24 +46,28 @@ public class ReadRequestFactory {
                 }
                 return new GpioReadRequest(pin);
             case I2C:
-                //return new I2cReadRequest(content);
+                int registerAddress;
+                try {
+                    registerAddress = Integer.parseInt(content, 16);
+                } catch(NumberFormatException nfe) {
+                    throw new IllegalRequestException(nfe);
+                }
+                return I2cReadRequest.getRegisterSpecificInstance(registerAddress);
             case SPI:
                 //return SpiReadRequest.getInstance();
-            case UART:
-                //return UartReadRequest.getInstance();
             default:
-                throw new UnsupportedOperationException(interfc + 
+                throw new UnsupportedOperationException(interfc +
                         "not supported with the name parameter");
         }
     }
-    
+
     /**
      * Returns ReadRequest instance based on the {@code interfc} Interface.
      * @param interfc
      * @throws request.IllegalRequestException
-     * @throws IllegalArgumentException if the input given is not supported 
+     * @throws IllegalArgumentException if the input given is not supported
      * by this implementation
-     * @return 
+     * @return
      */
     public static Request of(Interface interfc) throws IllegalRequestException {
         switch (interfc) {
@@ -74,8 +78,7 @@ public class ReadRequestFactory {
                 return I2cReadRequest.getInstance();
             case SPI:
                 //return SpiReadRequest.getInstance();
-            case UART:
-                //return UartReadRequest.getInstance();
+                //break;
             default:
                 throw new UnsupportedOperationException(interfc + "not supported");
         }

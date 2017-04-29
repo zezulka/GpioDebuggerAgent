@@ -10,5 +10,5 @@ package request;
  * @author miloslav
  */
 public enum Interface {
-    GPIO, UART, I2C, SPI;
+    GPIO, I2C, SPI;
 }

@@ -12,10 +12,10 @@ import request.StringConstants;
 
 /**
  *
- * @author miloslav
+ * @author Miloslav Zezulka, 2017
  */
 public class I2cManager implements InterfaceManager {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(I2cManager.class);
     private static I2cConnection i2cConnection;
     private static final int I2CADDR = 0x68;
@@ -67,25 +67,30 @@ public class I2cManager implements InterfaceManager {
      */
     public String readFromI2c() {
         byte[] buff = new byte[READ_BUFFER_SIZE];
-        NativeI2c.i2cOpen();
-        NativeI2c.i2cRead(buff, READ_BUFFER_SIZE);
+        try {
+            i2cConnection.getBus().readBytes(buff);
+        } catch(IOException ex) {
+            LOGGER.error(null, ex);
+        }
+
         StringBuilder response = new StringBuilder();
         for (int i = 0; i < READ_BUFFER_SIZE; i++) {
             if (i % 4 == 0) {
                 response.append("\n");
             }
             response.append(Integer.toHexString(buff[i]));
+            response.append('\t');
         }
         return response.toString();
     }
 
     @Override
-    public String read(String str) throws IllegalRequestException {
+    public String read(String len) throws IllegalRequestException {
         return readFromI2c(); //str argument needs to be transformed into integer.
     }
 
     @Override
-    public void write(String descriptor, String message) throws IllegalRequestException {
+    public void write(String deviceName, String message) throws IllegalRequestException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
