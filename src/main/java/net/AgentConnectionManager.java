@@ -45,7 +45,7 @@ public class AgentConnectionManager implements Runnable {
      * Creates connection manager with default socket port.
      */
     private AgentConnectionManager() {
-        initDefaultPort();
+        //initDefaultPort();
     }
 
     /**
@@ -54,11 +54,11 @@ public class AgentConnectionManager implements Runnable {
      * @param port
      */
     private AgentConnectionManager(int port) {
-        init(port);
+        //init(port);
     }
 
     /**
-     * Initializes server. This method must be executed only once (i.e.
+     * Initializes server. This method must be executed only once per client (i.e.
      * resources must be initialized only once). Should the method be executed
      * more than once, such attempt is ignored.
      */
@@ -115,47 +115,57 @@ public class AgentConnectionManager implements Runnable {
 
     @Override
     public void run() {
-        try {
-            while (!Thread.currentThread().isInterrupted()) {
-                selector.select(TIMEOUT);
-                Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
-
-                while (keys.hasNext()) {
-                    SelectionKey key = keys.next();
-                    if (!key.isValid()) {
-                        keys.remove();
-                        continue;
-                    }
-                    if (key.isAcceptable()) {
-                        accept();
-                        connectionManagerLogger.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
-                    }
-                    if (key.isReadable()) {
-                        int readVal = read();
-                        if (readVal == -1) {
-                            closeConnection();
-                        }
-                        if (protocolManager.getReceivedMessage() == null) {
-                            continue;
-                        }
-                        try {
-                            protocolManager.processRequest();
-                        } catch (IllegalRequestException ex) {
-                            connectionManagerLogger.error(null, ex);
-                            ProtocolManager.getInstance().setMessageToSend("Illegal Request.");
-                        }
-                    }
-                    if (key.isWritable() && protocolManager.getMessageToSend() != null) {
-                        write(key);
-                    }
-                    keys.remove();
-                }
-            }
-        } catch (IOException ex) {
-            connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
-        } finally {
-            closeConnection();
+        while(true) {
+          initDefaultPort();
+          runImpl();
         }
+    }
+
+    private void runImpl() {
+      try {
+          while (true /*!Thread.currentThread().isInterrupted()*/) {
+              if(!selector.isOpen()) {
+                  return;
+              }
+              selector.select(TIMEOUT);
+              Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+
+              while (keys.hasNext()) {
+                  SelectionKey key = keys.next();
+                  if (!key.isValid()) {
+                      keys.remove();
+                      continue;
+                  }
+                  if (key.isAcceptable()) {
+                      accept();
+                      connectionManagerLogger.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
+                  }
+                  if (key.isReadable()) {
+                      int readVal = read();
+                      if (readVal == -1) {
+                          return;
+                      }
+                      if (protocolManager.getReceivedMessage() == null) {
+                          continue;
+                      }
+                      try {
+                          protocolManager.processRequest();
+                      } catch (IllegalRequestException ex) {
+                          connectionManagerLogger.error(null, ex);
+                          ProtocolManager.getInstance().setMessageToSend("Illegal Request.");
+                      }
+                  }
+                  if (key.isWritable() && protocolManager.getMessageToSend() != null) {
+                      write(key);
+                  }
+                  keys.remove();
+              }
+          }
+      } catch (IOException ex) {
+          connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+      } finally {
+           closeConnection();
+      }
     }
 
     /**
@@ -211,21 +221,21 @@ public class AgentConnectionManager implements Runnable {
         return 0;
     }
 
-    /**
-     * Closes connection, thus closing all resources which were binded to this
-     * connection manager.
-     */
     private void closeConnection() {
-        connectionManagerLogger.info(ProtocolMessages.S_FINISHED.toString());
-            try {
-                if (selector != null) {
-                    selector.close();
-                    serverSocketChannel.socket().close();
-                    serverSocketChannel.close();
-                }
-                DeviceManager.cleanUpResources();
-            } catch (IOException ex) {
-                connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
-            }
+      try {
+        if(serverSocketChannel != null) {
+            connectionManagerLogger.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
         }
+        if (selector != null) {
+            selector.close();
+            selector = null;
+        }
+        DeviceManager.cleanUpResources();
+        serverSocketChannel.socket().close();
+        serverSocketChannel.close();
+        serverSocketChannel = null;
+      } catch(IOException ex) {
+        connectionManagerLogger.error(null, ex);
+      }
+    }
 }
