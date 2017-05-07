@@ -18,35 +18,17 @@ public class I2cManager implements InterfaceManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(I2cManager.class);
     private static I2cConnection i2cConnection;
-    private static final int READ_BUFFER_SIZE = 64;
 
     private I2cManager(int address) {
         i2cConnection = DeviceManager.getI2c().createI2cConnection(address);
     }
 
     public static I2cManager fromAddress(int address) {
-        LOGGER.info(String.format("I2c read request, the selected slave address is %x.", address));
         return new I2cManager(address);
     }
 
-    public void writeIntoI2c(String msg) {
-        if (i2cConnection == null) {
-            return;
-        }
-        try {
-            i2cConnection.writeByteToRegister(0x00, 32);
-        } catch (IOException ex) {
-            LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
-        }
-    }
-
     public String readFromI2cRegister(int i) {
-        try {
-            return Integer.toHexString(i2cConnection.readByteFromRegister(i));
-        } catch (IOException ex) {
-            LOGGER.error(null, ex);
-            return StringConstants.ERROR_RESPONSE.toString();
-        }
+        return readFromI2c(i, 1);
     }
 
     /**
@@ -56,32 +38,45 @@ public class I2cManager implements InterfaceManager {
      *
      * @return I2c contents.
      */
-    public String readFromI2c() {
-        byte[] buff = new byte[READ_BUFFER_SIZE];
+    public String readFromI2c(int pos, int len) {
+        LOGGER.info(String.format("I2c read request from position %x and of length %d", pos, len));
         try {
-            i2cConnection.getBus().readBytes(buff);
+            if(len == 1) {
+              byte b = i2cConnection.readByteFromRegister(pos);
+              return b + " 0x" + Integer.toString((byte)b, 16);
+            } else if(len > 1){
+              byte[] buff = new byte[len];
+              i2cConnection.readBytesFromRegister(pos, buff);
+              StringBuilder builder = new StringBuilder();
+              for(byte b : buff) {
+                  builder = builder.append(b).append("\t0x").append(Integer.toString((byte)b, 16)).append('\n');
+              }
+              return builder.toString();
+            }
         } catch(IOException ex) {
             LOGGER.error(null, ex);
         }
+        return "";
+    }
 
-        StringBuilder response = new StringBuilder();
-        for (int i = 0; i < READ_BUFFER_SIZE; i++) {
-            if (i % 4 == 0) {
-                response.append("\n");
-            }
-            response.append(Integer.toHexString(buff[i]));
-            response.append('\t');
+    public void writeIntoI2c(int address, byte[] message) {
+        if (i2cConnection == null) {
+            LOGGER.error("Client attempted to access i2c bus while there was no i2c connection established!");
+            return;
         }
-        return response.toString();
-    }
-
-    @Override
-    public String read(String len) throws IllegalRequestException {
-        return readFromI2c(); //str argument needs to be transformed into integer.
-    }
-
-    @Override
-    public void write(String deviceName, String message) throws IllegalRequestException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(message == null || message.length == 0) {
+            LOGGER.error("Client attempted to write no data, ignoring...");
+            return;
+        }
+        try {
+            LOGGER.info(String.format("I2c write request from position %x and of length %d", address, message.length));
+            if(message.length == 1) {
+                i2cConnection.writeByteToRegister(address, message[0]);
+            } else {
+                i2cConnection.writeBytesToRegister(address, message);
+            }
+        } catch (IOException ex) {
+            LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+        }
     }
 }

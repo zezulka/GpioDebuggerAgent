@@ -22,6 +22,5 @@ import request.IllegalRequestException;
  * @author Miloslav Zezulka, 2017
  */
 public interface InterfaceManager {
-    String read(String str1) throws IllegalRequestException;
-    void write(String deviceName, String message) throws IllegalRequestException;
+    //TODO
 }

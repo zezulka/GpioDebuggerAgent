@@ -1,2082 +1,237 @@
-22:04:59,337  INFO AgentConnectionManager:219 - Server has been shut down.
-22:04:59,341  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:04:59,342  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:04:59,344  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=14
-22:04:59,345  INFO ProtocolManager:94 - Request successfully processed
-22:04:59,346  INFO AgentConnectionManager:219 - Server has been shut down.
-22:23:50,452  INFO AgentConnectionManager:70 - Initializing server...
-22:23:50,517  INFO AgentConnectionManager:81 - ...initialization successful.
-22:24:12,822  INFO AgentConnectionManager:131 - Now accepting connection.
-22:24:12,825  INFO AgentConnectionManager:183 - Sending information back to client...
-22:24:31,784  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:24:31,814  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:24:31,822  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=30
-22:24:31,823  INFO ProtocolManager:94 - Request successfully processed
-22:24:31,824  INFO AgentConnectionManager:183 - Sending information back to client...
-22:24:40,104  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:24:40,106  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:24:40,108  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=17
-22:24:40,109  INFO ProtocolManager:94 - Request successfully processed
-22:24:40,110  INFO AgentConnectionManager:183 - Sending information back to client...
-22:24:51,076  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:24:51,078  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:24:51,089  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:24:51,090  INFO ProtocolManager:94 - Request successfully processed
-22:24:51,091  INFO AgentConnectionManager:183 - Sending information back to client...
-22:25:07,128  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-22:25:07,129  INFO AgentConnectionManager:219 - Server has been shut down.
-22:25:07,132  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:25:07,134  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:25:07,136  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:25:07,136  INFO ProtocolManager:94 - Request successfully processed
-22:25:07,138  INFO AgentConnectionManager:219 - Server has been shut down.
-22:31:38,018  INFO AgentConnectionManager:70 - Initializing server...
-22:31:38,082  INFO AgentConnectionManager:81 - ...initialization successful.
-22:31:54,682  INFO AgentConnectionManager:131 - Now accepting connection.
-22:31:54,685  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:04,808  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:32:04,838  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:04,849  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-26	21	15	1	
-30	4	17	3	
-0	0	0	0	
-22:32:04,854  INFO ProtocolManager:94 - Request successfully processed
-22:32:04,855  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:14,735  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:32:14,737  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:14,743  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-36	21	15	1	
-30	4	17	3	
-0	0	0	0	
-22:32:14,749  INFO ProtocolManager:94 - Request successfully processed
-22:32:14,750  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:19,850  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:32:19,852  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:19,867  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-41	21	15	1	
-30	4	17	3	
-0	0	0	0	
-22:32:19,873  INFO ProtocolManager:94 - Request successfully processed
-22:32:19,874  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:24,647  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:32:24,649  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:24,654  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-46	21	15	1	
-30	4	17	3	
-0	0	0	0	
-22:32:24,659  INFO ProtocolManager:94 - Request successfully processed
-22:32:24,660  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:27,154  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:32:27,156  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:27,162  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-49	21	15	1	
-30	4	17	3	
-0	0	0	0	
-22:32:27,167  INFO ProtocolManager:94 - Request successfully processed
-22:32:27,168  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:32,795  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:32:32,797  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:32,799  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:32:32,800  INFO ProtocolManager:94 - Request successfully processed
-22:32:32,801  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:40,196  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:32:40,198  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:40,203  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	2	22	
-15	1	30	4	
-17	3	0	0	
-0	0	0	0	
-22:32:40,208  INFO ProtocolManager:94 - Request successfully processed
-22:32:40,209  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:45,646  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:32:45,648  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:45,649  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=1
-22:32:45,650  INFO ProtocolManager:94 - Request successfully processed
-22:32:45,651  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:48,793  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:32:48,794  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:48,796  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=40
-22:32:48,797  INFO ProtocolManager:94 - Request successfully processed
-22:32:48,798  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:52,871  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:32:52,873  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:52,874  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:32:52,875  INFO ProtocolManager:94 - Request successfully processed
-22:32:52,876  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:57,393  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:32:57,395  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:57,397  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:32:57,397  INFO ProtocolManager:94 - Request successfully processed
-22:32:57,398  INFO AgentConnectionManager:183 - Sending information back to client...
-22:32:59,496  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:32:59,497  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:32:59,499  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:32:59,499  INFO ProtocolManager:94 - Request successfully processed
-22:32:59,500  INFO AgentConnectionManager:183 - Sending information back to client...
-22:33:03,986  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:33:03,987  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:33:03,989  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:33:03,989  INFO ProtocolManager:94 - Request successfully processed
-22:33:03,990  INFO AgentConnectionManager:183 - Sending information back to client...
-22:33:06,635  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:33:06,636  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:33:06,637  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:33:06,638  INFO ProtocolManager:94 - Request successfully processed
-22:33:06,639  INFO AgentConnectionManager:183 - Sending information back to client...
-22:33:08,910  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:33:08,911  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:33:08,913  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:33:08,914  INFO ProtocolManager:94 - Request successfully processed
-22:33:08,915  INFO AgentConnectionManager:183 - Sending information back to client...
-22:33:12,458  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:33:12,460  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:33:12,462  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:33:12,463  INFO ProtocolManager:94 - Request successfully processed
-22:33:12,463  INFO AgentConnectionManager:183 - Sending information back to client...
-22:33:16,332  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:33:16,334  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:33:16,339  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-38	22	15	1	
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-22:33:16,344  INFO ProtocolManager:94 - Request successfully processed
-22:33:16,345  INFO AgentConnectionManager:183 - Sending information back to client...
-22:33:34,769  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-22:33:34,770  INFO AgentConnectionManager:219 - Server has been shut down.
-22:33:34,774  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:33:34,775  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:33:34,780  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-56	22	15	1	
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-22:33:34,785  INFO ProtocolManager:94 - Request successfully processed
-22:33:34,787  INFO AgentConnectionManager:219 - Server has been shut down.
-22:44:31,560  INFO AgentConnectionManager:70 - Initializing server...
-22:44:31,624  INFO AgentConnectionManager:81 - ...initialization successful.
-22:45:20,029  INFO AgentConnectionManager:131 - Now accepting connection.
-22:45:20,032  INFO AgentConnectionManager:183 - Sending information back to client...
-22:45:38,710  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:45:38,739  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:45:38,750  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	35	15	1	
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-22:45:38,755  INFO ProtocolManager:94 - Request successfully processed
-22:45:38,755  INFO AgentConnectionManager:183 - Sending information back to client...
-22:45:43,025  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:45:43,027  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:45:43,033  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-5	35	15	1	
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-22:45:43,038  INFO ProtocolManager:94 - Request successfully processed
-22:45:43,040  INFO AgentConnectionManager:183 - Sending information back to client...
-22:45:46,727  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:45:46,729  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:45:46,741  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-8	35	15	1	
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-22:45:46,746  INFO ProtocolManager:94 - Request successfully processed
-22:45:46,747  INFO AgentConnectionManager:183 - Sending information back to client...
-22:45:50,518  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:45:50,520  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:45:50,526  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-12	35	15	1	
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-22:45:50,531  INFO ProtocolManager:94 - Request successfully processed
-22:45:50,531  INFO AgentConnectionManager:183 - Sending information back to client...
-22:45:59,500  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:32
-22:45:59,509  INFO I2cManager:28 - I2c read request, the selected slave address is 32.
-22:45:59,511  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-22:45:59,513  INFO ProtocolManager:94 - Request successfully processed
-22:45:59,514  INFO AgentConnectionManager:183 - Sending information back to client...
-22:46:41,512  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:46:41,514  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:46:41,519  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-3	36	15	1	
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-22:46:41,524  INFO ProtocolManager:94 - Request successfully processed
-22:46:41,525  INFO AgentConnectionManager:183 - Sending information back to client...
-22:46:55,344  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:46:55,346  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:46:55,348  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:46:55,349  INFO ProtocolManager:94 - Request successfully processed
-22:46:55,349  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:00,496  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:00,501  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:00,503  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:00,504  INFO ProtocolManager:94 - Request successfully processed
-22:47:00,505  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:03,734  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:03,736  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:03,737  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:03,738  INFO ProtocolManager:94 - Request successfully processed
-22:47:03,738  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:05,848  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:05,849  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:05,851  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:05,851  INFO ProtocolManager:94 - Request successfully processed
-22:47:05,852  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:08,172  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:08,173  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:08,174  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:08,175  INFO ProtocolManager:94 - Request successfully processed
-22:47:08,176  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:10,283  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:10,284  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:10,286  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:10,286  INFO ProtocolManager:94 - Request successfully processed
-22:47:10,287  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:12,312  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:12,314  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:12,315  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:12,316  INFO ProtocolManager:94 - Request successfully processed
-22:47:12,316  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:14,041  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68
-22:47:14,043  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:14,049  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	36	36	
-15	1	30	4	
-17	3	0	0	
-0	0	0	0	
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-22:47:14,053  INFO ProtocolManager:94 - Request successfully processed
-22:47:14,054  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:21,006  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:21,008  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:21,009  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:21,010  INFO ProtocolManager:94 - Request successfully processed
-22:47:21,011  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:24,102  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:24,104  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:24,106  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:24,106  INFO ProtocolManager:94 - Request successfully processed
-22:47:24,107  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:26,489  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:26,491  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:26,492  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:26,493  INFO ProtocolManager:94 - Request successfully processed
-22:47:26,494  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:28,611  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:28,613  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:28,614  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:28,615  INFO ProtocolManager:94 - Request successfully processed
-22:47:28,616  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:30,759  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:30,761  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:30,763  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:30,763  INFO ProtocolManager:94 - Request successfully processed
-22:47:30,764  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:32,577  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:32,579  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:32,580  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:32,581  INFO ProtocolManager:94 - Request successfully processed
-22:47:32,582  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:34,580  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:34,581  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:34,582  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:34,583  INFO ProtocolManager:94 - Request successfully processed
-22:47:34,584  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:36,421  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:36,423  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:36,425  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:36,426  INFO ProtocolManager:94 - Request successfully processed
-22:47:36,426  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:38,217  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:38,219  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:38,220  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:47:38,221  INFO ProtocolManager:94 - Request successfully processed
-22:47:38,222  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:40,084  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:40,085  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:40,086  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=2
-22:47:40,087  INFO ProtocolManager:94 - Request successfully processed
-22:47:40,088  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:42,903  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:47:42,905  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:42,906  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=15
-22:47:42,907  INFO ProtocolManager:94 - Request successfully processed
-22:47:42,908  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:47,981  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:47:47,983  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:47,988  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	37	15	1	
-22:47:47,993  INFO ProtocolManager:94 - Request successfully processed
-22:47:47,994  INFO AgentConnectionManager:183 - Sending information back to client...
-22:47:54,087  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:47:54,089  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:47:54,094  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-30	4	17	3	
-0	0	0	0	
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-16	37	15	1	
-22:47:54,099  INFO ProtocolManager:94 - Request successfully processed
-22:47:54,100  INFO AgentConnectionManager:183 - Sending information back to client...
-22:48:02,567  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:48:02,569  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:48:02,571  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=30
-22:48:02,571  INFO ProtocolManager:94 - Request successfully processed
-22:48:02,572  INFO AgentConnectionManager:183 - Sending information back to client...
-22:48:07,049  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:48:07,051  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:48:07,056  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-17	3	0	0	
-0	0	0	0	
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	29	37	
-15	1	30	4	
-22:48:07,061  INFO ProtocolManager:94 - Request successfully processed
-22:48:07,061  INFO AgentConnectionManager:183 - Sending information back to client...
-22:48:27,257  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-22:48:27,258  INFO AgentConnectionManager:219 - Server has been shut down.
-22:48:27,261  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:48:27,262  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:48:27,268  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-17	3	0	0	
-0	0	0	0	
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	49	37	
-15	1	30	4	
-22:48:27,273  INFO ProtocolManager:94 - Request successfully processed
-22:48:27,275  INFO AgentConnectionManager:219 - Server has been shut down.
-22:52:48,810  INFO AgentConnectionManager:70 - Initializing server...
-22:52:48,874  INFO AgentConnectionManager:81 - ...initialization successful.
-22:53:05,808  INFO AgentConnectionManager:131 - Now accepting connection.
-22:53:05,810  INFO AgentConnectionManager:183 - Sending information back to client...
-22:53:15,513  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:53:15,543  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:53:15,554  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-17	3	0	0	
-0	0	0	0	
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	37	42	
-15	1	30	4	
-22:53:15,560  INFO ProtocolManager:94 - Request successfully processed
-22:53:15,561  INFO AgentConnectionManager:183 - Sending information back to client...
-22:53:22,027  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:53:22,029  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:53:22,032  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=17
-22:53:22,033  INFO ProtocolManager:94 - Request successfully processed
-22:53:22,034  INFO AgentConnectionManager:183 - Sending information back to client...
-22:53:45,338  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:53:45,341  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:53:45,352  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:53:45,354  INFO ProtocolManager:94 - Request successfully processed
-22:53:45,355  INFO AgentConnectionManager:183 - Sending information back to client...
-22:53:48,092  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-22:53:48,094  INFO AgentConnectionManager:219 - Server has been shut down.
-22:53:48,097  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:53:48,098  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:53:48,099  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:53:48,100  INFO ProtocolManager:94 - Request successfully processed
-22:53:48,102  INFO AgentConnectionManager:219 - Server has been shut down.
-22:54:44,676  INFO AgentConnectionManager:70 - Initializing server...
-22:54:44,740  INFO AgentConnectionManager:81 - ...initialization successful.
-22:54:52,091  INFO AgentConnectionManager:131 - Now accepting connection.
-22:54:52,095  INFO AgentConnectionManager:183 - Sending information back to client...
-22:54:59,901  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-22:54:59,931  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:54:59,943  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	1	0	
-40	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	10	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-21	44	15	1	
-30	4	17	3	
-0	0	0	0	
-22:54:59,948  INFO ProtocolManager:94 - Request successfully processed
-22:54:59,949  INFO AgentConnectionManager:183 - Sending information back to client...
-22:55:05,258  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-22:55:05,260  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-22:55:05,263  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-22:55:05,264  INFO ProtocolManager:94 - Request successfully processed
-22:55:05,265  INFO AgentConnectionManager:183 - Sending information back to client...
-23:00:05,047  INFO AgentConnectionManager:70 - Initializing server...
-23:00:05,111  INFO AgentConnectionManager:81 - ...initialization successful.
-23:00:21,084  INFO AgentConnectionManager:131 - Now accepting connection.
-23:00:21,086  INFO AgentConnectionManager:183 - Sending information back to client...
-23:00:26,234  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:00:26,264  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:00:26,275  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	48	49	
-15	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:00:26,281  INFO ProtocolManager:94 - Request successfully processed
-23:00:26,282  INFO AgentConnectionManager:183 - Sending information back to client...
-23:00:40,247  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:00:40,250  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:00:40,256  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:00:40,260  INFO ProtocolManager:94 - Request successfully processed
-23:00:40,261  INFO AgentConnectionManager:183 - Sending information back to client...
-23:00:45,755  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:00:45,757  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:00:45,772  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:00:45,777  INFO ProtocolManager:94 - Request successfully processed
-23:00:45,778  INFO AgentConnectionManager:183 - Sending information back to client...
-23:00:48,888  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:1
-23:00:48,890  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:00:48,894  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:00:48,899  INFO ProtocolManager:94 - Request successfully processed
-23:00:48,899  INFO AgentConnectionManager:183 - Sending information back to client...
-23:00:56,345  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:00:56,347  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:00:56,353  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	18	50	
-15	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:00:56,358  INFO ProtocolManager:94 - Request successfully processed
-23:00:56,359  INFO AgentConnectionManager:183 - Sending information back to client...
-23:01:00,352  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-23:01:00,353  INFO AgentConnectionManager:219 - Server has been shut down.
-23:01:00,357  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:01:00,358  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:01:00,364  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	22	50	
-15	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:01:00,369  INFO ProtocolManager:94 - Request successfully processed
-23:01:00,370  INFO AgentConnectionManager:219 - Server has been shut down.
-23:15:49,756  INFO AgentConnectionManager:70 - Initializing server...
-23:15:49,823  INFO AgentConnectionManager:81 - ...initialization successful.
-23:17:29,586  INFO AgentConnectionManager:70 - Initializing server...
-23:17:29,650  INFO AgentConnectionManager:81 - ...initialization successful.
-23:17:39,096  INFO AgentConnectionManager:131 - Now accepting connection.
-23:17:39,099  INFO AgentConnectionManager:183 - Sending information back to client...
-23:17:46,748  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:17:46,778  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:17:46,789  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	8	7	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:17:46,795  INFO ProtocolManager:94 - Request successfully processed
-23:17:46,796  INFO AgentConnectionManager:183 - Sending information back to client...
-23:17:57,258  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:17:57,260  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:17:57,263  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:17:57,264  INFO ProtocolManager:94 - Request successfully processed
-23:17:57,265  INFO AgentConnectionManager:183 - Sending information back to client...
-23:18:04,393  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:18:04,396  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:18:04,406  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:18:04,407  INFO ProtocolManager:94 - Request successfully processed
-23:18:04,408  INFO AgentConnectionManager:183 - Sending information back to client...
-23:18:07,466  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:18:07,468  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:18:07,470  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:18:07,470  INFO ProtocolManager:94 - Request successfully processed
-23:18:07,471  INFO AgentConnectionManager:183 - Sending information back to client...
-23:18:11,316  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:18:11,318  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:18:11,323  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	33	7	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:18:11,328  INFO ProtocolManager:94 - Request successfully processed
-23:18:11,329  INFO AgentConnectionManager:183 - Sending information back to client...
-23:18:34,392  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:6
-23:18:34,394  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:18:34,395  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:18:34,396  INFO ProtocolManager:94 - Request successfully processed
-23:18:34,396  INFO AgentConnectionManager:183 - Sending information back to client...
-23:19:07,841  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:9
-23:19:07,843  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:19:07,844  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:19:07,845  INFO ProtocolManager:94 - Request successfully processed
-23:19:07,846  INFO AgentConnectionManager:183 - Sending information back to client...
-23:19:23,391  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:11
-23:19:23,393  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:19:23,396  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:19:23,396  INFO ProtocolManager:94 - Request successfully processed
-23:19:23,397  INFO AgentConnectionManager:183 - Sending information back to client...
-23:19:28,135  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:21
-23:19:28,137  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:19:28,138  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:19:28,139  INFO ProtocolManager:94 - Request successfully processed
-23:19:28,139  INFO AgentConnectionManager:183 - Sending information back to client...
-23:19:30,196  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-23:19:30,197  INFO AgentConnectionManager:219 - Server has been shut down.
-23:19:30,200  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:21
-23:19:30,202  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:19:30,203  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:19:30,204  INFO ProtocolManager:94 - Request successfully processed
-23:19:30,205  INFO AgentConnectionManager:219 - Server has been shut down.
-23:20:16,971  INFO AgentConnectionManager:70 - Initializing server...
-23:20:17,034  INFO AgentConnectionManager:81 - ...initialization successful.
-23:20:26,608  INFO AgentConnectionManager:131 - Now accepting connection.
-23:20:26,612  INFO AgentConnectionManager:183 - Sending information back to client...
-23:20:33,940  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:104
-23:20:33,970  INFO I2cManager:28 - I2c read request, the selected slave address is 104.
-23:20:33,977  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-23:20:33,979  INFO ProtocolManager:94 - Request successfully processed
-23:20:33,980  INFO AgentConnectionManager:183 - Sending information back to client...
-23:20:44,985  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:14
-23:20:44,986  INFO I2cManager:28 - I2c read request, the selected slave address is 14.
-23:20:44,989  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-23:20:44,991  INFO ProtocolManager:94 - Request successfully processed
-23:20:44,992  INFO AgentConnectionManager:183 - Sending information back to client...
-23:20:47,209  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-23:20:47,211  INFO AgentConnectionManager:219 - Server has been shut down.
-23:20:47,220  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:14
-23:20:47,221  INFO I2cManager:28 - I2c read request, the selected slave address is 14.
-23:20:47,223  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-23:20:47,224  INFO ProtocolManager:94 - Request successfully processed
-23:20:47,225  INFO AgentConnectionManager:219 - Server has been shut down.
-23:27:34,333  INFO AgentConnectionManager:70 - Initializing server...
-23:27:34,434  INFO AgentConnectionManager:81 - ...initialization successful.
-23:27:44,216  INFO AgentConnectionManager:131 - Now accepting connection.
-23:27:44,219  INFO AgentConnectionManager:183 - Sending information back to client...
-23:27:52,548  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:27:52,594  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:27:52,606  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	26	17	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:27:52,612  INFO ProtocolManager:94 - Request successfully processed
-23:27:52,613  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:07,725  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:28:07,727  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:07,733  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	41	17	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:28:07,738  INFO ProtocolManager:94 - Request successfully processed
-23:28:07,740  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:17,662  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:28:17,664  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:17,675  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:28:17,676  INFO ProtocolManager:94 - Request successfully processed
-23:28:17,677  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:22,843  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:28:22,844  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:22,846  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:28:22,846  INFO ProtocolManager:94 - Request successfully processed
-23:28:22,847  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:24,748  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:28:24,750  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:24,751  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:28:24,752  INFO ProtocolManager:94 - Request successfully processed
-23:28:24,753  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:26,977  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:28:26,980  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:26,986  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:28:26,987  INFO ProtocolManager:94 - Request successfully processed
-23:28:26,988  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:28,938  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:28:28,940  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:28,942  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:28:28,943  INFO ProtocolManager:94 - Request successfully processed
-23:28:28,944  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:30,728  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68
-23:28:30,730  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:30,735  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	4	18	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:28:30,740  INFO ProtocolManager:94 - Request successfully processed
-23:28:30,741  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:34,812  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68
-23:28:34,814  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:34,819  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	8	18	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:28:34,824  INFO ProtocolManager:94 - Request successfully processed
-23:28:34,825  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:39,049  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68
-23:28:39,051  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:39,057  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	12	18	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:28:39,061  INFO ProtocolManager:94 - Request successfully processed
-23:28:39,062  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:52,776  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:28:52,778  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:52,779  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:28:52,780  INFO ProtocolManager:94 - Request successfully processed
-23:28:52,780  INFO AgentConnectionManager:183 - Sending information back to client...
-23:28:56,695  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:28:56,696  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:28:56,702  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	30	18	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:28:56,707  INFO ProtocolManager:94 - Request successfully processed
-23:28:56,707  INFO AgentConnectionManager:183 - Sending information back to client...
-23:29:03,816  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:29:03,818  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:29:03,823  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	37	18	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:29:03,828  INFO ProtocolManager:94 - Request successfully processed
-23:29:03,828  INFO AgentConnectionManager:183 - Sending information back to client...
-23:29:10,061  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:29:10,062  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:29:10,064  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:29:10,064  INFO ProtocolManager:94 - Request successfully processed
-23:29:10,065  INFO AgentConnectionManager:183 - Sending information back to client...
-23:29:12,046  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:29:12,048  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:29:12,049  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:29:12,050  INFO ProtocolManager:94 - Request successfully processed
-23:29:12,051  INFO AgentConnectionManager:183 - Sending information back to client...
-23:29:13,768  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:68:0
-23:29:13,770  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:29:13,771  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=0
-23:29:13,772  INFO ProtocolManager:94 - Request successfully processed
-23:29:13,773  INFO AgentConnectionManager:183 - Sending information back to client...
-23:29:21,929  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:29:21,931  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:29:21,936  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	55	18	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:29:21,941  INFO ProtocolManager:94 - Request successfully processed
-23:29:21,942  INFO AgentConnectionManager:183 - Sending information back to client...
-23:29:25,310  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:29:25,311  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:29:25,316  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	59	18	
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-23:29:25,322  INFO ProtocolManager:94 - Request successfully processed
-23:29:25,322  INFO AgentConnectionManager:183 - Sending information back to client...
-23:30:46,822  INFO AgentConnectionManager:70 - Initializing server...
-23:30:46,886  INFO AgentConnectionManager:81 - ...initialization successful.
-23:31:07,403  INFO AgentConnectionManager:131 - Now accepting connection.
-23:31:07,406  INFO AgentConnectionManager:183 - Sending information back to client...
-23:31:14,700  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:31:14,730  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:31:14,743  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-20	16	1	30	
-4	17	3	0	
-0	0	0	0	
-0	1	0	40	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	48	
-23:31:14,751  INFO ProtocolManager:94 - Request successfully processed
-23:31:14,752  INFO AgentConnectionManager:183 - Sending information back to client...
-23:31:19,679  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:31:19,681  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:31:19,689  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-20	16	1	30	
-4	17	3	0	
-0	0	0	0	
-0	1	0	40	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	53	
-23:31:19,697  INFO ProtocolManager:94 - Request successfully processed
-23:31:19,698  INFO AgentConnectionManager:183 - Sending information back to client...
-23:31:24,241  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:31:24,243  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:31:24,260  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-20	16	1	30	
-4	17	3	0	
-0	0	0	0	
-0	1	0	40	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	58	
-23:31:24,268  INFO ProtocolManager:94 - Request successfully processed
-23:31:24,269  INFO AgentConnectionManager:183 - Sending information back to client...
-23:31:26,571  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:31:26,573  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:31:26,581  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-21	16	1	30	
-4	17	3	0	
-0	0	0	0	
-0	1	0	40	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-23:31:26,588  INFO ProtocolManager:94 - Request successfully processed
-23:31:26,589  INFO AgentConnectionManager:183 - Sending information back to client...
-23:31:28,981  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:31:28,982  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:31:28,990  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-21	16	1	30	
-4	17	3	0	
-0	0	0	0	
-0	1	0	40	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	2	
-23:31:28,998  INFO ProtocolManager:94 - Request successfully processed
-23:31:28,999  INFO AgentConnectionManager:183 - Sending information back to client...
-23:31:40,171  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:31:40,173  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:31:40,181  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-21	16	1	30	
-4	17	3	0	
-0	0	0	0	
-0	1	0	40	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	13	
-23:31:40,188  INFO ProtocolManager:94 - Request successfully processed
-23:31:40,189  INFO AgentConnectionManager:183 - Sending information back to client...
-23:31:42,320  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-23:31:42,321  INFO AgentConnectionManager:219 - Server has been shut down.
-23:31:42,324  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:31:42,325  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:31:42,333  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-21	16	1	30	
-4	17	3	0	
-0	0	0	0	
-0	1	0	40	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-10	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	16	
-23:31:42,340  INFO ProtocolManager:94 - Request successfully processed
-23:31:42,342  INFO AgentConnectionManager:219 - Server has been shut down.
-23:32:41,480  INFO AgentConnectionManager:70 - Initializing server...
-23:32:41,548  INFO AgentConnectionManager:81 - ...initialization successful.
-23:32:49,571  INFO AgentConnectionManager:131 - Now accepting connection.
-23:32:49,574  INFO AgentConnectionManager:183 - Sending information back to client...
-23:32:55,552  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:32:55,583  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:32:55,596  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	29	22	
-23:32:55,603  INFO ProtocolManager:94 - Request successfully processed
-23:32:55,604  INFO AgentConnectionManager:183 - Sending information back to client...
-23:32:59,586  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:32:59,588  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:32:59,597  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	33	22	
-23:32:59,605  INFO ProtocolManager:94 - Request successfully processed
-23:32:59,606  INFO AgentConnectionManager:183 - Sending information back to client...
-23:33:11,726  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-23:33:11,728  INFO AgentConnectionManager:219 - Server has been shut down.
-23:33:11,740  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:33:11,742  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:33:11,750  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-16	1	30	4	
-17	3	0	0	
-0	0	0	0	
-1	0	40	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	10	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	0	0	
-0	0	45	22	
-23:33:11,758  INFO ProtocolManager:94 - Request successfully processed
-23:33:11,759  INFO AgentConnectionManager:219 - Server has been shut down.
-23:35:05,299  INFO AgentConnectionManager:70 - Initializing server...
-23:35:05,403  INFO AgentConnectionManager:81 - ...initialization successful.
-23:35:16,825  INFO AgentConnectionManager:131 - Now accepting connection.
-23:35:16,828  INFO AgentConnectionManager:183 - Sending information back to client...
-23:35:27,907  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:35:27,956  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:35:27,966  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-ffffff80	0	0	1	
-1	1	0	3	
-12	0	9	50	
-2	1a	9	3	
-5c	50	22	18	
-ffffffb7	19	15	40	
-30	8	61	1a	
-ffffffd7	12	ffffff90	ffffff99	
-ffffff88	1e	24	20	
-ffffff9a	60	0	30	
-2a	60	b	0	
-11	20	68	1	
-8	48	1a	4	
-9	23	50	ffffffa9	
-45	4a	48	3	
-ffffff89	2	45	50	
-23:35:27,971  INFO ProtocolManager:94 - Request successfully processed
-23:35:27,972  INFO AgentConnectionManager:183 - Sending information back to client...
-23:35:50,872  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:35:50,874  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:35:50,880  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-ffffff80	0	0	1	
-1	1	0	3	
-12	0	9	50	
-2	1a	9	3	
-5c	50	22	18	
-ffffffb7	19	15	40	
-30	8	61	1a	
-ffffffd7	12	ffffff90	ffffff99	
-ffffff88	1e	24	20	
-ffffff9a	60	0	30	
-2a	60	b	0	
-11	20	68	1	
-8	48	1a	4	
-9	23	50	ffffffa9	
-45	4a	48	3	
-ffffff89	2	45	50	
-23:35:50,886  INFO ProtocolManager:94 - Request successfully processed
-23:35:50,888  INFO AgentConnectionManager:183 - Sending information back to client...
-23:35:54,408  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:35:54,411  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:35:54,426  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-ffffff80	0	0	1	
-1	1	0	3	
-12	0	9	50	
-2	1a	9	3	
-5c	50	22	18	
-ffffffb7	19	15	40	
-30	8	61	1a	
-ffffffd7	12	ffffff90	ffffff99	
-ffffff88	1e	24	20	
-ffffff9a	60	0	30	
-2a	60	b	0	
-11	20	68	1	
-8	48	1a	4	
-9	23	50	ffffffa9	
-45	4a	48	3	
-ffffff89	2	45	50	
-23:35:54,432  INFO ProtocolManager:94 - Request successfully processed
-23:35:54,433  INFO AgentConnectionManager:183 - Sending information back to client...
-23:35:58,172  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:35:58,175  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:35:58,180  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-ffffff80	0	0	1	
-1	1	0	3	
-12	0	9	50	
-2	1a	9	3	
-5c	50	22	18	
-ffffffb7	19	15	40	
-30	8	61	1a	
-ffffffd7	12	ffffff90	ffffff99	
-ffffff88	1e	24	20	
-ffffff9a	60	0	30	
-2a	60	b	0	
-11	20	68	1	
-8	48	1a	4	
-9	23	50	ffffffa9	
-45	4a	48	3	
-ffffff89	2	45	50	
-23:35:58,185  INFO ProtocolManager:94 - Request successfully processed
-23:35:58,186  INFO AgentConnectionManager:183 - Sending information back to client...
-23:36:00,982  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:36:00,984  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:36:00,990  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-ffffff80	0	0	1	
-1	1	0	3	
-12	0	9	50	
-2	1a	9	3	
-5c	50	22	18	
-ffffffb7	19	15	40	
-30	8	61	1a	
-ffffffd7	12	ffffff90	ffffff99	
-ffffff88	1e	24	20	
-ffffff9a	60	0	30	
-2a	60	b	0	
-11	20	68	1	
-8	48	1a	4	
-9	23	50	ffffffa9	
-45	4a	48	3	
-ffffff89	2	45	50	
-23:36:00,995  INFO ProtocolManager:94 - Request successfully processed
-23:36:00,996  INFO AgentConnectionManager:183 - Sending information back to client...
-23:36:03,307  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:36:03,309  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:36:03,315  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-ffffff80	0	0	1	
-1	1	0	3	
-12	0	9	50	
-2	1a	9	3	
-5c	50	22	18	
-ffffffb7	19	15	40	
-30	8	61	1a	
-ffffffd7	12	ffffff90	ffffff99	
-ffffff88	1e	24	20	
-ffffff9a	60	0	30	
-2a	60	b	0	
-11	20	68	1	
-8	48	1a	4	
-9	23	50	ffffffa9	
-45	4a	48	3	
-ffffff89	2	45	50	
-23:36:03,320  INFO ProtocolManager:94 - Request successfully processed
-23:36:03,321  INFO AgentConnectionManager:183 - Sending information back to client...
-23:41:56,941  INFO AgentConnectionManager:70 - Initializing server...
-23:41:57,008  INFO AgentConnectionManager:81 - ...initialization successful.
-23:42:06,253  INFO AgentConnectionManager:131 - Now accepting connection.
-23:42:06,256  INFO AgentConnectionManager:183 - Sending information back to client...
-23:42:13,713  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:42:13,746  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:42:13,760  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-42	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	13	
-23:42:13,768  INFO ProtocolManager:94 - Request successfully processed
-23:42:13,769  INFO AgentConnectionManager:183 - Sending information back to client...
-23:42:19,982  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:42:19,984  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:42:19,993  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-42	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	19	
-23:42:20,001  INFO ProtocolManager:94 - Request successfully processed
-23:42:20,003  INFO AgentConnectionManager:183 - Sending information back to client...
-23:42:22,773  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:42:22,776  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:42:22,795  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-42	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	22	
-23:42:22,802  INFO ProtocolManager:94 - Request successfully processed
-23:42:22,803  INFO AgentConnectionManager:183 - Sending information back to client...
-23:42:28,208  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-23:42:28,209  INFO AgentConnectionManager:219 - Server has been shut down.
-23:42:28,212  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:42:28,214  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:42:28,222  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-42	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	27	
-23:42:28,230  INFO ProtocolManager:94 - Request successfully processed
-23:42:28,231  INFO AgentConnectionManager:219 - Server has been shut down.
-23:42:53,537  INFO AgentConnectionManager:70 - Initializing server...
-23:42:53,605  INFO AgentConnectionManager:81 - ...initialization successful.
-23:43:10,949  INFO AgentConnectionManager:131 - Now accepting connection.
-23:43:10,952  INFO AgentConnectionManager:183 - Sending information back to client...
-23:43:15,726  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:43:15,750  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:43:15,762  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-43	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	15	
-23:43:15,770  INFO ProtocolManager:94 - Request successfully processed
-23:43:15,771  INFO AgentConnectionManager:183 - Sending information back to client...
-23:43:19,751  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:43:19,753  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:43:19,762  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-43	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	19	
-23:43:19,770  INFO ProtocolManager:94 - Request successfully processed
-23:43:19,772  INFO AgentConnectionManager:183 - Sending information back to client...
-23:43:23,119  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:43:23,121  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:43:23,139  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-43	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	22	
-23:43:23,147  INFO ProtocolManager:94 - Request successfully processed
-23:43:23,148  INFO AgentConnectionManager:183 - Sending information back to client...
-23:43:28,301  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:43:28,303  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:43:28,311  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-43	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	27	
-23:43:28,318  INFO ProtocolManager:94 - Request successfully processed
-23:43:28,319  INFO AgentConnectionManager:183 - Sending information back to client...
-23:44:04,224  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:44:04,226  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:44:04,234  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-44	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	3	
-23:44:04,241  INFO ProtocolManager:94 - Request successfully processed
-23:44:04,243  INFO AgentConnectionManager:183 - Sending information back to client...
-23:44:09,013  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:44:09,015  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:44:09,023  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-44	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	8	
-23:44:09,030  INFO ProtocolManager:94 - Request successfully processed
-23:44:09,031  INFO AgentConnectionManager:183 - Sending information back to client...
-23:44:27,701  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:44:27,702  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:44:27,710  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-44	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	27	
-23:44:27,717  INFO ProtocolManager:94 - Request successfully processed
-23:44:27,718  INFO AgentConnectionManager:183 - Sending information back to client...
-23:44:37,010  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:44:37,019  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:44:37,027  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-44	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	36	
-23:44:37,034  INFO ProtocolManager:94 - Request successfully processed
-23:44:37,035  INFO AgentConnectionManager:183 - Sending information back to client...
-23:44:52,028  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:44:52,030  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:44:52,038  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-44	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	51	
-23:44:52,045  INFO ProtocolManager:94 - Request successfully processed
-23:44:52,046  INFO AgentConnectionManager:183 - Sending information back to client...
-23:44:58,678  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:44:58,679  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:44:58,687  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-44	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	58	
-23:44:58,694  INFO ProtocolManager:94 - Request successfully processed
-23:44:58,695  INFO AgentConnectionManager:183 - Sending information back to client...
-23:45:02,796  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:45:02,798  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:45:02,806  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-45	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	2	
-23:45:02,813  INFO ProtocolManager:94 - Request successfully processed
-23:45:02,814  INFO AgentConnectionManager:183 - Sending information back to client...
-23:45:09,510  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:45:09,511  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:45:09,528  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-45	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	9	
-23:45:09,535  INFO ProtocolManager:94 - Request successfully processed
-23:45:09,536  INFO AgentConnectionManager:183 - Sending information back to client...
-23:45:14,432  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-23:45:14,433  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-23:45:14,448  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-45	23	7	29	
-4	17	3	12	
-0	9	50	2	
-1a	9	3	5c	
-50	22	18	ffffffb7	
-19	15	40	30	
-8	61	1a	ffffffd7	
-12	ffffff90	ffffff99	ffffff88	
-1e	24	20	ffffff9a	
-60	0	30	2a	
-60	b	0	11	
-20	68	1	8	
-48	1a	4	9	
-23	50	ffffffa9	45	
-4a	48	3	ffffff89	
-2	45	50	13	
-23:45:14,455  INFO ProtocolManager:94 - Request successfully processed
-23:45:14,456  INFO AgentConnectionManager:183 - Sending information back to client...
-16:47:23,195  INFO AgentConnectionManager:70 - Initializing server...
-16:47:23,247  INFO AgentConnectionManager:81 - ...initialization successful.
-16:47:39,341  INFO AgentConnectionManager:131 - Now accepting connection.
-16:47:39,343  INFO AgentConnectionManager:183 - Sending information back to client...
-16:47:44,701  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:47:44,729  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:47:44,743  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	44	47	16	
-1	30	4	17	
-16:47:44,751  INFO ProtocolManager:94 - Request successfully processed
-16:47:44,752  INFO AgentConnectionManager:183 - Sending information back to client...
-16:47:57,305  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:47:57,307  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:47:57,315  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	56	47	16	
-1	30	4	17	
-16:47:57,323  INFO ProtocolManager:94 - Request successfully processed
-16:47:57,324  INFO AgentConnectionManager:183 - Sending information back to client...
-16:48:01,155  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:48:01,163  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:48:01,179  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	0	48	16	
-1	30	4	17	
-16:48:01,187  INFO ProtocolManager:94 - Request successfully processed
-16:48:01,187  INFO AgentConnectionManager:183 - Sending information back to client...
-16:48:04,718  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:48:04,719  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:48:04,727  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	4	48	16	
-1	30	4	17	
-16:48:04,734  INFO ProtocolManager:94 - Request successfully processed
-16:48:04,735  INFO AgentConnectionManager:183 - Sending information back to client...
-16:48:09,091  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:48:09,093  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:48:09,101  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	8	48	16	
-1	30	4	17	
-16:48:09,109  INFO ProtocolManager:94 - Request successfully processed
-16:48:09,110  INFO AgentConnectionManager:183 - Sending information back to client...
-16:48:26,307  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:48:26,309  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:48:26,317  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	25	48	16	
-1	30	4	17	
-16:48:26,324  INFO ProtocolManager:94 - Request successfully processed
-16:48:26,325  INFO AgentConnectionManager:183 - Sending information back to client...
-16:48:30,539  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-16:48:30,540  INFO AgentConnectionManager:219 - Server has been shut down.
-16:48:30,543  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:48:30,545  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:48:30,552  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	30	48	16	
-1	30	4	17	
-16:48:30,560  INFO ProtocolManager:94 - Request successfully processed
-16:48:30,562  INFO AgentConnectionManager:219 - Server has been shut down.
-16:49:31,961  INFO AgentConnectionManager:70 - Initializing server...
-16:49:32,025  INFO AgentConnectionManager:81 - ...initialization successful.
-16:49:46,474  INFO AgentConnectionManager:131 - Now accepting connection.
-16:49:46,477  INFO AgentConnectionManager:183 - Sending information back to client...
-16:49:51,794  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:49:51,822  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:49:51,836  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	51	49	16	
-1	30	4	17	
-16:49:51,844  INFO ProtocolManager:94 - Request successfully processed
-16:49:51,845  INFO AgentConnectionManager:183 - Sending information back to client...
-16:49:57,230  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:49:57,232  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:49:57,241  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	56	49	16	
-1	30	4	17	
-16:49:57,249  INFO ProtocolManager:94 - Request successfully processed
-16:49:57,251  INFO AgentConnectionManager:183 - Sending information back to client...
-16:50:06,212  INFO AgentConnectionManager:202 - Read request WARNING: there is nothing to read, closing connection...
-16:50:06,213  INFO AgentConnectionManager:219 - Server has been shut down.
-16:50:06,226  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READALL:68
-16:50:06,228  INFO I2cManager:28 - I2c read request, the selected slave address is 68.
-16:50:06,236  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=
-3	12	0	9	
-50	2	1a	9	
-3	5c	50	22	
-18	ffffffb7	19	15	
-40	30	8	61	
-1a	ffffffd7	12	ffffff90	
-ffffff99	ffffff88	1e	24	
-20	ffffff9a	60	0	
-30	2a	60	b	
-0	11	20	68	
-1	8	48	1a	
-4	9	23	50	
-ffffffa9	45	4a	48	
-3	ffffff89	2	45	
-50	5	50	16	
-1	30	4	17	
-16:50:06,244  INFO ProtocolManager:94 - Request successfully processed
-16:50:06,245  INFO AgentConnectionManager:219 - Server has been shut down.
+21:38:00,233  INFO I2cManager:72 - I2c write request from position 1 and of length 1
+21:38:00,240  INFO I2cManager:42 - I2c read request from position 1 and of length 1
+21:38:00,242  INFO I2cManager:42 - I2c read request from position 1 and of length 1
+21:38:00,244  INFO ProtocolManager:94 - Request successfully processed
+21:38:00,245  INFO AgentConnectionManager:189 - Sending information back to client...
+21:38:05,677  INFO ProtocolManager:91 - Captured request is about to get processed i2c:READ:0x68:0x1
+21:38:05,702  INFO I2cManager:42 - I2c read request from position 1 and of length 1
+21:38:05,704  INFO ProtocolManager:109 - Request of type class request.read.I2cReadRequest has been submitted, the result was=85 0x55
+21:38:05,705  INFO I2cManager:42 - I2c read request from position 1 and of length 1
+21:38:05,707  INFO ProtocolManager:94 - Request successfully processed
+21:38:05,708  INFO AgentConnectionManager:189 - Sending information back to client...
+21:38:12,565  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:38:12,567  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60918
+21:38:12,571  INFO AgentConnectionManager:70 - Initializing server...
+21:38:12,572  INFO AgentConnectionManager:81 - ...initialization successful.
+21:42:46,655  INFO AgentConnectionManager:70 - Initializing server...
+21:42:46,722  INFO AgentConnectionManager:81 - ...initialization successful.
+21:42:57,862  INFO AgentConnectionManager:137 - Now accepting connection.
+21:42:57,863  INFO AgentConnectionManager:189 - Sending information back to client...
+21:43:08,948  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:43:08,966  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60924
+21:43:08,972  INFO AgentConnectionManager:70 - Initializing server...
+21:43:08,974  INFO AgentConnectionManager:81 - ...initialization successful.
+21:43:14,959  INFO AgentConnectionManager:137 - Now accepting connection.
+21:43:14,960  INFO AgentConnectionManager:189 - Sending information back to client...
+21:43:28,467  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:43:28,469  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60928
+21:43:28,470  INFO AgentConnectionManager:70 - Initializing server...
+21:43:28,478  INFO AgentConnectionManager:81 - ...initialization successful.
+21:44:08,715  INFO AgentConnectionManager:137 - Now accepting connection.
+21:44:08,717  INFO AgentConnectionManager:189 - Sending information back to client...
+21:44:21,431  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:44:21,433  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60932
+21:44:21,434  INFO AgentConnectionManager:70 - Initializing server...
+21:44:21,435  INFO AgentConnectionManager:81 - ...initialization successful.
+21:44:23,584  INFO AgentConnectionManager:137 - Now accepting connection.
+21:44:23,585  INFO AgentConnectionManager:189 - Sending information back to client...
+21:44:24,229  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:44:24,230  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60936
+21:44:24,231  INFO AgentConnectionManager:70 - Initializing server...
+21:44:24,232  INFO AgentConnectionManager:81 - ...initialization successful.
+21:44:25,090  INFO AgentConnectionManager:137 - Now accepting connection.
+21:44:25,091  INFO AgentConnectionManager:189 - Sending information back to client...
+21:44:25,638  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:44:25,640  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60940
+21:44:25,641  INFO AgentConnectionManager:70 - Initializing server...
+21:44:25,642  INFO AgentConnectionManager:81 - ...initialization successful.
+21:44:26,026  INFO AgentConnectionManager:137 - Now accepting connection.
+21:44:26,027  INFO AgentConnectionManager:189 - Sending information back to client...
+21:44:26,222  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:44:26,224  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60944
+21:44:26,225  INFO AgentConnectionManager:70 - Initializing server...
+21:44:26,226  INFO AgentConnectionManager:81 - ...initialization successful.
+21:44:26,435  INFO AgentConnectionManager:137 - Now accepting connection.
+21:44:26,537  INFO AgentConnectionManager:189 - Sending information back to client...
+21:44:26,578  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:44:26,579  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60948
+21:44:26,580  INFO AgentConnectionManager:70 - Initializing server...
+21:44:26,581  INFO AgentConnectionManager:81 - ...initialization successful.
+21:46:24,964  INFO AgentConnectionManager:70 - Initializing server...
+21:46:25,030  INFO AgentConnectionManager:81 - ...initialization successful.
+21:46:39,779  INFO AgentConnectionManager:137 - Now accepting connection.
+21:46:39,781  INFO AgentConnectionManager:189 - Sending information back to client...
+21:46:58,249  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:46:58,251  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:60954
+21:46:58,255  INFO AgentConnectionManager:70 - Initializing server...
+21:46:58,257  INFO AgentConnectionManager:81 - ...initialization successful.
+21:50:48,081  INFO AgentConnectionManager:70 - Initializing server...
+21:50:48,141  INFO AgentConnectionManager:81 - ...initialization successful.
+21:51:20,625  INFO AgentConnectionManager:137 - Now accepting connection.
+21:51:20,626  INFO AgentConnectionManager:189 - Sending information back to client...
+21:51:23,735  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:51:23,738  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32800
+21:51:23,741  INFO AgentConnectionManager:70 - Initializing server...
+21:51:23,742  INFO AgentConnectionManager:81 - ...initialization successful.
+21:51:24,314  INFO AgentConnectionManager:137 - Now accepting connection.
+21:51:24,315  INFO AgentConnectionManager:189 - Sending information back to client...
+21:51:25,089  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:51:25,090  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32804
+21:51:25,091  INFO AgentConnectionManager:70 - Initializing server...
+21:51:25,092  INFO AgentConnectionManager:81 - ...initialization successful.
+21:51:25,722  INFO AgentConnectionManager:137 - Now accepting connection.
+21:51:25,723  INFO AgentConnectionManager:189 - Sending information back to client...
+21:51:33,360  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:51:33,361  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32808
+21:51:33,362  INFO AgentConnectionManager:70 - Initializing server...
+21:51:33,364  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:01,177  INFO AgentConnectionManager:70 - Initializing server...
+21:54:01,245  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:12,798  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:12,800  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:17,300  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:17,302  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32812
+21:54:17,305  INFO AgentConnectionManager:70 - Initializing server...
+21:54:17,306  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:17,471  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:17,471  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:17,637  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:17,638  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32816
+21:54:17,639  INFO AgentConnectionManager:70 - Initializing server...
+21:54:17,640  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:17,808  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:17,810  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:17,958  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:17,960  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32820
+21:54:17,961  INFO AgentConnectionManager:70 - Initializing server...
+21:54:17,962  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:18,121  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:18,122  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:18,277  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:18,278  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32824
+21:54:18,279  INFO AgentConnectionManager:70 - Initializing server...
+21:54:18,281  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:18,448  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:18,449  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:18,605  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:18,607  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32828
+21:54:18,608  INFO AgentConnectionManager:70 - Initializing server...
+21:54:18,609  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:18,785  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:18,786  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:18,972  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:18,973  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32832
+21:54:18,974  INFO AgentConnectionManager:70 - Initializing server...
+21:54:18,975  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:19,138  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:19,139  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:19,312  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:19,313  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32836
+21:54:19,314  INFO AgentConnectionManager:70 - Initializing server...
+21:54:19,315  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:19,506  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:19,507  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:19,648  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:19,649  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32840
+21:54:19,650  INFO AgentConnectionManager:70 - Initializing server...
+21:54:19,652  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:19,859  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:19,860  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:20,041  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:20,042  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32844
+21:54:20,043  INFO AgentConnectionManager:70 - Initializing server...
+21:54:20,045  INFO AgentConnectionManager:81 - ...initialization successful.
+21:54:20,211  INFO AgentConnectionManager:137 - Now accepting connection.
+21:54:20,212  INFO AgentConnectionManager:189 - Sending information back to client...
+21:54:20,360  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:54:20,361  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32848
+21:54:20,362  INFO AgentConnectionManager:70 - Initializing server...
+21:54:20,363  INFO AgentConnectionManager:81 - ...initialization successful.
+21:57:22,755  INFO AgentConnectionManager:70 - Initializing server...
+21:57:22,823  INFO AgentConnectionManager:81 - ...initialization successful.
+21:58:19,916  INFO AgentConnectionManager:137 - Now accepting connection.
+21:58:19,918  INFO AgentConnectionManager:189 - Sending information back to client...
+21:59:09,237  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+21:59:09,240  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32856
+21:59:09,244  INFO AgentConnectionManager:70 - Initializing server...
+21:59:09,245  INFO AgentConnectionManager:81 - ...initialization successful.
+22:01:36,454  INFO AgentConnectionManager:70 - Initializing server...
+22:01:36,522  INFO AgentConnectionManager:81 - ...initialization successful.
+22:01:46,392  INFO AgentConnectionManager:137 - Now accepting connection.
+22:01:46,393  INFO AgentConnectionManager:189 - Sending information back to client...
+22:02:20,835  INFO AgentConnectionManager:70 - Initializing server...
+22:02:20,901  INFO AgentConnectionManager:81 - ...initialization successful.
+22:04:28,879  INFO AgentConnectionManager:137 - Now accepting connection.
+22:04:28,880  INFO AgentConnectionManager:189 - Sending information back to client...
+22:04:30,698  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_3
+22:04:30,724  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:04:30,726  INFO ProtocolManager:94 - Request successfully processed
+22:04:30,727  INFO AgentConnectionManager:189 - Sending information back to client...
+22:04:53,354  INFO AgentConnectionManager:70 - Initializing server...
+22:04:53,420  INFO AgentConnectionManager:81 - ...initialization successful.
+22:09:10,930  INFO AgentConnectionManager:70 - Initializing server...
+22:09:10,997  INFO AgentConnectionManager:81 - ...initialization successful.
+22:09:22,574  INFO AgentConnectionManager:137 - Now accepting connection.
+22:09:22,576  INFO AgentConnectionManager:189 - Sending information back to client...
+22:09:26,448  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_7
+22:09:26,483  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:09:26,486  INFO ProtocolManager:94 - Request successfully processed
+22:09:26,488  INFO AgentConnectionManager:189 - Sending information back to client...
+22:09:26,929  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_5
+22:09:26,930  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:09:26,932  INFO ProtocolManager:94 - Request successfully processed
+22:09:26,932  INFO AgentConnectionManager:189 - Sending information back to client...
+22:09:27,201  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_3
+22:09:27,203  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:09:27,204  INFO ProtocolManager:94 - Request successfully processed
+22:09:27,205  INFO AgentConnectionManager:189 - Sending information back to client...
+22:10:03,953  INFO AgentConnectionManager:70 - Initializing server...
+22:10:04,020  INFO AgentConnectionManager:81 - ...initialization successful.
+22:10:07,050  INFO AgentConnectionManager:137 - Now accepting connection.
+22:10:07,052  INFO AgentConnectionManager:189 - Sending information back to client...
+22:10:13,339  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+22:10:13,342  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32876
+22:10:13,346  INFO AgentConnectionManager:70 - Initializing server...
+22:10:13,348  INFO AgentConnectionManager:81 - ...initialization successful.
+22:11:35,614  INFO AgentConnectionManager:70 - Initializing server...
+22:11:35,683  INFO AgentConnectionManager:81 - ...initialization successful.
+22:11:36,445  INFO AgentConnectionManager:137 - Now accepting connection.
+22:11:36,447  INFO AgentConnectionManager:189 - Sending information back to client...
+22:11:38,879  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_3
+22:11:38,914  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:11:38,918  INFO ProtocolManager:94 - Request successfully processed
+22:11:38,919  INFO AgentConnectionManager:189 - Sending information back to client...
+22:11:39,155  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_5
+22:11:39,157  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:11:39,159  INFO ProtocolManager:94 - Request successfully processed
+22:11:39,160  INFO AgentConnectionManager:189 - Sending information back to client...
+22:11:39,711  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_7
+22:11:39,713  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:11:39,715  INFO ProtocolManager:94 - Request successfully processed
+22:11:39,717  INFO AgentConnectionManager:189 - Sending information back to client...
+22:13:16,357  INFO AgentConnectionManager:70 - Initializing server...
+22:13:16,424  INFO AgentConnectionManager:81 - ...initialization successful.
+22:13:23,200  INFO AgentConnectionManager:137 - Now accepting connection.
+22:13:23,201  INFO AgentConnectionManager:189 - Sending information back to client...
+22:13:26,598  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_3
+22:13:26,624  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:13:26,627  INFO ProtocolManager:94 - Request successfully processed
+22:13:26,628  INFO AgentConnectionManager:189 - Sending information back to client...
+22:13:27,105  INFO ProtocolManager:91 - Captured request is about to get processed gpio:read:P1_5
+22:13:27,106  INFO ProtocolManager:109 - Request of type class request.read.GpioReadRequest has been submitted, the result was=0
+22:13:27,108  INFO ProtocolManager:94 - Request successfully processed
+22:13:27,109  INFO AgentConnectionManager:189 - Sending information back to client...
+22:14:05,333  INFO AgentConnectionManager:70 - Initializing server...
+22:14:05,400  INFO AgentConnectionManager:81 - ...initialization successful.
+22:14:08,985  INFO AgentConnectionManager:137 - Now accepting connection.
+22:14:08,986  INFO AgentConnectionManager:189 - Sending information back to client...
+22:14:12,296  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+22:14:12,298  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32894
+22:14:12,301  INFO AgentConnectionManager:70 - Initializing server...
+22:14:12,302  INFO AgentConnectionManager:81 - ...initialization successful.
+22:14:21,808  INFO AgentConnectionManager:137 - Now accepting connection.
+22:14:21,810  INFO AgentConnectionManager:189 - Sending information back to client...
+22:14:23,314  INFO AgentConnectionManager:208 - Read request WARNING: there is nothing to read, closing connection...
+22:14:23,316  INFO AgentConnectionManager:223 - Connection closed with /169.254.0.3:32898
+22:14:23,317  INFO AgentConnectionManager:70 - Initializing server...
+22:14:23,319  INFO AgentConnectionManager:81 - ...initialization successful.

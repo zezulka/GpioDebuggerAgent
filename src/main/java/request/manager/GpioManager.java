@@ -10,12 +10,16 @@ import request.IllegalRequestException;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class GpioManager implements InterfaceManager {
+public class GpioManager {
 
     private static final GpioManager INSTANCE = new GpioManager();
     private static final String ON = "1";
     private static final String OFF = "0";
-    public static final String RESPONSE_FORMAT = "Voltage level of pin '%s' is %s";
+    public static final String RESPONSE_FORMAT = "Gpio request response\n"+
+                                                  "Pin voltage: %s\n"+
+                                                  "Gpio address: %d\n"+
+                                                  "Port index: %d\n"+
+                                                  "Name: %s\n";
 
     private GpioManager() {
     }
@@ -36,20 +40,15 @@ public class GpioManager implements InterfaceManager {
      * {@code 1: Signal.HIGH, 0: Signal.LOW}
      * @throws request.IllegalRequestException
      */
-    @Override
-    public String read(String descriptor) throws IllegalRequestException {
-        if (descriptor == null) {
-            throw new IllegalRequestException("descriptor cannot be null");
-        }
-        Pin pin = DeviceManager.getPin(descriptor);
+    public String read(Pin pin) throws IllegalRequestException {
         if (pin == null) {
-            throw new IllegalRequestException("descriptor does not have any mapping to it on this board");
+            throw new IllegalRequestException("pin cannot be null");
         }
         return Integer.toString(pin.getFeature(DigitalIOFeature.class).read().getNumericValue());
     }
 
-    public boolean getBooleanRead(String descriptor) throws IllegalRequestException {
-        return read(descriptor).equals(ON);
+    public boolean getBooleanRead(Pin pin) throws IllegalRequestException {
+        return read(pin).equals(ON);
     }
 
 
@@ -59,9 +58,7 @@ public class GpioManager implements InterfaceManager {
      * @param message
      * @throws IllegalRequestException
      */
-    @Override
-    public void write(String descriptor, String message) throws IllegalRequestException {
-        Pin pin = DeviceManager.getPin(descriptor);
+    public void write(Pin pin, String message) throws IllegalRequestException {
         if (pin == null) {
             throw new IllegalRequestException("descriptor does not have any mapping to it on this board");
         }

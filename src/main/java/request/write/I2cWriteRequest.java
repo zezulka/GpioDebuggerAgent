@@ -15,10 +15,10 @@ import request.manager.I2cManager;
 public class I2cWriteRequest implements WriteRequest {
 
     private static I2cManager MANAGER;
-    private final String content;
+    private final byte[] content;
     private int registerAddress;
 
-    public I2cWriteRequest(int slaveAddress, int registerAddress, String content) {
+    public I2cWriteRequest(int slaveAddress, int registerAddress, byte[] content) {
         if(content == null) {
             throw new IllegalArgumentException("content cannot be null");
         }
@@ -35,13 +35,14 @@ public class I2cWriteRequest implements WriteRequest {
 
     @Override
     public void write() {
-        MANAGER.writeIntoI2c(this.content);
+        MANAGER.writeIntoI2c(this.registerAddress, this.content);
     }
 
     @Override
     public void giveFeedbackToClient() {
+      MANAGER.readFromI2c(this.registerAddress, content.length);
         ProtocolManager.getInstance().setMessageToSend("Write I2c request has been"
-                + "submitted; result="+ MANAGER.readFromI2c());
+                + " submitted, result:\n"+ MANAGER.readFromI2c(this.registerAddress, content.length));
     }
 
 

@@ -46,7 +46,7 @@ public class WriteRequestFactory {
                 int desiredVoltage;
                 Pin pin;
                 try {
-                    desiredVoltage = Integer.parseInt(content2);
+                    desiredVoltage = Integer.decode(content2);
                     pin = DeviceManager.getPin(content1);
                     if (pin == null) {
                         throw new IllegalRequestException("pin with the given descriptor has not been found");
@@ -68,12 +68,17 @@ public class WriteRequestFactory {
             int slaveAddress;
             int registerAddress;
             try {
-                slaveAddress = Integer.parseInt(content, 16);
-                registerAddress = Integer.parseInt(content1, 16);
+                slaveAddress = Integer.decode(content);
+                registerAddress = Integer.decode(content1);
             } catch(NumberFormatException nfe) {
                 throw new IllegalRequestException(nfe);
             }
-            return new I2cWriteRequest(slaveAddress, registerAddress, content2);
+            String[] bytesStr = content2.split(" ");
+            byte[] bytes = new byte[bytesStr.length];
+            for(int i = 0; i < bytesStr.length; i++) {
+                bytes[i] = Byte.decode(bytesStr[i]);
+            }
+            return new I2cWriteRequest(slaveAddress, registerAddress, bytes);
           }
           default:
              throw new UnsupportedOperationException("Not supported yet.");

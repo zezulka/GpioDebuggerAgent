@@ -19,9 +19,12 @@ public class RequestParser {
      * <ul>
      * <li>GPIO:READ:{PIN_NAME}</li>
      * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
-     * <li>I2C:READALL:{SLAVE_ADDRESS_HEX}{:INTERFACE_NAME}?</li>
      * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?</li>
-     * <li>I2C:WRITE{:INTERFACE_NAME}?:{CONTENT}</li>
+     * <li>I2C:READRANGE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}{:INTERFACE_NAME}?</li>
+     * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}{:INTERFACE_NAME}?</li>
+     * <li>I2C:WRITERANGE:{SLAVE_ADDRESS_HEX}
+                  :{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}
+                  :{CONTENT[]}{:INTERFACE_NAME}?</li>
      * </ul>
      * ,':' being the delimiter symbol.
      *
@@ -38,7 +41,7 @@ public class RequestParser {
         if (clientInput == null) {
             throw new IllegalRequestException("request cannot be null");
         }
-        String[] request = clientInput.split(SEPARATOR, 4);
+        String[] request = clientInput.split(SEPARATOR, 7);
         Interface interfc;
         Operation op;
         try {
@@ -49,29 +52,34 @@ public class RequestParser {
         }
 
         switch (op) {
-            case READALL: {
-                if(request.length < 3) {
-                  throw new IllegalRequestException("too few arguments for I2c read operation. Usage:\n" +
-                                                    "I2C:READALL:{SLAVE_ADDRESS_HEX}{:INTERFACE_NAME}?");
-                } else {
-                    return ReadRequestFactory.of(interfc, request[2]);
-                }
-            }
             case READ: {
                 if(request.length < 3) {
-                    throw new IllegalRequestException("too few arguments for I2c read operation (register specific). Usage:\n" +
-                                                      "I2C:READ:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?");
+                    throw new IllegalRequestException("too few arguments");
                 } else if(request.length == 3) {
                    return ReadRequestFactory.of(interfc, request[2]);
                 } else if(request.length == 4) {
                    return ReadRequestFactory.of(interfc, request[2], request[3]);
                 }
             }
+            case READRANGE: {
+              if(request.length < 5) {
+                  throw new IllegalRequestException("too few arguments");
+              } else if(request.length == 5) {
+                  return ReadRequestFactory.ofRange(interfc, request[2], request[3], request[4]);
+              }
+            }
             case WRITE: {
                 if(request.length == 3) {
                     return WriteRequestFactory.of(interfc, request[2]);
                 } else if(request.length == 4){
                     return WriteRequestFactory.of(interfc, request[2], request[3]);
+                } else if(request.length == 5){
+                    return WriteRequestFactory.of(interfc, request[2], request[3], request[4]);
+                }
+            }
+            case WRITERANGE: {
+                if(request.length == 5){
+                    return WriteRequestFactory.of(interfc, request[2], request[3], request[4]);
                 }
             }
             default:

@@ -45,14 +45,6 @@ public class ReadRequestFactory {
                     throw new IllegalRequestException("pin with the given descriptor has not been found");
                 }
                 return new GpioReadRequest(pin);
-            case I2C:
-                int slaveAddress;
-                try {
-                    slaveAddress = Integer.parseInt(content, 16);
-                } catch(NumberFormatException nfe) {
-                    throw new IllegalRequestException(nfe);
-                }
-                return I2cReadRequest.getInstance(slaveAddress);
             case SPI:
                 //return SpiReadRequest.getInstance();
             default:
@@ -77,8 +69,8 @@ public class ReadRequestFactory {
               int slaveAddress;
               int registerAddress;
               try {
-                  slaveAddress = Integer.parseInt(content, 16);
-                  registerAddress = Integer.parseInt(content1, 16);
+                  slaveAddress = Integer.decode(content);
+                  registerAddress = Integer.decode(content1);
               } catch(NumberFormatException nfe) {
                   throw new IllegalRequestException(nfe);
               }
@@ -89,6 +81,29 @@ public class ReadRequestFactory {
                 throw new UnsupportedOperationException(interfc +
                         "not supported with the name parameter");
         }
+    }
+
+    public static Request ofRange(Interface interfc, String content, String content1, String content2)
+    throws IllegalRequestException {
+      switch (interfc) {
+        case I2C:
+            int slaveAddress;
+            int registerAddressLo;
+            int len;
+            try {
+                slaveAddress = Integer.decode(content);
+                registerAddressLo = Integer.decode(content1);
+                len = Integer.decode(content2) - registerAddressLo + 1;
+            } catch(NumberFormatException nfe) {
+                throw new IllegalRequestException(nfe);
+            }
+            return I2cReadRequest.getReadRangeInstance(slaveAddress, registerAddressLo, len);
+          case SPI:
+              //return SpiReadRequest.getInstance();
+          default:
+              throw new UnsupportedOperationException(interfc +
+                      "not supported with the name parameter");
+      }
     }
 
 }

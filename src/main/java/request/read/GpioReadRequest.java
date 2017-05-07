@@ -30,7 +30,7 @@ public class GpioReadRequest implements ReadRequest {
     @Override
     public String read() {
         try {
-            return GpioManager.getInstance().read(this.pin.getName());
+            return GpioManager.getInstance().read(this.pin);
         } catch (IllegalRequestException ex) {
             return "-1";
         }
@@ -42,11 +42,11 @@ public class GpioReadRequest implements ReadRequest {
         String voltageLvl = "N/A";
         if(status == 0) {
             voltageLvl = "LOW";
-        }
-        if(status == 1) {
+        } else {
             voltageLvl = "HIGH";
         }
         ProtocolManager.getInstance().setMessageToSend(String.format(
-                GpioManager.RESPONSE_FORMAT, this.pin.getName(), voltageLvl));
+                GpioManager.RESPONSE_FORMAT, voltageLvl, this.pin.getAddress(),
+                this.pin.getIndexOnPort(),this.pin.getName()));
     }
 }

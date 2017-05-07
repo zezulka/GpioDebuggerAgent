@@ -30,6 +30,7 @@ public class AgentConnectionManager implements Runnable {
      * Default socket port.
      */
     public static final int DEFAULT_SOCK_PORT = 8088;
+    private static int port = DEFAULT_SOCK_PORT;
 
     /**
      * Timeout used in connection manager thread. Generally, the time which the
@@ -45,7 +46,6 @@ public class AgentConnectionManager implements Runnable {
      * Creates connection manager with default socket port.
      */
     private AgentConnectionManager() {
-        //initDefaultPort();
     }
 
     /**
@@ -54,7 +54,7 @@ public class AgentConnectionManager implements Runnable {
      * @param port
      */
     private AgentConnectionManager(int port) {
-        //init(port);
+        AgentConnectionManager.port = port;
     }
 
     /**
@@ -62,7 +62,7 @@ public class AgentConnectionManager implements Runnable {
      * resources must be initialized only once). Should the method be executed
      * more than once, such attempt is ignored.
      */
-    private void init(int port) {
+    private void init() {
         if (selector != null || serverSocketChannel != null) {
             connectionManagerLogger.error(ProtocolMessages.S_ERR_INIT_MORE_THAN_ONCE.toString());
             return;
@@ -79,10 +79,6 @@ public class AgentConnectionManager implements Runnable {
             connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
         }
         connectionManagerLogger.info(ProtocolMessages.S_SERVER_INIT_SUCCESS.toString());
-    }
-
-    private void initDefaultPort() {
-        init(DEFAULT_SOCK_PORT);
     }
 
     /**
@@ -116,7 +112,7 @@ public class AgentConnectionManager implements Runnable {
     @Override
     public void run() {
         while(true) {
-          initDefaultPort();
+          init();
           runImpl();
         }
     }

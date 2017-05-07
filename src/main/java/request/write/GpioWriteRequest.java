@@ -22,7 +22,7 @@ public class GpioWriteRequest implements WriteRequest {
     public GpioWriteRequest(Pin pin) {
         this.pin = pin;
         try {
-            this.desiredVoltage = !GpioManager.getInstance().getBooleanRead(pin.getName());
+            this.desiredVoltage = !GpioManager.getInstance().getBooleanRead(pin);
         } catch (IllegalRequestException ex) {
             //something to write to logger
             throw new IllegalArgumentException("pin provided is not available on this board");
@@ -32,7 +32,14 @@ public class GpioWriteRequest implements WriteRequest {
     @Override
     public void write() {
         try {
-            GpioManager.getInstance().write(pin.getName(), desiredVoltage ? "1" : "0");
+            GpioManager.getInstance().write(this.pin, desiredVoltage ? "1" : "0");
+            //let's make sure the value is the one the client requested
+            if(this.desiredVoltage != GpioManager.getInstance().getBooleanRead(pin)) {
+                throw new IllegalStateException(
+                    String.format("Pin %s has been written to, expected value %b, got %b",
+                    this.pin.getName(), this.desiredVoltage, !this.desiredVoltage)
+                );
+            }
         } catch (IllegalRequestException ex) {
             //something to write to logger?
         }
@@ -44,8 +51,9 @@ public class GpioWriteRequest implements WriteRequest {
      */
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ProtocolManager.getInstance().setMessageToSend(String.format(GpioManager.RESPONSE_FORMAT,
-                this.pin.getName(), this.desiredVoltage ? "HIGH" : "LOW"));
+        ProtocolManager.getInstance().setMessageToSend(String.format(
+                GpioManager.RESPONSE_FORMAT, this.desiredVoltage ? "HIGH" : "LOW", this.pin.getAddress(),
+                this.pin.getIndexOnPort(),this.pin.getName()));
     }
 
 }

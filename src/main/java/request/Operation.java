@@ -10,6 +10,6 @@ package request;
  * @author Miloslav Zezulka, 2017
  */
 public enum Operation {
-    READ, READALL,
-    WRITE;
+    READ, READRANGE,
+    WRITE, WRITERANGE;
 }
