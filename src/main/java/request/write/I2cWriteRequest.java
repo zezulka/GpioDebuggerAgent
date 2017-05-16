@@ -14,7 +14,7 @@ import request.manager.I2cManager;
  */
 public class I2cWriteRequest implements WriteRequest {
 
-    private static I2cManager MANAGER;
+    private static final I2cManager MANAGER;
     private final byte[] content;
     private int registerAddress;
 
@@ -40,7 +40,6 @@ public class I2cWriteRequest implements WriteRequest {
 
     @Override
     public void giveFeedbackToClient() {
-      MANAGER.readFromI2c(this.registerAddress, content.length);
         ProtocolManager.getInstance().setMessageToSend("Write I2c request has been"
                 + " submitted, result:\n"+ MANAGER.readFromI2c(this.registerAddress, content.length));
     }

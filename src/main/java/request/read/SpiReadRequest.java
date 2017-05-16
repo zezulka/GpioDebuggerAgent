@@ -10,23 +10,24 @@ package request.read;
  */
 public class SpiReadRequest implements ReadRequest {
 
-    private static final SpiReadRequest INSTANCE = new SpiReadRequest();
-    
-    private SpiReadRequest() {
+    private static final SpiManager MANAGER;
+    private final int slaveIndex;
+    private final byte[] rBuffer;
+
+    public SpiReadRequest(int slaveIndex, byte[] rBuffer) {
+      this.slaveIndex = slaveIndex;
+      this.tBuffer = tBuffer;
     }
-    
-    public static SpiReadRequest getInstance() {
-        return INSTANCE;
-    }
-    
+
     @Override
     public String read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return MANAGER.readFromSpi(this.rBuffer);
     }
 
     @Override
     public void giveFeedbackToClient() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      ProtocolManager.getInstance().setMessageToSend("SPI interface read"
+              + " response:\n" + read() + '\n');
     }
-    
+
 }

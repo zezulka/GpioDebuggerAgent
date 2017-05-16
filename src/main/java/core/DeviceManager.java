@@ -33,42 +33,46 @@ import java.util.List;
  * @author Miloslav Zezulka, 2017
  */
 public class DeviceManager {
-    
+
     private static final Board BOARD = Platform.createBoard();
-    private static List<I2cBus> I2CBUSES = Collections.EMPTY_LIST;
     private static final DeviceManager INSTANCE = new DeviceManager();
-    
+
     public DeviceManager() {
         if(BOARD == null) {
             throw new IllegalArgumentException("board cannot be null");
         }
-        I2CBUSES = new ArrayList<>(DeviceManager.BOARD.getI2cBuses());
     }
-    
+
     public static DeviceManager getInstance() {
         return INSTANCE;
     }
     /**
      * Returns device descriptor.
-     * @return String representation of the device. 
+     * @return String representation of the device.
      */
-    public static String getDeviceName() {        
+    public static String getDeviceName() {
         return BOARD.getName();
     }
-    
+
     public static Pin getPin(String pinName) {
         return BOARD.getPin(pinName);
     }
-    
+
     /**
      * Returns I2c interface, if such interface is available.
      * @return i2c bus which is ready for R/W operations, null if no such
      * interface exists
     */
     public static I2cBus getI2c() {
-        return I2CBUSES.size() < 1 ? null : I2CBUSES.get(0);
+        List<I2cBus> buses = DeviceManager.BOARD.getI2cBuses();
+        return buses.size() < 1 ? null : buses.get(0);
     }
-    
+
+    public static SpiBus getSpi() {
+        List<SpiBus> buses = DeviceManager.BOARD.getSpiBuses();
+        return buses.size() < 1 ? null : buses.get(0);
+    }
+
     public static void cleanUpResources() throws IOException {
         BOARD.shutdown();
     }

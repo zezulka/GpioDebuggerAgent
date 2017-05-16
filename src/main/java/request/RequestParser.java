@@ -17,14 +17,16 @@ public class RequestParser {
      * <br/>
      *
      * <ul>
-     * <li>GPIO:READ:{PIN_NAME}</li>
-     * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
-     * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?</li>
-     * <li>I2C:READRANGE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}{:INTERFACE_NAME}?</li>
-     * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}{:INTERFACE_NAME}?</li>
-     * <li>I2C:WRITERANGE:{SLAVE_ADDRESS_HEX}
-                  :{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}
-                  :{CONTENT[]}{:INTERFACE_NAME}?</li>
+       * <li>GPIO:READ:{PIN_NAME}</li>
+       * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
+       * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?</li>
+       * <li>I2C:READRANGE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}{:INTERFACE_NAME}?</li>
+       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}{:INTERFACE_NAME}?</li>
+       * <li>I2C:WRITERANGE:{SLAVE_ADDRESS_HEX}
+                    :{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}
+                    :{CONTENT+' '}+{:INTERFACE_NAME}?</li>
+       * <li>SPI:READ:{CHIP_INDEX}:{VAL+' '}+{:INTERFACE_NAME}?<li>
+       * <li>SPI:WRITE:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
      * </ul>
      * ,':' being the delimiter symbol.
      *
