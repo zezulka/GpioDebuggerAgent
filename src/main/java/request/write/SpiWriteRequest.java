@@ -11,24 +11,23 @@ package request.write;
  */
 public class SpiWriteRequest implements WriteRequest {
 
-    private static final SpiWriteRequest INSTANCE = new SpiWriteRequest();
-    
-    private SpiWriteRequest() {
-    }
-    
-    public static SpiWriteRequest getInstance() {
-        return INSTANCE;
+    private static final SpiManager MANAGER;
+    private final int slaveIndex;
+    private final byte[] tBuffer;
+
+    public SpiWriteRequest(int slaveIndex, byte[] tBuffer) {
+        this.slaveIndex = slaveIndex;
+        this.tBuffer = tBuffer;
     }
 
     @Override
     public void write() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return MANAGER.writeInoSpi(this.tBuffer);
     }
 
     @Override
     public void giveFeedbackToClient() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      ProtocolManager.getInstance().setMessageToSend("SPI interface write successfull,"
+              + " response:\n");
     }
-
-    
 }
