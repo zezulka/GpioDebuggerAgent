@@ -15,7 +15,6 @@ public class SpiWriteRequest implements WriteRequest {
     private final int slaveIndex;
     private final byte[] tBuffer;
 
-
     public SpiWriteRequest(int slaveIndex, byte[] tBuffer) {
         this.slaveIndex = slaveIndex;
         this.tBuffer = tBuffer;
