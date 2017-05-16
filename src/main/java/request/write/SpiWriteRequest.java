@@ -30,6 +30,4 @@ public class SpiWriteRequest implements WriteRequest {
       ProtocolManager.getInstance().setMessageToSend("SPI interface write successfull,"
               + " response:\n");
     }
-
-
 }
