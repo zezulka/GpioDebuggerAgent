@@ -14,7 +14,7 @@ import request.manager.I2cManager;
  */
 public class I2cWriteRequest implements WriteRequest {
 
-    private static final I2cManager MANAGER;
+    private static I2cManager MANAGER;
     private final byte[] content;
     private int registerAddress;
 

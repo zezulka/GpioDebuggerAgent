@@ -1,28 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.write;
 
+import net.ProtocolManager;
+import request.manager.SpiManager;
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
 public class SpiWriteRequest implements WriteRequest {
 
-    private static final SpiManager MANAGER;
-    private final int slaveIndex;
+    private static SpiManager MANAGER;
     private final byte[] tBuffer;
 
     public SpiWriteRequest(int slaveIndex, byte[] tBuffer) {
-        this.slaveIndex = slaveIndex;
         this.tBuffer = tBuffer;
+        MANAGER = SpiManager.fromIndex(slaveIndex);
     }
 
     @Override
     public void write() {
-        return MANAGER.writeInoSpi(this.tBuffer);
+        MANAGER.writeIntoSpi(this.tBuffer);
     }
 
     @Override

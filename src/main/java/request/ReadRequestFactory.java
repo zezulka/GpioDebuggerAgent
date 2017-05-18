@@ -16,8 +16,9 @@
 package request;
 
 import core.DeviceManager;
+
 import io.silverspoon.bulldog.core.pin.Pin;
-import request.manager.GpioManager;
+
 import request.read.GpioReadRequest;
 import request.read.I2cReadRequest;
 import request.read.SpiReadRequest;
@@ -45,8 +46,6 @@ public class ReadRequestFactory {
                     throw new IllegalRequestException("pin with the given descriptor has not been found");
                 }
                 return new GpioReadRequest(pin);
-            case SPI:
-                //return SpiReadRequest.getInstance();
             default:
                 throw new UnsupportedOperationException(interfc +
                         "not supported with the name parameter");
@@ -76,7 +75,19 @@ public class ReadRequestFactory {
               }
               return I2cReadRequest.getRegisterSpecificInstance(slaveAddress, registerAddress);
             case SPI:
-                //return SpiReadRequest.getInstance();
+                int slaveIndex;
+                byte[] rBuffer;
+                try {
+                   slaveIndex = Integer.decode(content);
+                   String[] bytes = content1.split(StringConstants.VALUE_SEPARATOR.toString());
+                   rBuffer = new byte[bytes.length];
+                   for(int i = 0; i < bytes.length; i++) {
+                       rBuffer[i] = Short.decode(bytes[i]).byteValue();
+                   }
+                   return new SpiReadRequest(slaveIndex, rBuffer);
+                } catch(NumberFormatException nfe) {
+                  throw new IllegalRequestException(nfe);
+                }
             default:
                 throw new UnsupportedOperationException(interfc +
                         "not supported with the name parameter");
@@ -98,8 +109,6 @@ public class ReadRequestFactory {
                 throw new IllegalRequestException(nfe);
             }
             return I2cReadRequest.getReadRangeInstance(slaveAddress, registerAddressLo, len);
-          case SPI:
-              //return SpiReadRequest.getInstance();
           default:
               throw new UnsupportedOperationException(interfc +
                       "not supported with the name parameter");

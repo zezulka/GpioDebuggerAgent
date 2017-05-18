@@ -20,15 +20,17 @@ package request;
  * @author Miloslav
  */
 public enum StringConstants {
-  
-    ERROR_RESPONSE("ERR");
-    
+
+    ERROR_RESPONSE("ERR"),
+    REQUEST_WORD_SEPARATOR(":"),
+    VALUE_SEPARATOR(" ");
+
     private final String msg;
-    
+
     StringConstants(String msg) {
         this.msg = msg;
     }
-    
+
     @Override
     public String toString() {
         return this.msg;

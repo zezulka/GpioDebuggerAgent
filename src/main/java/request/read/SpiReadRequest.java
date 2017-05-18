@@ -1,27 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.read;
+
+import net.ProtocolManager;
+import request.manager.SpiManager;
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
 public class SpiReadRequest implements ReadRequest {
 
-    private static final SpiManager MANAGER;
-    private final int slaveIndex;
-    private final byte[] rBuffer;
+    private static SpiManager MANAGER;
+    private final byte[] tBuffer;
 
-    public SpiReadRequest(int slaveIndex, byte[] rBuffer) {
-      this.slaveIndex = slaveIndex;
+    public SpiReadRequest(int slaveIndex, byte[] tBuffer) {
       this.tBuffer = tBuffer;
+      MANAGER = SpiManager.fromIndex(slaveIndex);
     }
 
     @Override
     public String read() {
-        return MANAGER.readFromSpi(this.rBuffer);
+        return MANAGER.readFromSpi(this.tBuffer);
     }
 
     @Override
