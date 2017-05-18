@@ -71,6 +71,7 @@ public class DeviceManager {
     public static I2cBus getI2c() {
         List<I2cBus> buses = DeviceManager.BOARD.getI2cBuses();
         return buses.size() < 1 ? null : buses.get(0);
+<<<<<<< HEAD
     }
 
     public static SpiBus getSpi() {
@@ -78,6 +79,15 @@ public class DeviceManager {
         return buses.size() < 1 ? null : buses.get(0);
     }
 
+=======
+    }
+
+    public static SpiBus getSpi() {
+        List<SpiBus> buses = DeviceManager.BOARD.getSpiBuses();
+        return buses.size() < 1 ? null : buses.get(0);
+    }
+
+>>>>>>> 3190be0a65779c9414a91d6eff1edacca55ad3c3
     public static void cleanUpResources() throws IOException {
         BOARD.shutdown();
     }

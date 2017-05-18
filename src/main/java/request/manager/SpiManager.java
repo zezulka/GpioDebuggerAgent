@@ -4,7 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.silverspoon.bulldog.core.io.bus.spi.SpiConnection;
-import io.silverspoon.bulldog.core.io.bus.spi.SpiMessage; 
+import io.silverspoon.bulldog.core.io.bus.spi.SpiMessage;
+
 import core.DeviceManager;
 import java.io.IOException;
 import request.StringConstants;
@@ -46,7 +47,6 @@ public class SpiManager {
         } catch(IOException ex) {
             LOGGER.error(null, ex);
         }
-
     }
 
 }
