@@ -24,7 +24,6 @@ public enum StringConstants {
     ERROR_RESPONSE("ERR"),
     REQ_WORD_SEPARATOR(":"),
     VAL_SEPARATOR(" ");
-
     private final String msg;
 
     StringConstants(String msg) {
