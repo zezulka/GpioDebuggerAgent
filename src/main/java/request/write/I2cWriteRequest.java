@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.write;
 
 import net.ProtocolManager;
@@ -14,13 +9,13 @@ import request.manager.I2cManager;
  */
 public class I2cWriteRequest implements WriteRequest {
 
-    private static final I2cManager MANAGER;
+    private static I2cManager MANAGER;
     private final byte[] content;
     private int registerAddress;
 
     public I2cWriteRequest(int slaveAddress, int registerAddress, byte[] content) {
-        if(content == null) {
-            throw new IllegalArgumentException("content cannot be null");
+        if(content == null || content.length < 1) {
+            throw new IllegalArgumentException("content must be a nonempty byte array");
         }
         if(slaveAddress < 0x00) {
             throw new IllegalArgumentException("slave address must be an positive integer");

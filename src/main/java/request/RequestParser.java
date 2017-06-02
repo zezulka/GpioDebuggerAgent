@@ -4,9 +4,6 @@ package request;
  */
 public class RequestParser {
 
-    public static final String SEPARATOR = ":";
-    public static final String OP_SEPARATOR = " ";
-
     private RequestParser() {
     }
 
@@ -19,12 +16,8 @@ public class RequestParser {
      * <ul>
        * <li>GPIO:READ:{PIN_NAME}</li>
        * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
-       * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{INTERFACE_NAME}?</li>
-       * <li>I2C:READRANGE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}{:INTERFACE_NAME}?</li>
-       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}{:INTERFACE_NAME}?</li>
-       * <li>I2C:WRITERANGE:{SLAVE_ADDRESS_HEX}
-                    :{REGISTER_ADDRESS_LO_HEX}:{REGISTER_ADDRESS_HI_HEX}
-                    :{CONTENT+' '}+{:INTERFACE_NAME}?</li>
+       * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{START_REGISTER_ADDRESS_HEX}:{LEN}(:{INTERFACE_NAME})?</li>
+       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}({'' + CONTENT})?{:INTERFACE_NAME}?</li>
        * <li>SPI:READ:{CHIP_INDEX}:{VAL+' '}+{:INTERFACE_NAME}?<li>
        * <li>SPI:WRITE:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
      * </ul>
@@ -43,7 +36,7 @@ public class RequestParser {
         if (clientInput == null) {
             throw new IllegalRequestException("request cannot be null");
         }
-        String[] request = clientInput.split(SEPARATOR, 7);
+        String[] request = clientInput.split(StringConstants.REQ_WORD_SEPARATOR.toString(), 7);
         Interface interfc;
         Operation op;
         try {
@@ -61,14 +54,9 @@ public class RequestParser {
                    return ReadRequestFactory.of(interfc, request[2]);
                 } else if(request.length == 4) {
                    return ReadRequestFactory.of(interfc, request[2], request[3]);
+                } else if(request.length == 5) {
+                    return ReadRequestFactory.of(interfc, request[2], request[3], request[4]);
                 }
-            }
-            case READRANGE: {
-              if(request.length < 5) {
-                  throw new IllegalRequestException("too few arguments");
-              } else if(request.length == 5) {
-                  return ReadRequestFactory.ofRange(interfc, request[2], request[3], request[4]);
-              }
             }
             case WRITE: {
                 if(request.length == 3) {
@@ -76,11 +64,6 @@ public class RequestParser {
                 } else if(request.length == 4){
                     return WriteRequestFactory.of(interfc, request[2], request[3]);
                 } else if(request.length == 5){
-                    return WriteRequestFactory.of(interfc, request[2], request[3], request[4]);
-                }
-            }
-            case WRITERANGE: {
-                if(request.length == 5){
                     return WriteRequestFactory.of(interfc, request[2], request[3], request[4]);
                 }
             }

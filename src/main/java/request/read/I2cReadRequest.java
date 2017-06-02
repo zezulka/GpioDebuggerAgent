@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.read;
 
 import net.ProtocolManager;
@@ -18,13 +13,12 @@ public class I2cReadRequest implements ReadRequest {
     private int register;
     private int len;
 
-    private I2cReadRequest(int slaveAddress, int registerAddress) {
-        this(slaveAddress, registerAddress, 1);
-    }
-
     private I2cReadRequest(int slaveAddress, int registerAddress, int len) {
         if(registerAddress < 0x00) {
             throw new IllegalArgumentException("register address must be positive");
+        }
+        if(len <= 0) {
+            throw new IllegalArgumentException("len must be a positive number");
         }
         this.len = len;
         this.register = registerAddress;
@@ -32,11 +26,11 @@ public class I2cReadRequest implements ReadRequest {
         MANAGER = I2cManager.fromAddress(slaveAddress);
     }
 
-    public static I2cReadRequest getRegisterSpecificInstance(int slaveAddress, int registerAddress) {
-        return new I2cReadRequest(slaveAddress, registerAddress);
+    public static I2cReadRequest getSingleRegisterInstance(int slaveAddress, int registerAddress) {
+        return I2cReadRequest.getInstance(slaveAddress, registerAddress, 1);
     }
 
-    public static I2cReadRequest getReadRangeInstance(int slaveAddress, int registerAddress, int len) {
+    public static I2cReadRequest getInstance(int slaveAddress, int registerAddress, int len) {
         return new I2cReadRequest(slaveAddress, registerAddress, len);
     }
 

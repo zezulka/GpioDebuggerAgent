@@ -16,9 +16,12 @@
 package request;
 
 import core.DeviceManager;
+
 import io.silverspoon.bulldog.core.pin.Pin;
+
 import request.write.GpioWriteRequest;
 import request.write.I2cWriteRequest;
+import request.write.SpiWriteRequest;
 
 /**
  *
@@ -40,14 +43,14 @@ public class WriteRequestFactory {
         }
     }
 
-    public static Request of(Interface interfc, String content1, String content2) throws IllegalRequestException {
+    public static Request of(Interface interfc, String content, String content1) throws IllegalRequestException {
         switch (interfc) {
             case GPIO: {
-                int desiredVoltage;
                 Pin pin;
+                int desiredVoltage;
                 try {
-                    desiredVoltage = Integer.decode(content2);
-                    pin = DeviceManager.getPin(content1);
+                    pin = DeviceManager.getPin(content);
+                    desiredVoltage = Integer.decode(content1);
                     if (pin == null) {
                         throw new IllegalRequestException("pin with the given descriptor has not been found");
                     }
@@ -55,6 +58,21 @@ public class WriteRequestFactory {
                     throw new IllegalRequestException(nfe);
                 }
                 return new GpioWriteRequest(pin, desiredVoltage != 0);
+            }
+            case SPI: {
+                int slaveIndex;
+                byte[] tBuffer;
+                try {
+                   slaveIndex = Integer.decode(content);
+                   String[] bytes = content1.split(StringConstants.VAL_SEPARATOR.toString());
+                   tBuffer = new byte[bytes.length];
+                   for(int i = 0; i < bytes.length; i++) {
+                       tBuffer[i] = Short.decode(bytes[i]).byteValue();
+                   }
+                 } catch(NumberFormatException nfe) {
+                     throw new IllegalRequestException(nfe);
+                 }
+                 return new SpiWriteRequest(slaveIndex, tBuffer);
             }
             default:
                 throw new UnsupportedOperationException("Not supported yet.");
@@ -73,10 +91,10 @@ public class WriteRequestFactory {
             } catch(NumberFormatException nfe) {
                 throw new IllegalRequestException(nfe);
             }
-            String[] bytesStr = content2.split(" ");
+            String[] bytesStr = content2.split(StringConstants.VAL_SEPARATOR.toString());
             byte[] bytes = new byte[bytesStr.length];
             for(int i = 0; i < bytesStr.length; i++) {
-                bytes[i] = Byte.decode(bytesStr[i]);
+                bytes[i] = Short.decode(bytesStr[i]).byteValue();
             }
             return new I2cWriteRequest(slaveAddress, registerAddress, bytes);
           }
