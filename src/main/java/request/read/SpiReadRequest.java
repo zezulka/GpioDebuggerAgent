@@ -26,7 +26,15 @@ public class SpiReadRequest implements ReadRequest {
       StringBuilder build = new StringBuilder();
       String response = read();
       for(char c : response.toCharArray()) {
-        build = build.append(Integer.toBinaryString(c)).append(';');
+        build = build.append("0b")
+                     .append(Integer.toBinaryString(c))
+                     .append("\t\t")
+                     .append("0x")
+                     .append(Integer.toHexString(c))
+                     .append("\t\t")
+                     .append("dec")
+                     .append(Integer.valueOf(c))
+                     .append('\n');
       }
       ProtocolManager.getInstance().setMessageToSend("SPI interface read"
               + " response:\n" + build.toString() + '\n');
