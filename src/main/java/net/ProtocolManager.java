@@ -27,7 +27,7 @@ import request.read.ReadRequest;
 import request.write.WriteRequest;
 
 /**
- * Responsibilities: provide static utility methods which are going to 
+ * Responsibilities: provide utility methods which are going to 
  * enable request processing.
  *
  * @author Miloslav Zezulka, 2017
@@ -39,10 +39,10 @@ public class ProtocolManager {
     private static String messageToSend = null;
 
     private static final ProtocolManager INSTANCE = new ProtocolManager();
-    
+
     private ProtocolManager() {
     }
-    
+
     public static ProtocolManager getInstance() {
         return INSTANCE;
     }
@@ -73,19 +73,19 @@ public class ProtocolManager {
         return messageToSend;
     }
     /**
-     * Sets message to send to null. This is to indicate that the previous 
+     * Sets message to send to null. This is to indicate that the previous
      * message has been processed.
      */
     public void resetMessageToSend() {
         messageToSend = null;
     }
-    
+
     /**
      * Takes message which was read from the input stream and tries to parse it.
      * If the String representing the current request is not valid, IllegalRequestException
      * is thrown. In case request is valid, ProtocolManager.handleRequest is invoked.
      * @throws IllegalRequestException if request is not valid
-     * @throws IOException 
+     * @throws IOException
      */
     public void processRequest() throws IllegalRequestException, IOException {
         protocolManagerLogger.info(ProtocolMessages.S_REQUEST_CAPTURED + " " +receivedMessage);

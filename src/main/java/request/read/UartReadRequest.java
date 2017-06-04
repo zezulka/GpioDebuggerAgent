@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package request.read;
 
 /**
@@ -11,10 +6,10 @@ package request.read;
  */
 public class UartReadRequest implements ReadRequest {
     private static final UartReadRequest INSTANCE = new UartReadRequest();
-    
+
     private UartReadRequest() {
     }
-    
+
     public static UartReadRequest getInstance() {
         return INSTANCE;
     }
@@ -28,6 +23,6 @@ public class UartReadRequest implements ReadRequest {
     public void giveFeedbackToClient() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+
 }

@@ -51,20 +51,27 @@ public class DeviceManager {
     public static DeviceManager getInstance() {
         return INSTANCE;
     }
+
     /**
-     * Returns device descriptor.
+     * Returns device descriptor. This String is used as an identifier for
+     * client.
      * @return String representation of the device.
      */
     public static String getDeviceName() {
         return BOARD.getName();
     }
 
+    /**
+      * Returns Pin object denoted by {@code pinName}. Should no pin exist
+      * with the given name, null is returned as result.
+      *
+      */
     public static Pin getPin(String pinName) {
         return BOARD.getPin(pinName);
     }
 
     /**
-     * Returns I2c interface, if such interface is available.
+     * Returns I2c bus, if such interface is available.
      * @return i2c bus which is ready for R/W operations, null if no such
      * interface exists
     */
@@ -72,7 +79,10 @@ public class DeviceManager {
         List<I2cBus> buses = DeviceManager.BOARD.getI2cBuses();
         return buses.size() < 1 ? null : buses.get(0);
     }
-
+    /**
+      * Returns SPI bus. Note that this method returns the first bus
+      * in the collection (held by Board object).
+      */
     public static SpiBus getSpi() {
         List<SpiBus> buses = DeviceManager.BOARD.getSpiBuses();
         return buses.size() < 1 ? null : buses.get(0);

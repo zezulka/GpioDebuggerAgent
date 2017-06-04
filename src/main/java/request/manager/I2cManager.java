@@ -32,9 +32,7 @@ public class I2cManager implements InterfaceManager {
     }
 
     /**
-     * Reads bytes from i2c interface. Should any error occur during the read
-     * operation, special value {@code StringConstants.ERROR_RESPONSE} is
-     * returned.
+     * Reads bytes from i2c interface.
      *
      * @return I2c contents.
      */
@@ -59,10 +57,14 @@ public class I2cManager implements InterfaceManager {
         return "";
     }
 
+    /*
+     * Reads bytes from the given address. I2c connection must have
+     * been established before calling this method.
+     */
     public void writeIntoI2c(int address, byte[] message) {
         if (i2cConnection == null) {
             LOGGER.error("Client attempted to access i2c bus while there was no i2c connection established!");
-            return;
+            throw new IllegalStateException("Client attempted to access i2c bus while there was no i2c connection established!");
         }
         if(message == null || message.length == 0) {
             LOGGER.error("Client attempted to write no data, ignoring...");

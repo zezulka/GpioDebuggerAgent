@@ -16,6 +16,11 @@ public class SpiReadRequest implements ReadRequest {
       MANAGER = SpiManager.fromIndex(slaveIndex);
     }
 
+    /**
+      * Supposes that the request submitted wishes to return some response.
+      * @return contents of read buffer converted into String
+      *
+      */
     @Override
     public String read() {
         return MANAGER.readFromSpi(this.tBuffer);
@@ -36,7 +41,7 @@ public class SpiReadRequest implements ReadRequest {
                      .append(Integer.valueOf(c))
                      .append('\n');
       }
-      ProtocolManager.getInstance().setMessageToSend("SPI interface read"
+      ProtocolManager.getInstance().setMessageToSend("SPI interface"
               + " response:\n" + build.toString() + '\n');
     }
 

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import request.IllegalRequestException;
 
 /**
- * Responsibilities: manage all the connections binded to the device.
+ * Responsibility: manage all the connections binded to the device.
  *
  * @author Miloslav Zezulka, 2017
  */
@@ -101,14 +101,18 @@ public class AgentConnectionManager implements Runnable {
         return new AgentConnectionManager(port);
     }
 
-    public SocketChannel getSocketChannel() {
+    private SocketChannel getSocketChannel() {
         return this.socketChannel;
     }
 
-    public Selector getSelector() {
+    private Selector getSelector() {
         return selector;
     }
 
+    /**
+      * Runs in an infinite loop, therefore the only way to stop this thread
+      * from running is to kill the whole process.
+      */
     @Override
     public void run() {
         while(true) {
@@ -117,6 +121,24 @@ public class AgentConnectionManager implements Runnable {
         }
     }
 
+    /*
+     * Before running this method, connection must have already been established with a client!
+     *
+     * This implementation is based on non-blocking IO standard library, Java NIO.
+     * Firstly, agent waits for incoming requests (thread is put to sleep
+     * for the time specified in the TIMEOUT constant).
+     *
+     * Firstly, the agent tries to send inital message (which is the name of the device),
+     * which can be considered to be the handshake part of the protocol.
+     *
+     * The only request which arrives from client is the one handled by the {@code read()} method.
+     * Accepted message is processed and then parsed. Should any error occur during
+     * this parse, IllegalRequestException is thrown and error message is send back
+     * to client.
+     *
+     * Agent communicates with client using the {@code write()} method.
+     *
+     */
     private void runImpl() {
       try {
           while (true /*!Thread.currentThread().isInterrupted()*/) {
@@ -217,6 +239,9 @@ public class AgentConnectionManager implements Runnable {
         return 0;
     }
 
+    /*
+     * Closes connection and cleans up all network resources.
+     */
     private void closeConnection() {
       try {
         if(serverSocketChannel != null) {

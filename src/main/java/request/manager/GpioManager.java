@@ -53,20 +53,14 @@ public class GpioManager {
 
 
     /**
-     *
+     * Writes signal onto specifed Pin.
      * @param descriptor
      * @param message
      * @throws IllegalRequestException
      */
-    public void write(Pin pin, String message) throws IllegalRequestException {
+    public void write(Pin pin, Signal sig) throws IllegalRequestException {
         if (pin == null) {
             throw new IllegalRequestException("descriptor does not have any mapping to it on this board");
-        }
-        Signal sig;
-        try {
-            sig = Signal.fromString(message);
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalRequestException(ex);
         }
         applyVoltage(sig, pin);
     }
