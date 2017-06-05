@@ -1,13 +1,18 @@
 package request.write;
 
 import net.ProtocolManager;
+
 import request.manager.SpiManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
 public class SpiWriteRequest implements WriteRequest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpiWriteRequest.class);
     private static SpiManager MANAGER;
     private final byte[] tBuffer;
 
@@ -19,6 +24,18 @@ public class SpiWriteRequest implements WriteRequest {
     @Override
     public void write() {
         MANAGER.writeIntoSpi(this.tBuffer);
+        writeSpiInfoIntoLogger(this.tBuffer);
+    }
+
+    private void writeSpiInfoIntoLogger(byte[] tBuffer) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Spi write request:\n");
+        builder.append("contents of transferbuffer:\n");
+        for(byte element : tBuffer) {
+            builder = builder.append(' ').append(element);
+        }
+        builder = builder.append('\n');
+        LOGGER.info(builder.toString());
     }
 
     /**
