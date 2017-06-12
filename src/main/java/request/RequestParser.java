@@ -22,6 +22,7 @@ public class RequestParser {
        * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}({' ' + CONTENT})?{:INTERFACE_NAME}?</li>
        * <li>SPI:READ:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
        * <li>SPI:WRITE:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
+       *
        * <li>GPIO:INTR_{STOP|START}:{PIN_NAME + ' ' + INTERRUPT_TYPE}</li>
      * </ul>
      * ,':' being the delimiter symbol.
