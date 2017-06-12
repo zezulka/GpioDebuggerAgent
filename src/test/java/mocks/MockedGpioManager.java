@@ -18,13 +18,12 @@ package mocks;
 import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.pin.Pin;
 import request.IllegalRequestException;
-import request.manager.InterfaceManager;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
-public class MockedGpioManager implements InterfaceManager {
+public class MockedGpioManager {
 
     private static final String ON = "1";
     private static final String OFF = "0";
@@ -50,7 +49,6 @@ public class MockedGpioManager implements InterfaceManager {
      * {@code 1: Signal.HIGH, 0: Signal.LOW}
      * @throws request.IllegalRequestException
      */
-    @Override
     public String read(String descriptor) throws IllegalRequestException {
         if (descriptor == null) {
             throw new IllegalRequestException("descriptor cannot be null");
@@ -70,7 +68,6 @@ public class MockedGpioManager implements InterfaceManager {
      * @param message
      * @throws IllegalRequestException
      */
-    @Override
     public void write(String descriptor, String message) throws IllegalRequestException {
         Pin pin = MockedDeviceManager.getPin(descriptor);
         if (pin == null) {
