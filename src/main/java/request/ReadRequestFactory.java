@@ -22,7 +22,6 @@ import io.silverspoon.bulldog.core.pin.Pin;
 import request.read.GpioReadRequest;
 import request.read.I2cReadRequest;
 import request.read.SpiReadRequest;
-import request.read.UartReadRequest;
 
 /**
  *

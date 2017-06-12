@@ -1,4 +1,6 @@
 package request;
+
+import java.util.Arrays;
 /**
  * @author Miloslav Zezulka, 2017
  */
@@ -9,7 +11,7 @@ public class RequestParser {
 
     /**
      * Parses client request given by String read from agent's
-     * {@code InputStream}. The format of the request is as follows:
+     * {@code InputStream}. The format of the request is one of the following:
      *
      * <br/>
      *
@@ -17,9 +19,10 @@ public class RequestParser {
        * <li>GPIO:READ:{PIN_NAME}</li>
        * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
        * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{START_REGISTER_ADDRESS_HEX}:{LEN}(:{INTERFACE_NAME})?</li>
-       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}({'' + CONTENT})?{:INTERFACE_NAME}?</li>
-       * <li>SPI:READ:{CHIP_INDEX}:{VAL+' '}+{:INTERFACE_NAME}?<li>
+       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}({' ' + CONTENT})?{:INTERFACE_NAME}?</li>
+       * <li>SPI:READ:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
        * <li>SPI:WRITE:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
+       * <li>GPIO:INTR_{STOP|START}:{PIN_NAME + ' ' + INTERRUPT_TYPE}</li>
      * </ul>
      * ,':' being the delimiter symbol.
      *
@@ -36,7 +39,7 @@ public class RequestParser {
         if (clientInput == null) {
             throw new IllegalRequestException("request cannot be null");
         }
-        String[] request = clientInput.split(StringConstants.REQ_WORD_SEPARATOR.toString(), 7);
+        String[] request = clientInput.split(StringConstants.REQ_WORD_SEPARATOR.toString());
         Interface interfc;
         Operation op;
         try {
@@ -48,9 +51,7 @@ public class RequestParser {
 
         switch (op) {
             case READ: {
-                if(request.length < 3) {
-                    throw new IllegalRequestException("too few arguments");
-                } else if(request.length == 3) {
+                if(request.length == 3) {
                    return ReadRequestFactory.of(interfc, request[2]);
                 } else if(request.length == 4) {
                    return ReadRequestFactory.of(interfc, request[2], request[3]);
@@ -67,8 +68,13 @@ public class RequestParser {
                     return WriteRequestFactory.of(interfc, request[2], request[3], request[4]);
                 }
             }
-            default:
-                throw new IllegalRequestException("parse failed: " + clientInput);
+            case INTR_STOP: {
+                return StopInterruptRequestFactory.of(request[2]);
+            }
+            case INTR_START: {
+                return StartInterruptRequestFactory.of(request[2]);
+            }
         }
+        throw new IllegalRequestException("invalid number of arguments");
     }
 }
