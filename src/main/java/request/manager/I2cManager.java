@@ -2,19 +2,16 @@ package request.manager;
 
 import core.DeviceManager;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cConnection;
-import io.silverspoon.bulldog.linux.jni.NativeI2c;
 import java.io.IOException;
 import net.ProtocolMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import request.IllegalRequestException;
-import request.StringConstants;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
-public class I2cManager implements InterfaceManager {
+public class I2cManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(I2cManager.class);
     private static I2cConnection i2cConnection;

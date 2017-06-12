@@ -6,5 +6,6 @@ package request;
  */
 public enum Operation {
     READ,
-    WRITE;
+    WRITE,
+    INTR;
 }

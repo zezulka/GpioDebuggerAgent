@@ -9,7 +9,7 @@ public class RequestParser {
 
     /**
      * Parses client request given by String read from agent's
-     * {@code InputStream}. The format of the request is as follows:
+     * {@code InputStream}. The format of the request is one of the following:
      *
      * <br/>
      *
@@ -20,6 +20,8 @@ public class RequestParser {
        * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{REGISTER_ADDRESS_HEX}:{CONTENT}({'' + CONTENT})?{:INTERFACE_NAME}?</li>
        * <li>SPI:READ:{CHIP_INDEX}:{VAL+' '}+{:INTERFACE_NAME}?<li>
        * <li>SPI:WRITE:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
+       *
+       * <li>GPIO:INTR:{PIN_NAME}:{INTERRUPT_TYPE}</li>
      * </ul>
      * ,':' being the delimiter symbol.
      *
