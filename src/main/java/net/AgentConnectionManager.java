@@ -119,6 +119,7 @@ public class AgentConnectionManager implements Runnable {
       */
     @Override
     public void run() {
+        System.out.println("Agent successfully launched.");
         while(true) {
           init();
           runImpl();
