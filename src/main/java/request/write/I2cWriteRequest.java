@@ -1,6 +1,7 @@
 package request.write;
 
 import net.ProtocolManager;
+
 import request.manager.I2cManager;
 
 /**
@@ -9,11 +10,12 @@ import request.manager.I2cManager;
  */
 public class I2cWriteRequest implements WriteRequest {
 
-    private static I2cManager MANAGER;
+    private final I2cManager i2cManager;
     private final byte[] content;
-    private int registerAddress;
+    private final int registerAddress;
+    private final int slaveAddress;
 
-    public I2cWriteRequest(int slaveAddress, int registerAddress, byte[] content) {
+    public I2cWriteRequest(I2cManager i2cManager, int slaveAddress, int registerAddress, byte[] content) {
         if(content == null || content.length < 1) {
             throw new IllegalArgumentException("content must be a nonempty byte array");
         }
@@ -24,19 +26,20 @@ public class I2cWriteRequest implements WriteRequest {
             throw new IllegalArgumentException("register address must be an positive integer");
         }
         this.content = content;
+        this.slaveAddress = slaveAddress;
         this.registerAddress = registerAddress;
-        MANAGER = I2cManager.fromAddress(slaveAddress);
+        this.i2cManager = i2cManager;
     }
 
     @Override
     public void write() {
-        MANAGER.writeIntoI2c(this.registerAddress, this.content);
+        i2cManager.writeIntoI2c(this.slaveAddress, this.registerAddress, this.content);
     }
 
     @Override
     public void giveFeedbackToClient() {
         ProtocolManager.getInstance().setMessageToSend("Write I2c request has been"
-                + " submitted, result:\n"+ MANAGER.readFromI2c(this.registerAddress, content.length));
+                + " submitted, result:\n"+ i2cManager.readFromI2c(this.slaveAddress, this.registerAddress, content.length));
     }
 
 

@@ -1,13 +1,16 @@
 package request;
 
 import java.util.Arrays;
+
+import java.util.function.Function;
+
+import request.manager.InterfaceManager;
 /**
  * @author Miloslav Zezulka, 2017
  */
 public class RequestParser {
 
-    private RequestParser() {
-    }
+    private static final int MIN_NUM_ARGS = 3;
 
     /**
      * Parses client request given by String read from agent's
@@ -36,11 +39,14 @@ public class RequestParser {
      * @throws IllegalRequestException in case illegal String request has been
      * provided, including null parameter
      */
-    public static Request parse(String clientInput) throws IllegalRequestException {
+    public static Request parse(Function<Interface, InterfaceManager> converter, String clientInput) throws IllegalRequestException {
         if (clientInput == null) {
             throw new IllegalRequestException("request cannot be null");
         }
         String[] request = clientInput.split(StringConstants.REQ_WORD_SEPARATOR.toString());
+        if(request.length < MIN_NUM_ARGS) {
+            throw new IllegalRequestException(String.format("No such request with %d number of arguments exists.", request.length));
+        }
         Interface interfc;
         Operation op;
         try {
@@ -49,31 +55,19 @@ public class RequestParser {
         } catch (IllegalArgumentException ex) {
             throw new IllegalRequestException(ex);
         }
-
         switch (op) {
+            
             case READ: {
-                if(request.length == 3) {
-                   return ReadRequestFactory.of(interfc, request[2]);
-                } else if(request.length == 4) {
-                   return ReadRequestFactory.of(interfc, request[2], request[3]);
-                } else if(request.length == 5) {
-                    return ReadRequestFactory.of(interfc, request[2], request[3], request[4]);
-                }
+                return ReadRequestFactory.of(converter.apply(interfc), Arrays.copyOfRange(request, 2, request.length));
             }
             case WRITE: {
-                if(request.length == 3) {
-                    return WriteRequestFactory.of(interfc, request[2]);
-                } else if(request.length == 4){
-                    return WriteRequestFactory.of(interfc, request[2], request[3]);
-                } else if(request.length == 5){
-                    return WriteRequestFactory.of(interfc, request[2], request[3], request[4]);
-                }
+                return WriteRequestFactory.of(converter.apply(interfc), Arrays.copyOfRange(request, 2, request.length));
             }
             case INTR_STOP: {
-                return StopInterruptRequestFactory.of(request[2]);
+                return StopInterruptRequestFactory.of(converter.apply(interfc), request[2]);
             }
             case INTR_START: {
-                return StartInterruptRequestFactory.of(request[2]);
+                return StartInterruptRequestFactory.of(converter.apply(interfc), request[2]);
             }
         }
         throw new IllegalRequestException("invalid number of arguments");

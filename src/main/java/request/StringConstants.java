@@ -23,6 +23,11 @@ public enum StringConstants {
 
     ERROR_RESPONSE("ERR"),
     REQ_WORD_SEPARATOR(":"),
+    GPIO_RESPONSE_FORMAT("Gpio request response\n"+
+                         "Pin voltage: %s\n"+
+                         "Gpio address: %d\n"+
+                         "Port index: %d\n"+
+                         "Name: %s\n"),
     VAL_SEPARATOR(" ");
     private final String msg;
 

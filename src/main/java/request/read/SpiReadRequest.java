@@ -13,12 +13,14 @@ import org.slf4j.LoggerFactory;
 public class SpiReadRequest implements ReadRequest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpiReadRequest.class);
-    private static SpiManager MANAGER;
+    private final SpiManager spiManager;
     private final byte[] tBuffer;
+    private final int slaveIndex;
 
-    public SpiReadRequest(int slaveIndex, byte[] tBuffer) {
+    public SpiReadRequest(SpiManager spiManager, int slaveIndex, byte[] tBuffer) {
       this.tBuffer = tBuffer;
-      MANAGER = SpiManager.fromIndex(slaveIndex);
+      this.slaveIndex = slaveIndex;
+      this.spiManager = spiManager;
     }
 
     /**
@@ -29,7 +31,7 @@ public class SpiReadRequest implements ReadRequest {
     @Override
     public String read() {
         writeSpiInfoIntoLogger(this.tBuffer);
-        return MANAGER.readFromSpi(this.tBuffer);
+        return spiManager.readFromSpi(this.slaveIndex, this.tBuffer);
     }
 
     private void writeSpiInfoIntoLogger(byte[] tBuffer) {

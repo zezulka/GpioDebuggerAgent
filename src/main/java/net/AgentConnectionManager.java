@@ -1,7 +1,5 @@
 package net;
 
-import core.Agent;
-import core.DeviceManager;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -15,6 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import request.IllegalRequestException;
+import request.manager.BoardManager;
+import request.manager.BoardManagerBulldogImpl;
+import request.manager.GpioManagerBulldogImpl;
+import request.manager.I2cManagerBulldogImpl;
+import request.manager.SpiManagerBulldogImpl;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -39,7 +42,8 @@ public class AgentConnectionManager implements Runnable {
     public static final long TIMEOUT = 10 * 1000;
 
     private static final AgentConnectionManager INSTANCE = new AgentConnectionManager();
-    private final ProtocolManager protocolManager = ProtocolManager.getInstance();
+    private static final ProtocolManager PROTOCOL_MANAGER = ProtocolManager.getInstance();
+    private static final BoardManager BOARD_MANAGER = BoardManagerBulldogImpl.getInstance();
     private final Logger connectionManagerLogger = LoggerFactory.getLogger(AgentConnectionManager.class);
 
     /**
@@ -163,17 +167,24 @@ public class AgentConnectionManager implements Runnable {
                       if (readVal == -1) {
                           return;
                       }
-                      if (protocolManager.getReceivedMessage() == null) {
+                      if (PROTOCOL_MANAGER.getReceivedMessage() == null) {
                           continue;
                       }
                       try {
-                          protocolManager.processRequest();
+                          PROTOCOL_MANAGER.parseRequest((t) -> {
+                              switch(t) {
+                                  case GPIO: return GpioManagerBulldogImpl.getInstance(BOARD_MANAGER);
+                                  case I2C : return I2cManagerBulldogImpl.getInstance(BOARD_MANAGER);
+                                  case SPI : return SpiManagerBulldogImpl.getInstance(BOARD_MANAGER);
+                                  default : throw new IllegalArgumentException();
+                              }
+                          });
                       } catch (IllegalRequestException ex) {
                           connectionManagerLogger.error(null, ex);
                           ProtocolManager.getInstance().setMessageToSend("Illegal Request.");
                       }
                   }
-                  if (key.isWritable() && protocolManager.getMessageToSend() != null) {
+                  if (key.isWritable() && PROTOCOL_MANAGER.getMessageToSend() != null) {
                       write(key);
                   }
                   keys.remove();
@@ -197,7 +208,7 @@ public class AgentConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        protocolManager.setMessageToSend(DeviceManager.getDeviceName());
+        PROTOCOL_MANAGER.setMessageToSend(BOARD_MANAGER.getBoardName());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
@@ -209,9 +220,9 @@ public class AgentConnectionManager implements Runnable {
      */
     private void write(SelectionKey key) throws IOException {
         connectionManagerLogger.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
-        socketChannel.write(ByteBuffer.wrap(protocolManager.getMessageToSend().getBytes()));
+        socketChannel.write(ByteBuffer.wrap(PROTOCOL_MANAGER.getMessageToSend().getBytes()));
         key.interestOps(SelectionKey.OP_READ);
-        protocolManager.resetMessageToSend();
+        PROTOCOL_MANAGER.resetMessageToSend();
     }
 
     /**
@@ -234,7 +245,7 @@ public class AgentConnectionManager implements Runnable {
         byte[] data = new byte[1024];
         readBuffer.get(data, 0, read);
         String msg = new String(data).replaceAll("\0", "");
-        protocolManager.setReceivedMessage(msg);
+        PROTOCOL_MANAGER.setReceivedMessage(msg);
         socketChannel.register(selector, SelectionKey.OP_WRITE);
         return 0;
     }
@@ -251,7 +262,7 @@ public class AgentConnectionManager implements Runnable {
             selector.close();
             selector = null;
         }
-        DeviceManager.cleanUpResources();
+        BOARD_MANAGER.cleanUpResources();
         serverSocketChannel.socket().close();
         serverSocketChannel.close();
         serverSocketChannel = null;

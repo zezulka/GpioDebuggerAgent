@@ -16,48 +16,66 @@
 package mocks;
 
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
+import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
+
 import io.silverspoon.bulldog.core.pin.Pin;
+
 import io.silverspoon.bulldog.core.platform.Board;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import request.manager.BoardManager;
+
 /**
  *
- * @author Miloslav
+ * @author Miloslav Zezulka
  */
-public class MockedDeviceManager {
+public class MockedDeviceManager implements BoardManager {
     private static final Board BOARD = new MockedBoard();
     private static List<I2cBus> I2CBUSES = Collections.EMPTY_LIST;
-    private static final MockedDeviceManager INSTANCE = new MockedDeviceManager();
-    
+    private static final BoardManager INSTANCE = new MockedDeviceManager();
+
     private MockedDeviceManager() {
         if(BOARD == null) {
             throw new IllegalArgumentException("board cannot be null");
         }
         I2CBUSES = new ArrayList<>(BOARD.getI2cBuses());
     }
-    
-    public static MockedDeviceManager getInstance() {
+
+    public static BoardManager getInstance() {
         return INSTANCE;
     }
     /**
-     * Returns device descriptor.
-     * @return String representation of the device. 
+     * Returns board name.
+     * @return String representation of the name.
      */
-    public static String getDeviceName() {
+    @Override
+    public String getBoardName() {
         return BOARD.getName();
     }
-    
-    public static Pin getPin(String pinName) {
-        return BOARD.getPin(pinName);
-    }
-    
-    public static Pin getPin(int i) {
-        return BOARD.getPin(i);
-    }
-    
-    public static I2cBus getI2c() {
+
+    @Override
+    public I2cBus getI2c() {
         return I2CBUSES.size() < 1 ? null : I2CBUSES.get(0);
+    }
+
+
+    @Override
+    public SpiBus getSpi() {
+        List<SpiBus> buses = BOARD.getSpiBuses();
+        return buses.size() < 1 ? null : buses.get(0);
+    }
+    /*
+     * NO-OP
+     */
+    @Override
+    public void cleanUpResources() {
+    }
+
+    @Override
+    public Board getBoard() {
+        return BOARD;
     }
 }

@@ -6,6 +6,7 @@ import request.manager.SpiManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author Miloslav Zezulka, 2017
@@ -13,17 +14,19 @@ import org.slf4j.LoggerFactory;
 public class SpiWriteRequest implements WriteRequest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpiWriteRequest.class);
-    private static SpiManager MANAGER;
+    private final SpiManager spiManager;
+    private final int slaveIndex;
     private final byte[] tBuffer;
 
-    public SpiWriteRequest(int slaveIndex, byte[] tBuffer) {
+    public SpiWriteRequest(SpiManager spiManager, int slaveIndex, byte[] tBuffer) {
         this.tBuffer = tBuffer;
-        MANAGER = SpiManager.fromIndex(slaveIndex);
+        this.slaveIndex = slaveIndex;
+        this.spiManager = spiManager;
     }
 
     @Override
     public void write() {
-        MANAGER.writeIntoSpi(this.tBuffer);
+        spiManager.writeIntoSpi(this.slaveIndex, this.tBuffer);
         writeSpiInfoIntoLogger(this.tBuffer);
     }
 

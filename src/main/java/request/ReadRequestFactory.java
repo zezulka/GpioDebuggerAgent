@@ -15,19 +15,31 @@
  */
 package request;
 
-import core.DeviceManager;
-
-import io.silverspoon.bulldog.core.pin.Pin;
-
 import request.read.GpioReadRequest;
 import request.read.I2cReadRequest;
 import request.read.SpiReadRequest;
+
+import request.manager.I2cManager;
+import request.manager.SpiManager;
+import request.manager.GpioManager;
+import request.manager.InterfaceManager;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
 public class ReadRequestFactory {
+
+     public static Request of(InterfaceManager interfaceManager, String... args) throws IllegalRequestException {
+        if(interfaceManager instanceof GpioManager && args.length == 1) {
+            return ReadRequestFactory.gpio((GpioManager)interfaceManager, args[0]);
+        } else if(interfaceManager instanceof I2cManager && args.length == 3) {
+            return ReadRequestFactory.i2c((I2cManager)interfaceManager, args[0], args[1], args[2]);
+        } else if(interfaceManager instanceof SpiManager && args.length == 2) {
+            return ReadRequestFactory.spi((SpiManager)interfaceManager, args[0], args[1]);
+        }
+        throw new IllegalRequestException();
+     }
 
     /**
      * Returns ReadRequest instance based on the {@code interfc} Interface.
@@ -37,18 +49,8 @@ public class ReadRequestFactory {
      * @return
      * @throws request.IllegalRequestException
      */
-    public static Request of(Interface interfc, String content) throws IllegalRequestException {
-        switch (interfc) {
-            case GPIO:
-                Pin pin = DeviceManager.getPin(content);
-                if(pin == null) {
-                    throw new IllegalRequestException("pin with the given descriptor has not been found");
-                }
-                return new GpioReadRequest(pin);
-            default:
-                throw new UnsupportedOperationException(interfc +
-                        "not supported with the name parameter");
-        }
+    private static Request gpio(GpioManager gpioManager, String content) throws IllegalRequestException {
+            return new GpioReadRequest(gpioManager, content.trim());
     }
 
     /**
@@ -61,47 +63,36 @@ public class ReadRequestFactory {
      * @return
      * @throws request.IllegalRequestException
      */
-    public static Request of(Interface interfc, String content, String content1) throws IllegalRequestException {
-        switch (interfc) {
-            case SPI:
-                int slaveIndex;
-                byte[] rBuffer;
-                try {
-                   slaveIndex = Integer.decode(content);
-                   String[] bytes = content1.split(StringConstants.VAL_SEPARATOR.toString());
-                   rBuffer = new byte[bytes.length];
-                   for(int i = 0; i < bytes.length; i++) {
-                       rBuffer[i] = Short.decode(bytes[i]).byteValue();
-                   }
-                   return new SpiReadRequest(slaveIndex, rBuffer);
-                } catch(NumberFormatException nfe) {
-                  throw new IllegalRequestException(nfe);
-                }
-            default:
-                throw new UnsupportedOperationException(interfc +
-                        "not supported with the name parameter");
-        }
-    }
-
-    public static Request of(Interface interfc, String content, String content1, String content2)
-    throws IllegalRequestException {
-      switch (interfc) {
-        case I2C:
-            int slaveAddress;
-            int registerAddressLo;
-            int len;
+    private static Request spi(SpiManager deviceManager, String content, String content1)
+                                                                      throws IllegalRequestException {
+            int slaveIndex;
+            byte[] rBuffer;
             try {
-                slaveAddress = Integer.decode(content);
-                registerAddressLo = Integer.decode(content1);
-                len = Integer.decode(content2);
+               slaveIndex = Integer.decode(content);
+               String[] bytes = content1.split(StringConstants.VAL_SEPARATOR.toString());
+               rBuffer = new byte[bytes.length];
+               for(int i = 0; i < bytes.length; i++) {
+                   rBuffer[i] = Short.decode(bytes[i]).byteValue();
+               }
+               return new SpiReadRequest(deviceManager, slaveIndex, rBuffer);
             } catch(NumberFormatException nfe) {
                 throw new IllegalRequestException(nfe);
             }
-            return I2cReadRequest.getInstance(slaveAddress, registerAddressLo, len);
-          default:
-              throw new UnsupportedOperationException(interfc +
-                      "not supported with the name parameter");
-      }
+    }
+
+    private static Request i2c(I2cManager deviceManager, String content, String content1, String content2)
+    throws IllegalRequestException {
+          int slaveAddress;
+          int registerAddressLo;
+          int len;
+          try {
+              slaveAddress = Integer.decode(content);
+              registerAddressLo = Integer.decode(content1);
+              len = Integer.decode(content2);
+          } catch(NumberFormatException nfe) {
+              throw new IllegalRequestException(nfe);
+          }
+          return new I2cReadRequest(deviceManager, slaveAddress, registerAddressLo, len);
     }
 
 }

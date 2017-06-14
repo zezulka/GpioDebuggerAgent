@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package core;
+package request.manager;
 
-import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
+import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 
 import io.silverspoon.bulldog.core.pin.Pin;
 
@@ -25,9 +25,10 @@ import io.silverspoon.bulldog.core.platform.Platform;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class which takes care of communicating with the device itself, namely using
@@ -37,58 +38,50 @@ import java.util.List;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class DeviceManager {
+public final class BoardManagerBulldogImpl implements BoardManager {
 
     private static final Board BOARD = Platform.createBoard();
-    private static final DeviceManager INSTANCE = new DeviceManager();
+    private static final BoardManager INSTANCE = new BoardManagerBulldogImpl();
+    private static final Logger LOGGER = LoggerFactory.getLogger(BoardManagerBulldogImpl.class);
 
-    public DeviceManager() {
+    public BoardManagerBulldogImpl() {
         if(BOARD == null) {
             throw new IllegalArgumentException("board cannot be null");
         }
     }
 
-    public static DeviceManager getInstance() {
+    public static BoardManager getInstance() {
         return INSTANCE;
     }
 
-    /**
-     * Returns device descriptor. This String is used as an identifier for
-     * client.
-     * @return String representation of the device.
-     */
-    public static String getDeviceName() {
+    @Override
+    public String getBoardName() {
         return BOARD.getName();
     }
 
-    /**
-      * Returns Pin object denoted by {@code pinName}. Should no pin exist
-      * with the given name, null is returned as result.
-      *
-      */
-    public static Pin getPin(String pinName) {
-        return BOARD.getPin(pinName);
+    @Override
+    public void cleanUpResources() {
+        BOARD.shutdown();
+    }
+    
+    @Override
+    public Board getBoard() {
+        return BOARD;
+    }
+
+    @Override
+    public I2cBus getI2c() {
+        List<I2cBus> buses = BOARD.getI2cBuses();
+        return buses.size() < 1 ? null : buses.get(0);
     }
 
     /**
-     * Returns I2c bus, if such interface is available.
-     * @return i2c bus which is ready for R/W operations, null if no such
-     * interface exists
-    */
-    public static I2cBus getI2c() {
-        List<I2cBus> buses = DeviceManager.BOARD.getI2cBuses();
-        return buses.size() < 1 ? null : buses.get(0);
-    }
-    /**
-      * Returns SPI bus. Note that this method returns the first bus
+      * Returns SPI bus. Note that this implementation returns the first bus
       * in the collection (held by Board object).
       */
-    public static SpiBus getSpi() {
-        List<SpiBus> buses = DeviceManager.BOARD.getSpiBuses();
+    @Override
+    public SpiBus getSpi() {
+        List<SpiBus> buses = BOARD.getSpiBuses();
         return buses.size() < 1 ? null : buses.get(0);
-    }
-
-    public static void cleanUpResources() throws IOException {
-        BOARD.shutdown();
     }
 }

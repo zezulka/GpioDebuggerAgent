@@ -1,19 +1,36 @@
 package request.read;
+
 import io.silverspoon.bulldog.core.pin.Pin;
+
+import io.silverspoon.bulldog.core.Signal;
+
 import java.io.IOException;
+
 import net.ProtocolManager;
+
 import request.IllegalRequestException;
+import request.StringConstants;
+
+import request.manager.BoardManager;
+import request.manager.BoardManagerBulldogImpl;
 import request.manager.GpioManager;
+
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
 public class GpioReadRequest implements ReadRequest {
-    private final Pin pin;
 
-    public GpioReadRequest(Pin pin) {
-        this.pin = pin;
+    private final Pin pin;
+    private final GpioManager gpioManager;
+
+    public GpioReadRequest(GpioManager gpioManager, String pinName) {
+        this.gpioManager = gpioManager;
+        this.pin = this.gpioManager.getPin(pinName);
+        if(pin == null) {
+            throw new IllegalArgumentException("pin with the given name has not been found");
+        }
     }
 
     /**
@@ -25,7 +42,7 @@ public class GpioReadRequest implements ReadRequest {
     @Override
     public String read() {
         try {
-            return GpioManager.getInstance().read(this.pin);
+            return String.valueOf(gpioManager.read(this.pin).getNumericValue());
         } catch (IllegalRequestException ex) {
             return "-1";
         }
@@ -41,7 +58,7 @@ public class GpioReadRequest implements ReadRequest {
             voltageLvl = "HIGH";
         }
         ProtocolManager.getInstance().setMessageToSend(String.format(
-                GpioManager.RESPONSE_FORMAT, voltageLvl, this.pin.getAddress(),
+                StringConstants.GPIO_RESPONSE_FORMAT.toString(), voltageLvl, this.pin.getAddress(),
                 this.pin.getIndexOnPort(),this.pin.getName()));
     }
 }

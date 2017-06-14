@@ -1,6 +1,10 @@
 package request;
 
+import java.util.function.Function;
 import mocks.MockedDeviceManager;
+import mocks.MockedGpioManager;
+
+import request.manager.BoardManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,16 +12,29 @@ import org.junit.Test;
 
 import request.read.GpioReadRequest;
 import request.write.GpioWriteRequest;
+
 import static org.assertj.core.api.Assertions.*;
+
+import request.manager.GpioManager;
+import request.manager.GpioManagerBulldogImpl;
+import request.manager.InterfaceManager;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
 public class RequestParserTest {
+    private final GpioManager mockedGpioManager = MockedGpioManager.getInstance();
+    private final String requestedPin = mockedGpioManager.getPin("P0").getName();
+    private final Function<Interface, InterfaceManager> converter = (t) -> {
+        switch (t) {
+            case GPIO:
+                return MockedGpioManager.getInstance();
+            default:
+                throw new IllegalArgumentException();
+        }
+    };
 
-    private final String requestedPin = MockedDeviceManager.getPin(0).getName();
-    
     public RequestParserTest() {
     }
 
@@ -36,8 +53,8 @@ public class RequestParserTest {
     public void gpioTest() {
         Request gpioRead, gpioWrite;
         try {
-            gpioRead = RequestParser.parse("gpio: read:" + requestedPin);
-            gpioWrite = RequestParser.parse("gpio:write:" + requestedPin);
+            gpioRead = RequestParser.parse(converter, "gpio: read:" + requestedPin);
+            gpioWrite = RequestParser.parse(converter, "gpio:write:" + requestedPin);
 
             assertThat(gpioRead.getClass()).isEqualTo(GpioReadRequest.class);
             assertThat(gpioWrite.getClass()).isEqualTo(GpioWriteRequest.class);
@@ -48,32 +65,25 @@ public class RequestParserTest {
 
     @Test
     public void nullTest() throws Exception {
-        assertThatThrownBy(() -> RequestParser.parse(null)).
+        assertThatThrownBy(() -> RequestParser.parse(converter, null)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
-    public void gpioWriteWithDesiredVoltageFail() {
-        assertThatThrownBy(
-                () -> RequestParser.parse("gpio: write:" + requestedPin + ":42"))
-                .isInstanceOf(IllegalRequestException.class);
-    }
-
-    @Test
-    public void nonsenseRequestTestEmptyString() throws Exception {
-        assertThatThrownBy(() -> RequestParser.parse("")).
+    public void testEmptyString() throws Exception {
+        assertThatThrownBy(() -> RequestParser.parse(converter, "")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
-    public void nonsenseRequestTestEmptyRequest() throws Exception {
-        assertThatThrownBy(() -> RequestParser.parse("::")).
+    public void testEmptyRequest() throws Exception {
+        assertThatThrownBy(() -> RequestParser.parse(converter, "::")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
-    public void nonsenseRequestTestWrongOrderOfArgs() {
-        assertThatThrownBy(() -> RequestParser.parse("read:gpio:14")).
+    public void testWrongOrderOfArgs() {
+        assertThatThrownBy(() -> RequestParser.parse(converter, "read:gpio:14")).
                 isInstanceOf(IllegalRequestException.class);
     }
 

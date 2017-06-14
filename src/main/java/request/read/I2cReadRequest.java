@@ -8,12 +8,13 @@ import request.manager.I2cManager;
  * @author Miloslav Zezulka, 2017
  */
 public class I2cReadRequest implements ReadRequest {
-    private static I2cManager MANAGER;
+    private final I2cManager i2cManager;
 
-    private int register;
-    private int len;
+    private final int register;
+    private final int len;
+    private final int slaveAddress;
 
-    private I2cReadRequest(int slaveAddress, int registerAddress, int len) {
+    public I2cReadRequest(I2cManager i2cManager, int slaveAddress, int registerAddress, int len) {
         if(registerAddress < 0x00) {
             throw new IllegalArgumentException("register address must be positive");
         }
@@ -22,21 +23,13 @@ public class I2cReadRequest implements ReadRequest {
         }
         this.len = len;
         this.register = registerAddress;
-
-        MANAGER = I2cManager.fromAddress(slaveAddress);
-    }
-
-    public static I2cReadRequest getSingleRegisterInstance(int slaveAddress, int registerAddress) {
-        return I2cReadRequest.getInstance(slaveAddress, registerAddress, 1);
-    }
-
-    public static I2cReadRequest getInstance(int slaveAddress, int registerAddress, int len) {
-        return new I2cReadRequest(slaveAddress, registerAddress, len);
+        this.slaveAddress = slaveAddress;
+        this.i2cManager = i2cManager;
     }
 
     @Override
     public String read() {
-        return MANAGER.readFromI2c(this.register, this.len);
+        return i2cManager.readFromI2c(this.slaveAddress, this.register, this.len);
     }
 
     @Override
