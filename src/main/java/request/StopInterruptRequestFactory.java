@@ -7,12 +7,17 @@ import request.interrupt.StopEpollInterruptListenerRequest;
 import request.manager.GpioManager;
 import request.manager.InterfaceManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class StopInterruptRequestFactory {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StopInterruptRequestFactory.class);
 
     public static Request of(InterfaceManager gpioManager, String interruptListenerArgs) throws IllegalRequestException {
         if(gpioManager instanceof GpioManager) {
-            return StopInterruptRequestFactory.of(gpioManager, interruptListenerArgs);
-        } 
+            return StopInterruptRequestFactory.of((GpioManager)gpioManager, interruptListenerArgs);
+        }
         throw new IllegalRequestException();
     }
 
@@ -26,6 +31,7 @@ public class StopInterruptRequestFactory {
             } catch (IllegalArgumentException ex) {
                 edge = null;
             }
+            LOGGER.info(String.format("Interrupt listener removal request submitted: pin : %s, type: %s", pin.getName(), edge.toString()));
             return new StopEpollInterruptListenerRequest(new InterruptListenerArgs(pin, edge));
         }
         throw new IllegalRequestException("Corrupted string format.");
