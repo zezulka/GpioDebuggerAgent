@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import request.IllegalRequestException;
 import request.Request;
 import request.RequestParser;
+import request.interrupt.InterruptListenerRequest;
 import request.read.ReadRequest;
 import request.write.WriteRequest;
 
@@ -39,46 +40,12 @@ import request.manager.InterfaceManager;
  */
 public class ProtocolManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtocolManager.class);
-    private static String receivedMessage = null;
-    private static String messageToSend = null;
     private static final ProtocolManager INSTANCE = new ProtocolManager();
 
     private ProtocolManager() {}
 
     public static ProtocolManager getInstance() {
         return INSTANCE;
-    }
-    /**
-     * Enables Request manager to set appropriate response which will be sent
-     * back to the client.
-     *
-     * @param messageToSend message to write to buffer
-     * @throws IllegalArgumentException if {@code messageToSend} is null
-     */
-    public void setMessageToSend(String messageToSend) {
-        if (messageToSend == null) {
-            throw new IllegalArgumentException("msg cannot be null");
-        }
-        ProtocolManager.messageToSend = messageToSend;
-    }
-
-    public void setReceivedMessage(String message) {
-        receivedMessage = message;
-    }
-
-    public String getReceivedMessage() {
-        return receivedMessage;
-    }
-
-    public String getMessageToSend() {
-        return messageToSend;
-    }
-    /**
-     * Sets message to send to null. This is to indicate that the previous
-     * message has been processed.
-     */
-    public void resetMessageToSend() {
-        messageToSend = null;
     }
 
     /**
@@ -88,7 +55,7 @@ public class ProtocolManager {
      * @throws IllegalRequestException if request is not valid
      * @throws IOException
      */
-    public void parseRequest(Function<Interface, InterfaceManager> converter) throws IllegalRequestException, IOException {
+    public void parseRequest(Function<Interface, InterfaceManager> converter, String receivedMessage) throws IllegalRequestException, IOException {
         LOGGER.info(ProtocolMessages.S_REQUEST_CAPTURED + " " +receivedMessage);
         Request req = RequestParser.parse(converter, receivedMessage);
         performRequest(req);
@@ -105,14 +72,15 @@ public class ProtocolManager {
      * @throws java.io.IOException
      */
     public void performRequest(Request request) throws IOException {
+        LOGGER.info(String.format("Request of type %s has "
+                    + "been submitted",request.getClass()));
         if (request instanceof ReadRequest) {
             ReadRequest req = (ReadRequest) request;
-            LOGGER.info(String.format("Request of type %s has "
-                    + "been submitted, the result was=%s",request.getClass(), req.read()));
+            LOGGER.info(String.format(", the result was=%s",request.getClass(), req.read()));
         } else if (request instanceof WriteRequest) {
             WriteRequest req = (WriteRequest) request;
             req.write();
-        }
+        } 
         request.giveFeedbackToClient();
     }
 }

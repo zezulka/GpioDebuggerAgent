@@ -1,6 +1,6 @@
 package request.write;
 
-import net.ProtocolManager;
+import net.AgentConnectionManager;
 
 import request.manager.SpiManager;
 
@@ -50,6 +50,6 @@ public class SpiWriteRequest implements WriteRequest {
       */
     @Override
     public void giveFeedbackToClient() {
-      ProtocolManager.getInstance().setMessageToSend("SPI interface write successfull.");
+      AgentConnectionManager.setMessageToSend("SPI interface write successfull.");
     }
 }

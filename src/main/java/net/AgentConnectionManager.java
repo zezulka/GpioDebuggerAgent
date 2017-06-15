@@ -3,6 +3,7 @@ package net;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -26,14 +27,15 @@ import request.manager.SpiManagerBulldogImpl;
  */
 public class AgentConnectionManager implements Runnable {
 
-    private ServerSocketChannel serverSocketChannel;
-    private SocketChannel socketChannel;
-    private Selector selector;
+    private static ServerSocketChannel serverSocketChannel;
+    private static SocketChannel socketChannel;
+    private static Selector selector;
     /**
      * Default socket port.
      */
     public static final int DEFAULT_SOCK_PORT = 8088;
     private static int port = DEFAULT_SOCK_PORT;
+    private static String messageToSend;
 
     /**
      * Timeout used in connection manager thread. Generally, the time which the
@@ -95,6 +97,20 @@ public class AgentConnectionManager implements Runnable {
         return INSTANCE;
     }
 
+    public static void setMessageToSend(String message) {
+        messageToSend = message;
+        if (message != null) {
+            try {
+                socketChannel.register(selector, SelectionKey.OP_WRITE);
+                selector.wakeup();
+            } catch (ClosedChannelException ex) {
+                serverSocketChannel = null;
+                LOGGER.error("There has been an attempt to "
+                        + "register write operation on channel which has been closed.");
+
+            }
+        }
+    }
     /**
      * Static factory method used for getting instance of an agent.
      *
@@ -103,14 +119,6 @@ public class AgentConnectionManager implements Runnable {
      */
     public static AgentConnectionManager getManager(int port) {
         return new AgentConnectionManager(port);
-    }
-
-    private SocketChannel getSocketChannel() {
-        return this.socketChannel;
-    }
-
-    private Selector getSelector() {
-        return selector;
     }
 
     /**
@@ -155,8 +163,8 @@ public class AgentConnectionManager implements Runnable {
 
               while (keys.hasNext()) {
                   SelectionKey key = keys.next();
+                  keys.remove();
                   if (!key.isValid()) {
-                      keys.remove();
                       continue;
                   }
                   if (key.isAcceptable()) {
@@ -164,11 +172,8 @@ public class AgentConnectionManager implements Runnable {
                       LOGGER.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
                   }
                   if (key.isReadable()) {
-                      int readVal = read();
-                      if (readVal == -1) {
-                          return;
-                      }
-                      if (PROTOCOL_MANAGER.getReceivedMessage() == null) {
+                      String receivedMessage = read();
+                      if (receivedMessage == null) {
                           continue;
                       }
                       try {
@@ -179,16 +184,15 @@ public class AgentConnectionManager implements Runnable {
                                   case SPI : return SpiManagerBulldogImpl.getInstance(BOARD_MANAGER);
                                   default : throw new IllegalArgumentException();
                               }
-                          });
+                          }, receivedMessage);
                       } catch (IllegalRequestException ex) {
                           LOGGER.error(null, ex);
-                          ProtocolManager.getInstance().setMessageToSend("Illegal Request.");
+                          setMessageToSend("Illegal Request.");
                       }
                   }
-                  if (key.isWritable() && PROTOCOL_MANAGER.getMessageToSend() != null) {
+                  if (key.isWritable() && messageToSend != null) {
                       write(key);
                   }
-                  keys.remove();
               }
           }
       } catch (IOException ex) {
@@ -209,7 +213,7 @@ public class AgentConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        PROTOCOL_MANAGER.setMessageToSend(BOARD_MANAGER.getBoardName());
+        setMessageToSend(BOARD_MANAGER.getBoardName());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
@@ -221,9 +225,8 @@ public class AgentConnectionManager implements Runnable {
      */
     private void write(SelectionKey key) throws IOException {
         LOGGER.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
-        socketChannel.write(ByteBuffer.wrap(PROTOCOL_MANAGER.getMessageToSend().getBytes()));
+        socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
         key.interestOps(SelectionKey.OP_READ);
-        PROTOCOL_MANAGER.resetMessageToSend();
     }
 
     /**
@@ -234,21 +237,18 @@ public class AgentConnectionManager implements Runnable {
      * should be a sequence of characters convertible into String.
      * @throws IOException
      */
-    private int read() throws IOException {
+    private String read() throws IOException {
         ByteBuffer readBuffer = ByteBuffer.allocate(1024);
         readBuffer.clear();
         int read = socketChannel.read(readBuffer);
         if (read == -1) {
             LOGGER.info(ProtocolMessages.S_NOTHING_TO_READ.toString());
-            return read;
+            return null;
         }
         readBuffer.flip();
         byte[] data = new byte[1024];
         readBuffer.get(data, 0, read);
-        String msg = new String(data).replaceAll("\0", "");
-        PROTOCOL_MANAGER.setReceivedMessage(msg);
-        socketChannel.register(selector, SelectionKey.OP_WRITE);
-        return 0;
+        return new String(data).replaceAll("\0", "");
     }
 
     /*

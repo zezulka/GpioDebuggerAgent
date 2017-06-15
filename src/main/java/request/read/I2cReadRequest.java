@@ -1,6 +1,6 @@
 package request.read;
 
-import net.ProtocolManager;
+import net.AgentConnectionManager;
 import request.manager.I2cManager;
 
 /**
@@ -34,7 +34,7 @@ public class I2cReadRequest implements ReadRequest {
 
     @Override
     public void giveFeedbackToClient() {
-        ProtocolManager.getInstance().setMessageToSend("I2C interface read"
+        AgentConnectionManager.setMessageToSend("I2C interface read"
                 + " response:\n" + read() + '\n');
     }
 

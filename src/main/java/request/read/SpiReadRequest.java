@@ -1,6 +1,6 @@
 package request.read;
 
-import net.ProtocolManager;
+import net.AgentConnectionManager;
 
 import request.manager.SpiManager;
 
@@ -52,7 +52,7 @@ public class SpiReadRequest implements ReadRequest {
       for(char c : response.toCharArray()) {
           build = build.append(getOneLineOfResponse(c));
       }
-      ProtocolManager.getInstance().setMessageToSend("SPI interface"
+      AgentConnectionManager.setMessageToSend("SPI interface"
               + " response:\n" + build.toString() + '\n');
     }
 

@@ -14,7 +14,7 @@ public final class StartEpollInterruptListenerRequest extends AbstractEpollInter
     }
 
     @Override
-    public void handleRequest() {
+    public void handleInterruptRequest() {
         MANAGER.registerInput(super.getArg());
     }
 }

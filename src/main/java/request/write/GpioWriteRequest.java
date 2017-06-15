@@ -5,7 +5,7 @@ import io.silverspoon.bulldog.core.Signal;
 
 import java.io.IOException;
 
-import net.ProtocolManager;
+import net.AgentConnectionManager;
 
 import request.IllegalRequestException;
 import request.StringConstants;
@@ -88,7 +88,7 @@ public class GpioWriteRequest implements WriteRequest {
      */
     @Override
     public void giveFeedbackToClient() throws IOException {
-        ProtocolManager.getInstance().setMessageToSend(String.format(
+        AgentConnectionManager.setMessageToSend(String.format(
                 StringConstants.GPIO_RESPONSE_FORMAT.toString(), this.desiredVoltage ? "HIGH" : "LOW", this.pin.getAddress(),
                 this.pin.getIndexOnPort(),this.pin.getName()));
     }

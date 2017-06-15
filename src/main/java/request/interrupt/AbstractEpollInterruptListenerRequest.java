@@ -2,11 +2,15 @@ package request.interrupt;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import net.ProtocolManager;
+import net.AgentConnectionManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractEpollInterruptListenerRequest implements InterruptListenerRequest {
 
    private final InterruptListenerArgs arg;
+   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEpollInterruptListenerRequest.class);
 
   /**
    * @throws IllegalArgumentException args is null
@@ -20,13 +24,15 @@ public abstract class AbstractEpollInterruptListenerRequest implements Interrupt
 
    @Override
    public void giveFeedbackToClient() throws IOException {
-       ProtocolManager.getInstance().setMessageToSend(getMessagePrefix()
-                                                      + ':'
-                                                      + arg.getPin().getName()
-                                                      + ':' + arg.getEdge()
-                                                      + ':'
-                                                      + LocalTime.now().getNano()
-                                                      + '\n');
+       String response = getMessagePrefix()
+                                + ':'
+                                + arg.getPin().getName()
+                                + ':' + arg.getEdge()
+                                + ':'
+                                + LocalTime.now().getNano()
+                                + '\n';
+       LOGGER.info(String.format("[Interrupt listeners] sent to client: %s", response));
+       AgentConnectionManager.setMessageToSend(response);
    }
 
    protected InterruptListenerArgs getArg() {

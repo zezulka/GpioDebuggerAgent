@@ -2,17 +2,13 @@ package request.read;
 
 import io.silverspoon.bulldog.core.pin.Pin;
 
-import io.silverspoon.bulldog.core.Signal;
-
 import java.io.IOException;
 
-import net.ProtocolManager;
+import net.AgentConnectionManager;
 
 import request.IllegalRequestException;
 import request.StringConstants;
 
-import request.manager.BoardManager;
-import request.manager.BoardManagerBulldogImpl;
 import request.manager.GpioManager;
 
 
@@ -57,7 +53,7 @@ public class GpioReadRequest implements ReadRequest {
         } else {
             voltageLvl = "HIGH";
         }
-        ProtocolManager.getInstance().setMessageToSend(String.format(
+        AgentConnectionManager.setMessageToSend(String.format(
                 StringConstants.GPIO_RESPONSE_FORMAT.toString(), voltageLvl, this.pin.getAddress(),
                 this.pin.getIndexOnPort(),this.pin.getName()));
     }

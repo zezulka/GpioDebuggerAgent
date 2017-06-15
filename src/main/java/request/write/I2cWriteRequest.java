@@ -1,6 +1,6 @@
 package request.write;
 
-import net.ProtocolManager;
+import net.AgentConnectionManager;
 
 import request.manager.I2cManager;
 
@@ -38,7 +38,7 @@ public class I2cWriteRequest implements WriteRequest {
 
     @Override
     public void giveFeedbackToClient() {
-        ProtocolManager.getInstance().setMessageToSend("Write I2c request has been"
+        AgentConnectionManager.setMessageToSend("Write I2c request has been"
                 + " submitted, result:\n"+ i2cManager.readFromI2c(this.slaveAddress, this.registerAddress, content.length));
     }
 

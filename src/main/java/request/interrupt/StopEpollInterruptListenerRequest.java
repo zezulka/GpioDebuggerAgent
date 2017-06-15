@@ -16,7 +16,7 @@ public final class StopEpollInterruptListenerRequest extends AbstractEpollInterr
     }
 
     @Override
-    public void handleRequest() {
+    public void handleInterruptRequest() {
         MANAGER.deregisterInput(super.getArg());
     }
 }

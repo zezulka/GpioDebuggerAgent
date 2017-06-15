@@ -22,7 +22,10 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
     @Override
     public boolean registerInput(InterruptListenerArgs input) {
         LinuxDigitalInput newDigitalInput = new LinuxDigitalInput(input.getPin());
+        newDigitalInput.setup();
+        newDigitalInput.enableInterrupts();
         newDigitalInput.setInterruptTrigger(input.getEdge());
+        newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
         if (inputMap.containsKey(input)) {
             LOGGER.error("Interrupt listener could not have been registered because it had been registered already.");
             return false;
@@ -39,7 +42,7 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
     public boolean deregisterInput(InterruptListenerArgs input) {
         if (!inputMap.containsKey(input)) {
             LinuxDigitalInput digitalInput = inputMap.get(input);
-            //digitalInput.removeInterruptListener(...);
+            digitalInput.clearInterruptListeners();
             inputMap.remove(input);
             LOGGER.info(String.format(
                     "Interrupt listener has been deregistered: GPIO : %s, interrupt type : %s",
