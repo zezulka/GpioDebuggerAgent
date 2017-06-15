@@ -44,7 +44,7 @@ public class AgentConnectionManager implements Runnable {
     private static final AgentConnectionManager INSTANCE = new AgentConnectionManager();
     private static final ProtocolManager PROTOCOL_MANAGER = ProtocolManager.getInstance();
     private static final BoardManager BOARD_MANAGER = BoardManagerBulldogImpl.getInstance();
-    private final Logger connectionManagerLogger = LoggerFactory.getLogger(AgentConnectionManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AgentConnectionManager.class);
 
     /**
      * Creates connection manager with default socket port.
@@ -68,10 +68,10 @@ public class AgentConnectionManager implements Runnable {
      */
     private void init() {
         if (selector != null || serverSocketChannel != null) {
-            connectionManagerLogger.error(ProtocolMessages.S_ERR_INIT_MORE_THAN_ONCE.toString());
+            LOGGER.error(ProtocolMessages.S_ERR_INIT_MORE_THAN_ONCE.toString());
             return;
         }
-        connectionManagerLogger.info(ProtocolMessages.S_SERVER_INIT.toString());
+        LOGGER.info(ProtocolMessages.S_SERVER_INIT.toString());
         try {
             selector = Selector.open();
             serverSocketChannel = ServerSocketChannel.open();
@@ -80,9 +80,9 @@ public class AgentConnectionManager implements Runnable {
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         } catch (IOException ex) {
-            connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+            LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
         }
-        connectionManagerLogger.info(ProtocolMessages.S_SERVER_INIT_SUCCESS.toString());
+        LOGGER.info(ProtocolMessages.S_SERVER_INIT_SUCCESS.toString());
     }
 
     /**
@@ -119,7 +119,7 @@ public class AgentConnectionManager implements Runnable {
       */
     @Override
     public void run() {
-        System.out.println("Agent successfully launched.");
+        LOGGER.info("Agent successfully launched.");
         while(true) {
           init();
           runImpl();
@@ -161,7 +161,7 @@ public class AgentConnectionManager implements Runnable {
                   }
                   if (key.isAcceptable()) {
                       accept();
-                      connectionManagerLogger.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
+                      LOGGER.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
                   }
                   if (key.isReadable()) {
                       int readVal = read();
@@ -181,7 +181,7 @@ public class AgentConnectionManager implements Runnable {
                               }
                           });
                       } catch (IllegalRequestException ex) {
-                          connectionManagerLogger.error(null, ex);
+                          LOGGER.error(null, ex);
                           ProtocolManager.getInstance().setMessageToSend("Illegal Request.");
                       }
                   }
@@ -192,7 +192,7 @@ public class AgentConnectionManager implements Runnable {
               }
           }
       } catch (IOException ex) {
-          connectionManagerLogger.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+          LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
       } finally {
            closeConnection();
       }
@@ -220,7 +220,7 @@ public class AgentConnectionManager implements Runnable {
      * @param key
      */
     private void write(SelectionKey key) throws IOException {
-        connectionManagerLogger.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
+        LOGGER.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
         socketChannel.write(ByteBuffer.wrap(PROTOCOL_MANAGER.getMessageToSend().getBytes()));
         key.interestOps(SelectionKey.OP_READ);
         PROTOCOL_MANAGER.resetMessageToSend();
@@ -239,7 +239,7 @@ public class AgentConnectionManager implements Runnable {
         readBuffer.clear();
         int read = socketChannel.read(readBuffer);
         if (read == -1) {
-            connectionManagerLogger.info(ProtocolMessages.S_NOTHING_TO_READ.toString());
+            LOGGER.info(ProtocolMessages.S_NOTHING_TO_READ.toString());
             return read;
         }
         readBuffer.flip();
@@ -257,7 +257,7 @@ public class AgentConnectionManager implements Runnable {
     private void closeConnection() {
       try {
         if(serverSocketChannel != null) {
-            connectionManagerLogger.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
+            LOGGER.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
         }
         if (selector != null) {
             selector.close();
@@ -268,7 +268,7 @@ public class AgentConnectionManager implements Runnable {
         serverSocketChannel.close();
         serverSocketChannel = null;
       } catch(IOException ex) {
-        connectionManagerLogger.error(null, ex);
+        LOGGER.error(null, ex);
       }
     }
 }
