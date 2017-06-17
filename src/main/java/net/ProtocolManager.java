@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import request.IllegalRequestException;
 import request.Request;
 import request.RequestParser;
-import request.interrupt.InterruptListenerRequest;
 import request.read.ReadRequest;
 import request.write.WriteRequest;
 
@@ -40,12 +39,14 @@ import request.manager.InterfaceManager;
  */
 public class ProtocolManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtocolManager.class);
-    private static final ProtocolManager INSTANCE = new ProtocolManager();
+    private final Function<Interface, InterfaceManager> converter;
 
-    private ProtocolManager() {}
-
-    public static ProtocolManager getInstance() {
-        return INSTANCE;
+    private ProtocolManager(Function<Interface, InterfaceManager> converter) {
+        this.converter = converter;
+    }    
+    
+    public static ProtocolManager getInstance(Function<Interface, InterfaceManager> converter) {
+        return new ProtocolManager(converter);
     }
 
     /**
@@ -55,9 +56,9 @@ public class ProtocolManager {
      * @throws IllegalRequestException if request is not valid
      * @throws IOException
      */
-    public void parseRequest(Function<Interface, InterfaceManager> converter, String receivedMessage) throws IllegalRequestException, IOException {
+    public void parseRequest(String receivedMessage) throws IllegalRequestException, IOException {
         LOGGER.info(ProtocolMessages.S_REQUEST_CAPTURED + " " +receivedMessage);
-        Request req = RequestParser.parse(converter, receivedMessage);
+        Request req = RequestParser.parse(this.converter, receivedMessage);
         performRequest(req);
         LOGGER.info(ProtocolMessages.S_REQUEST_OK.toString());
     }
@@ -71,7 +72,7 @@ public class ProtocolManager {
      * @param request
      * @throws java.io.IOException
      */
-    public void performRequest(Request request) throws IOException {
+    private void performRequest(Request request) throws IOException {
         LOGGER.info(String.format("Request of type %s has "
                     + "been submitted",request.getClass()));
         if (request instanceof ReadRequest) {

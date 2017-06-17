@@ -9,15 +9,18 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import request.IllegalRequestException;
+import request.Interface;
 import request.manager.BoardManager;
 import request.manager.BoardManagerBulldogImpl;
 import request.manager.GpioManagerBulldogImpl;
 import request.manager.I2cManagerBulldogImpl;
+import request.manager.InterfaceManager;
 import request.manager.SpiManagerBulldogImpl;
 
 /**
@@ -44,8 +47,20 @@ public class AgentConnectionManager implements Runnable {
     public static final long TIMEOUT = 10 * 1000;
 
     private static final AgentConnectionManager INSTANCE = new AgentConnectionManager();
-    private static final ProtocolManager PROTOCOL_MANAGER = ProtocolManager.getInstance();
     private static final BoardManager BOARD_MANAGER = BoardManagerBulldogImpl.getInstance();
+    private static final Function<Interface, InterfaceManager> CONVERTER = (t) -> {
+        switch (t) {
+            case GPIO:
+                return GpioManagerBulldogImpl.getInstance(BOARD_MANAGER);
+            case I2C:
+                return I2cManagerBulldogImpl.getInstance(BOARD_MANAGER);
+            case SPI:
+                return SpiManagerBulldogImpl.getInstance(BOARD_MANAGER);
+            default:
+                throw new IllegalArgumentException();
+        }
+    };
+    private static final ProtocolManager PROTOCOL_MANAGER = ProtocolManager.getInstance(CONVERTER);
     private static final Logger LOGGER = LoggerFactory.getLogger(AgentConnectionManager.class);
 
     /**
@@ -64,9 +79,9 @@ public class AgentConnectionManager implements Runnable {
     }
 
     /**
-     * Initializes server. This method must be executed only once per client (i.e.
-     * resources must be initialized only once). Should the method be executed
-     * more than once, such attempt is ignored.
+     * Initializes server. This method must be executed only once per client
+     * (i.e. resources must be initialized only once). Should the method be
+     * executed more than once, such attempt is ignored.
      */
     private void init() {
         if (selector != null || serverSocketChannel != null) {
@@ -111,6 +126,7 @@ public class AgentConnectionManager implements Runnable {
             }
         }
     }
+
     /**
      * Static factory method used for getting instance of an agent.
      *
@@ -122,15 +138,15 @@ public class AgentConnectionManager implements Runnable {
     }
 
     /**
-      * Runs in an infinite loop, therefore the only way to stop this thread
-      * from running is to kill the whole process.
-      */
+     * Runs in an infinite loop, therefore the only way to stop this thread from
+     * running is to kill the whole process.
+     */
     @Override
     public void run() {
         LOGGER.info("Agent successfully launched.");
-        while(true) {
-          init();
-          runImpl();
+        while (true) {
+            init();
+            runImpl();
         }
     }
 
@@ -153,53 +169,58 @@ public class AgentConnectionManager implements Runnable {
      *
      */
     private void runImpl() {
-      try {
-          while (true /*!Thread.currentThread().isInterrupted()*/) {
-              if(!selector.isOpen()) {
-                  return;
-              }
-              selector.select(TIMEOUT);
-              Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+        try {
+            while (true) {
+                if (!selector.isOpen()) {
+                    return;
+                }
+                selector.select(TIMEOUT);
+                Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+                if(!processRegisteredKeys(keys)) {
+                    return;
+                }
+            }
+        } catch (IOException ex) {
+            LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+        } finally {
+            closeConnection();
+        }
+    }
 
-              while (keys.hasNext()) {
-                  SelectionKey key = keys.next();
-                  keys.remove();
-                  if (!key.isValid()) {
-                      continue;
-                  }
-                  if (key.isAcceptable()) {
-                      accept();
-                      LOGGER.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
-                  }
-                  if (key.isReadable()) {
-                      String receivedMessage = read();
-                      if (receivedMessage == null) {
-                          continue;
-                      }
-                      try {
-                          PROTOCOL_MANAGER.parseRequest((t) -> {
-                              switch(t) {
-                                  case GPIO: return GpioManagerBulldogImpl.getInstance(BOARD_MANAGER);
-                                  case I2C : return I2cManagerBulldogImpl.getInstance(BOARD_MANAGER);
-                                  case SPI : return SpiManagerBulldogImpl.getInstance(BOARD_MANAGER);
-                                  default : throw new IllegalArgumentException();
-                              }
-                          }, receivedMessage);
-                      } catch (IllegalRequestException ex) {
-                          LOGGER.error(null, ex);
-                          setMessageToSend("Illegal Request.");
-                      }
-                  }
-                  if (key.isWritable() && messageToSend != null) {
-                      write(key);
-                  }
-              }
-          }
-      } catch (IOException ex) {
-          LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
-      } finally {
-           closeConnection();
-      }
+    private boolean processRegisteredKeys(Iterator<SelectionKey> keys) throws IOException {
+        while (keys.hasNext()) {
+            if(!processNextKey(keys.next())) {
+                return false;
+            }
+            keys.remove();
+        }
+        return true;
+    }
+
+    private boolean processNextKey(SelectionKey key) throws IOException {
+        if (!key.isValid()) {
+            return false;
+        }
+        if (key.isAcceptable()) {
+            accept();
+            LOGGER.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
+        }
+        if (key.isReadable()) {
+            String receivedMessage = read();
+            if (receivedMessage == null) {
+                return false;
+            }
+            try {
+                PROTOCOL_MANAGER.parseRequest(receivedMessage);
+            } catch (IllegalRequestException ex) {
+                LOGGER.error(null, ex);
+                setMessageToSend(ProtocolMessages.S_ILLEGAL_REQUEST.toString());
+            }
+        }
+        if (key.isWritable() && messageToSend != null) {
+            write(key);
+        }
+        return true;
     }
 
     /**
@@ -255,20 +276,20 @@ public class AgentConnectionManager implements Runnable {
      * Closes connection and cleans up all network resources.
      */
     private void closeConnection() {
-      try {
-        if(serverSocketChannel != null) {
-            LOGGER.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
+        try {
+            if (serverSocketChannel != null) {
+                LOGGER.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
+            }
+            if (selector != null) {
+                selector.close();
+                selector = null;
+            }
+            BOARD_MANAGER.cleanUpResources();
+            serverSocketChannel.socket().close();
+            serverSocketChannel.close();
+            serverSocketChannel = null;
+        } catch (IOException ex) {
+            LOGGER.error(null, ex);
         }
-        if (selector != null) {
-            selector.close();
-            selector = null;
-        }
-        BOARD_MANAGER.cleanUpResources();
-        serverSocketChannel.socket().close();
-        serverSocketChannel.close();
-        serverSocketChannel = null;
-      } catch(IOException ex) {
-        LOGGER.error(null, ex);
-      }
     }
 }

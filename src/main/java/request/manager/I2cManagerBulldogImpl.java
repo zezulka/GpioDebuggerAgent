@@ -22,7 +22,7 @@ public class I2cManagerBulldogImpl implements I2cManager {
     private I2cManagerBulldogImpl(BoardManager boardManager) {
         this.boardManager = boardManager;
     }
-    
+
     public static I2cManagerBulldogImpl getInstance(BoardManager boardManager) {
         return new I2cManagerBulldogImpl(boardManager);
     }
@@ -45,7 +45,11 @@ public class I2cManagerBulldogImpl implements I2cManager {
               i2cConnection.readBytesFromRegister(address, buff);
               StringBuilder builder = new StringBuilder();
               for(byte b : buff) {
-                  builder = builder.append(b).append("\t0x").append(Integer.toString((byte)b, 16)).append('\n');
+                  builder = builder
+                               .append((int) (b & 0xFF))
+                               .append("\t0x")
+                               .append(Integer.toHexString(b & 0xFF))
+                               .append('\n');
               }
               return builder.toString();
             }
@@ -77,7 +81,7 @@ public class I2cManagerBulldogImpl implements I2cManager {
             LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
         }
     }
-    
+
     private void createConnectionIfNecessary(int address) {
         if(i2cConnection == null) {
             i2cConnection = this.boardManager.getI2c().createI2cConnection(address);
