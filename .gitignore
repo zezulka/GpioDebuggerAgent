@@ -1,5 +1,6 @@
 /target/
 /nbproject/
+/docs/
 *.log
 .ftpconfig
 .ftpignore
