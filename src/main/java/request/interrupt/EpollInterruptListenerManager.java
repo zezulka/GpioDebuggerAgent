@@ -13,7 +13,8 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
     private final Map<InterruptListenerArgs, LinuxDigitalInput> inputMap = new HashMap<>();
     private static final InterruptListenerManager INTR_MANAGER = new EpollInterruptListenerManager();
 
-    private EpollInterruptListenerManager() {}
+    private EpollInterruptListenerManager() {
+    }
 
     public static InterruptListenerManager getInstance() {
         return INTR_MANAGER;
@@ -21,16 +22,35 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
 
     @Override
     public boolean registerInput(InterruptListenerArgs input) {
-        LinuxDigitalInput newDigitalInput = new LinuxDigitalInput(input.getPin());
-        newDigitalInput.setup();
-        newDigitalInput.enableInterrupts();
-        newDigitalInput.setInterruptTrigger(input.getEdge());
-        newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
         if (inputMap.containsKey(input)) {
             LOGGER.error("Interrupt listener could not have been registered because it had been registered already.");
             return false;
         }
+        LinuxDigitalInput newDigitalInput = new LinuxDigitalInput(input.getPin());
+        if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
+            newDigitalInput.setup();
+            newDigitalInput.enableInterrupts();
+            newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
+            input.getPin().addFeature(newDigitalInput);
+            input.getPin().activateFeature(LinuxDigitalInput.class);
+            newDigitalInput.activate();
+        }
         inputMap.put(input, newDigitalInput);
+        if (!newDigitalInput.areInterruptsEnabled()) {
+            throw new AssertionError("iterrupts not enabled");
+        }
+        if (!newDigitalInput.isSetup()) {
+            throw new AssertionError("not setup");
+        }
+        if (!input.getPin().isFeatureActive(newDigitalInput)) {
+            throw new AssertionError("feature is not active");
+        }
+        if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
+            throw new AssertionError("feature missing");
+        }
+        if (!newDigitalInput.isActivatedFeature()) {
+            throw new AssertionError("feature not activated: " + newDigitalInput.getClass());
+        }
         LOGGER.info(String.format(
                 "New interrupt listener has been registered: GPIO : %s, interrupt type : %s",
                 input.getPin().getName(),

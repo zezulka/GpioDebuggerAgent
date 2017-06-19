@@ -31,7 +31,7 @@ public class StartInterruptRequestFactory {
             try {
                 edge = Edge.valueOf(strArray[1]);
             } catch (IllegalArgumentException ex) {
-                edge = null;
+                throw new IllegalRequestException(ex);
             }
             LOGGER.info(String.format("New interrupt listener request submitted: pin : %s, type: %s", pin.getName(), edge.toString()));
             return new StartEpollInterruptListenerRequest(new InterruptListenerArgs(pin, edge));

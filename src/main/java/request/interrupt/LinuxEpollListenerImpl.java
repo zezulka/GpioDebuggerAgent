@@ -9,11 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerRequest
-                                    implements InterruptListener {
+        implements InterruptListener {
 
     private static final String PREFIX = "INTR_GENERATED";
     private static final Logger LOGGER = LoggerFactory.getLogger(LinuxEpollListenerImpl.class);
 
+    @Override
     protected String getMessagePrefix() {
         return PREFIX;
     }
@@ -24,15 +25,16 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
 
     @Override
     public void handleInterruptRequest() {
+        //NO-OP: this is not a client generated request, there is nothing to parse, only send message to client
     }
 
     @Override
     public void interruptRequest(InterruptEventArgs iea) {
-        try{
-            System.out.println(iea.getEdge() + "   ASDFASDAFDFASDFAD");
+        try {
             super.giveFeedbackToClient();
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             LOGGER.error(null, ex);
         }
     }
+        
 }

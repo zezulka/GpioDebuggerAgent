@@ -32,9 +32,10 @@ public class ProgramUtils {
     private static FileLock lock;
 
     public static boolean checkIfAlreadyRunning() throws IOException {
-        f = new File("RingOnRequest.lock");
-        if (f.exists()) {
-            return true;
+        if (f == null) {
+            f = File.createTempFile("app", ".lock");
+        } else {
+           return true;
         }
         channel = new RandomAccessFile(f, "rw").getChannel();
         lock = channel.tryLock();

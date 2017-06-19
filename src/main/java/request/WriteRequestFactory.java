@@ -15,8 +15,6 @@
  */
 package request;
 
-import io.silverspoon.bulldog.core.pin.Pin;
-
 import request.write.GpioWriteRequest;
 import request.write.I2cWriteRequest;
 import request.write.SpiWriteRequest;
@@ -25,7 +23,6 @@ import request.manager.I2cManager;
 import request.manager.SpiManager;
 import request.manager.GpioManager;
 
-import request.Interface;
 import request.manager.InterfaceManager;
 
 /**

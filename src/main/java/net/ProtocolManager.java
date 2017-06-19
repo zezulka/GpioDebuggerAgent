@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import request.IllegalRequestException;
 import request.Request;
 import request.RequestParser;
+import request.interrupt.InterruptListenerRequest;
 import request.read.ReadRequest;
 import request.write.WriteRequest;
 
@@ -81,7 +82,10 @@ public class ProtocolManager {
         } else if (request instanceof WriteRequest) {
             WriteRequest req = (WriteRequest) request;
             req.write();
-        } 
+        } else if (request instanceof InterruptListenerRequest) {
+            InterruptListenerRequest req = (InterruptListenerRequest) request;
+            req.handleInterruptRequest();
+        }
         request.giveFeedbackToClient();
     }
 }

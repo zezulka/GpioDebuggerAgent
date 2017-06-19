@@ -29,7 +29,7 @@ public class StopInterruptRequestFactory {
             try {
                 edge = Edge.valueOf(strArray[1]);
             } catch (IllegalArgumentException ex) {
-                edge = null;
+                throw new IllegalRequestException(ex);
             }
             LOGGER.info(String.format("Interrupt listener removal request submitted: pin : %s, type: %s", pin.getName(), edge.toString()));
             return new StopEpollInterruptListenerRequest(new InterruptListenerArgs(pin, edge));
