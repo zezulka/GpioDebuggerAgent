@@ -1,14 +1,14 @@
 package core;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import net.AgentConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.ProgramUtils;
 
 /**
- * Main class, which represents an entry point for the whole application.
- * Only one instance can be run at a time.
+ * Main class, which represents an entry point for the whole application. Only
+ * one instance can be run at a time.
  *
  * @author Miloslav Zezulka, 2017
  */
@@ -21,18 +21,11 @@ public class Agent {
 
     public static void main(String[] args) {
         try {
-            if(ProgramUtils.checkIfAlreadyRunning()) {
-                final String alreadyExists = "program stopped prematurely because one instance of the program already exists";
-                LOGGER.info(alreadyExists);
-                System.exit(1);
-                return;
-            }
+            ServerSocket s = new ServerSocket(12345);
+            new Thread(AgentConnectionManager.getManagerWithDefaultPort()).start();
         } catch (IOException ex) {
-            final String appNotStarted = "could not start application: ";
-            LOGGER.error(appNotStarted, ex);
+            LOGGER.error("Application already running!");
             System.exit(1);
-            return;
         }
-        new Thread(AgentConnectionManager.getManagerWithDefaultPort()).start();
     }
 }
