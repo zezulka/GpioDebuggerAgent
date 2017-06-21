@@ -25,7 +25,10 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
 
     @Override
     public void handleInterruptRequest() {
-        //NO-OP: this is not a client generated request, there is nothing to parse, only send message to client
+        /**
+         * NO-OP: this is not a client generated request, there is nothing to
+         * parse, only send message to client that the event happened
+         */
     }
 
     @Override
@@ -36,5 +39,5 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
             LOGGER.error(null, ex);
         }
     }
-        
+
 }

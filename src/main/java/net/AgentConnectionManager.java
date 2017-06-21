@@ -79,8 +79,8 @@ public class AgentConnectionManager implements Runnable {
     }
 
     /**
-     * Initializes server. This method must be executed only once per client
-     * (i.e. resources must be initialized only once). Should the method be
+     * Initialises server. This method must be executed only once per client
+     * (i.e. resources must be initialised only once). Should the method be
      * executed more than once, such attempt is ignored.
      */
     private void init() {

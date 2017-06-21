@@ -12,6 +12,10 @@ import org.slf4j.LoggerFactory;
 
 import request.manager.InterfaceManager;
 
+/**
+ * Handles client request for registering interrupt listener (edge-trigged).
+ * @author Miloslav Zezulka
+ */
 public class StartInterruptRequestFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StartInterruptRequestFactory.class);

@@ -10,6 +10,10 @@ import request.manager.InterfaceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Handles client request for deregistering interrupt listener (edge-trigged).
+ * @author Miloslav Zezulka, 2017
+ */
 public class StopInterruptRequestFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StopInterruptRequestFactory.class);

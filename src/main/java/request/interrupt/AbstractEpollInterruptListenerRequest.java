@@ -7,6 +7,10 @@ import net.AgentConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Abstract class roofing all classes dealing with interrupt listeners.
+ * @author Miloslav Zezulka
+ */
 public abstract class AbstractEpollInterruptListenerRequest implements InterruptListenerRequest {
 
    private final InterruptListenerArgs arg;
@@ -22,6 +26,12 @@ public abstract class AbstractEpollInterruptListenerRequest implements Interrupt
        this.arg = arg;
    }
 
+   /**
+    * Sends back client message in special format (i.e. must be parsed on client side).
+    * Contains pin on which the interrupt was registered. In its prefix, information
+    * about whether the interrupt listener has been (de)registered or generated, is contained.
+    * @throws IOException 
+    */
    @Override
    public void giveFeedbackToClient() throws IOException {
        String response = getMessagePrefix()
