@@ -30,10 +30,12 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
         }
         DigitalIO digitalIo = input.getDigitalIoFeature();
         Pin pin = digitalIo.getPin();
-        digitalIo.activate();
-        digitalIo.enableInterrupts();
         digitalIo.setup();
+        digitalIo.enableInterrupts();
         digitalIo.addInterruptListener(new LinuxEpollListenerImpl(input));
+        pin.activateFeature(DigitalIO.class);
+        digitalIo.activate();
+        
         pin.activateFeature(DigitalIO.class);
         INPUT_MAP.put(input, digitalIo);
         LOGGER.info(String.format(
