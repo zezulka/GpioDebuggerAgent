@@ -39,16 +39,6 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
             pin.activateFeature(DigitalInput.class);  
         }
         INPUT_MAP.put(input, newDigitalInput);
-        if (!newDigitalInput.areInterruptsEnabled()) {
-            throw new AssertionError("iterrupts not enabled");
-        }
-        if (!newDigitalInput.isSetup()) {
-            throw new AssertionError("not setup");
-        }
-        if (!pin.hasFeature(DigitalInput.class)) {
-            throw new AssertionError("feature missing");
-        }
-        INPUT_MAP.put(input, newDigitalInput);
         LOGGER.info(String.format(
                 "New interrupt listener has been registered: GPIO : %s, interrupt type : %s",
                 pin.getName(),
