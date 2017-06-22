@@ -16,6 +16,7 @@
 package request;
 
 import io.silverspoon.bulldog.core.Edge;
+import io.silverspoon.bulldog.core.gpio.DigitalIO;
 import mocks.MockedDigitalIoFeature;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.After;
@@ -99,6 +100,10 @@ public class EpollInterruptListenerManagerTest {
         InterruptListenerArgs args = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Both);
         try {
             MANAGER.registerInput(args);
+            DigitalIO digIo = RequestParserUtils.REQUESTED_PIN.as(DigitalIO.class); 
+            assertThat(digIo.areInterruptsEnabled()).isTrue();
+            assertThat(digIo.isSetup()).isTrue();
+            assertThat(digIo.isActivatedFeature()).isTrue();
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }
