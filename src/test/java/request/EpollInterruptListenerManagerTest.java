@@ -16,8 +16,7 @@
 package request;
 
 import io.silverspoon.bulldog.core.Edge;
-import io.silverspoon.bulldog.core.gpio.DigitalInput;
-import mocks.MockedDigitalInput;
+import mocks.MockedDigitalIoFeature;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.After;
 import org.junit.Before;
@@ -50,7 +49,7 @@ public class EpollInterruptListenerManagerTest {
      */
     @Test
     public void deregisterExistingInterruptListener() {
-        InterruptListenerArgs args = new InterruptListenerArgs(new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN), Edge.Both);
+        InterruptListenerArgs args = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Both);
         try {
             MANAGER.registerInput(args);
             MANAGER.deregisterInput(args);
@@ -64,7 +63,7 @@ public class EpollInterruptListenerManagerTest {
      */
     @Test
     public void deregisterExistingInterruptListenerTwice() {
-        InterruptListenerArgs args = new InterruptListenerArgs(new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN), Edge.Both);
+        InterruptListenerArgs args = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Both);
         try {
             MANAGER.registerInput(args);
             MANAGER.deregisterInput(args);
@@ -80,9 +79,9 @@ public class EpollInterruptListenerManagerTest {
      */
     @Test
     public void registerInterruptListenerSamePinDifferentEdge() {
-        InterruptListenerArgs argsFalling = new InterruptListenerArgs(new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN), Edge.Falling);
-        InterruptListenerArgs argsRising = new InterruptListenerArgs(new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN), Edge.Rising);
-        InterruptListenerArgs argsBoth = new InterruptListenerArgs(new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN), Edge.Both);
+        InterruptListenerArgs argsFalling = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Falling);
+        InterruptListenerArgs argsRising = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Rising);
+        InterruptListenerArgs argsBoth = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Both);
         try {
             MANAGER.registerInput(argsFalling);
             MANAGER.registerInput(argsRising);
@@ -97,8 +96,7 @@ public class EpollInterruptListenerManagerTest {
      */
     @Test
     public void registerInterruptListener() {
-        DigitalInput input = new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN);
-        InterruptListenerArgs args = new InterruptListenerArgs(input, Edge.Both);
+        InterruptListenerArgs args = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Both);
         try {
             MANAGER.registerInput(args);
         } catch (IllegalRequestException ex) {
@@ -108,14 +106,14 @@ public class EpollInterruptListenerManagerTest {
     
     @Test
     public void deregisterNonexistingInterruptListener() {
-        InterruptListenerArgs args = new InterruptListenerArgs(new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN), Edge.Both);
+        InterruptListenerArgs args = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Both);
         assertThatThrownBy(() -> MANAGER.deregisterInput(args)).
                 isInstanceOf(IllegalRequestException.class);
     }
     
     @Test
     public void registerInterruptListenerTwice() {
-        InterruptListenerArgs args = new InterruptListenerArgs(new MockedDigitalInput(RequestParserUtils.REQUESTED_PIN), Edge.Both);
+        InterruptListenerArgs args = new InterruptListenerArgs(RequestParserUtils.REQUESTED_PIN.as(MockedDigitalIoFeature.class), Edge.Both);
         try {
             MANAGER.registerInput(args);
         } catch (IllegalRequestException ex) {
