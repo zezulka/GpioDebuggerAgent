@@ -69,6 +69,9 @@ public class ReadRequestFactory {
             byte[] rBuffer;
             try {
                slaveIndex = Integer.decode(content);
+               if(slaveIndex < 0) {
+                   throw new IllegalRequestException("slave index cannot be negative");
+               }
                String[] bytes = content1.split(StringConstants.VAL_SEPARATOR.toString());
                rBuffer = new byte[bytes.length];
                for(int i = 0; i < bytes.length; i++) {
@@ -89,6 +92,15 @@ public class ReadRequestFactory {
               slaveAddress = Integer.decode(content);
               registerAddressLo = Integer.decode(content1);
               len = Integer.decode(content2);
+              if(len <= 0) {
+                  throw new IllegalRequestException("len must be positive!");
+              }
+              if(registerAddressLo < 0) {
+                  throw new IllegalRequestException("register address cannot be negative!");
+              }
+              if(slaveAddress < 0 || slaveAddress > NumericConstants.I2C_MAX_SLAVE_ADDR) {
+                  throw new IllegalRequestException(String.format("slave address not in bounds [0;%d]", NumericConstants.I2C_MAX_SLAVE_ADDR));
+              }
           } catch(NumberFormatException nfe) {
               throw new IllegalRequestException(nfe);
           }

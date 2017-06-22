@@ -47,7 +47,7 @@ public class GpioReadRequest implements ReadRequest {
     @Override
     public void giveFeedbackToClient() throws IOException {
         int status = Integer.parseInt(read());
-        String voltageLvl = "N/A";
+        String voltageLvl;
         if(status == 0) {
             voltageLvl = "LOW";
         } else {

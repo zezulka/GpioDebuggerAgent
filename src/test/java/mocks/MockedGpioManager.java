@@ -28,18 +28,12 @@ import request.manager.GpioManager;
  */
 public class MockedGpioManager implements GpioManager {
     private static final BoardManager MOCKED_MANAGER = MockedDeviceManager.getInstance();
-    private static final MockedGpioManager INSTANCE = new MockedGpioManager();
 
-    private MockedGpioManager() {
-    }
-
-    public static MockedGpioManager getInstance() {
-        return INSTANCE;
+    public MockedGpioManager() {
     }
 
     private void applyVoltage(Signal sig, Pin pin) {
         pin.getFeature(MockedDigitalIoFeature.class).write(sig);
-        assert(pin.getFeature(MockedDigitalIoFeature.class).read()).equals(sig);
     }
 
     /**

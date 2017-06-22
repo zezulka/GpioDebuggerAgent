@@ -33,22 +33,17 @@ public class MockedDigitalInput extends AbstractDigitalInput {
 	}
 	
 	public void bounceSignal(final Signal signal, final long bounceTimeMs) {
-		Thread thread = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				long delta = 0;
-				long start = System.currentTimeMillis();
-				Signal nextSignal = signal;
-				while(delta < bounceTimeMs) {
-					setSignalToRead( nextSignal == Signal.High ? Signal.Low : Signal.High);
-					delta = System.currentTimeMillis() - start;
-				}
-				
-				setSignalToRead(signal);
-			}
-			
-		});
+		Thread thread = new Thread(() -> {
+                    long delta = 0;
+                    long start = System.currentTimeMillis();
+                    Signal nextSignal = signal;
+                    while(delta < bounceTimeMs) {
+                        setSignalToRead( nextSignal == Signal.High ? Signal.Low : Signal.High);
+                        delta = System.currentTimeMillis() - start;
+                    }
+                    
+                    setSignalToRead(signal);
+                });
 		
 		thread.setPriority(Thread.MAX_PRIORITY);
 		thread.start();
@@ -75,6 +70,4 @@ public class MockedDigitalInput extends AbstractDigitalInput {
 	@Override
 	protected void disableInterruptsImpl() {
 	}
-
-
 }

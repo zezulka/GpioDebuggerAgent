@@ -29,9 +29,12 @@ public class StopInterruptRequestFactory {
         String[] strArray = interruptListenerArgs.split(StringConstants.VAL_SEPARATOR.toString());
         if (strArray.length == 2) {
             Pin pin = gpioManager.getPin(strArray[0]);
+            if(pin == null) {
+                throw new IllegalRequestException(String.format("Pin with name %s has not been found.", strArray[0]));
+            }
             Edge edge;
             try {
-                edge = Edge.valueOf(strArray[1]);
+                edge = Edge.valueOf(getFirstUppercaseRestLowercase(strArray[1]));
             } catch (IllegalArgumentException ex) {
                 throw new IllegalRequestException(ex);
             }
@@ -41,4 +44,10 @@ public class StopInterruptRequestFactory {
         throw new IllegalRequestException("Corrupted string format.");
     }
 
+    private static String getFirstUppercaseRestLowercase(String string) throws IllegalRequestException {
+        if(string == null) {
+            throw new IllegalRequestException();
+        }
+        return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
+    }
 }

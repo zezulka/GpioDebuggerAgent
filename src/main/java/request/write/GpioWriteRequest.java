@@ -63,7 +63,6 @@ public class GpioWriteRequest implements WriteRequest {
      * Writes value to the pin (both specified in GpioWriteRequest constructor)
      * and checks whether the value has been actually written.
      * @throws IllegalStateException check mentioned fails
-     * @throws IllegalRequestException should the write operation fail
      */
     @Override
     public void write() {

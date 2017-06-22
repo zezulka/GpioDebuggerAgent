@@ -10,8 +10,6 @@ import request.manager.InterfaceManager;
  */
 public class RequestParser {
 
-    private static final int MIN_NUM_ARGS = 3;
-
     /**
      * Parses client request given by String read from agent's
      * {@code InputStream}. The format of the request is one of the following:
@@ -26,7 +24,7 @@ public class RequestParser {
        * <li>SPI:READ:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
        * <li>SPI:WRITE:{CHIP_INDEX}:{VAL + ' '}+{:INTERFACE_NAME}?<li>
        *
-       * <li>GPIO:INTR_{STOP|START}:{PIN_NAME + ' ' + INTERRUPT_TYPE}</li>
+       * <li>GPIO:INTR_{INTR_STOP|INTR_START}:{PIN_NAME + ' ' + INTERRUPT_TYPE}</li>
      * </ul>
      * ,':' being the delimiter symbol.
      *
@@ -44,7 +42,7 @@ public class RequestParser {
             throw new IllegalRequestException("request cannot be null");
         }
         String[] request = clientInput.split(StringConstants.REQ_WORD_SEPARATOR.toString());
-        if(request.length < MIN_NUM_ARGS) {
+        if(request.length < NumericConstants.MIN_NUM_ARGS) {
             throw new IllegalRequestException(String.format("No such request with %d number of arguments exists.", request.length));
         }
         Interface interfc;

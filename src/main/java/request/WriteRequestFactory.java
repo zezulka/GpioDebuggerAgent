@@ -32,18 +32,18 @@ import request.manager.InterfaceManager;
 public class WriteRequestFactory {
 
     public static Request of(InterfaceManager interfaceManager, String... args) throws IllegalRequestException {
-      if(interfaceManager instanceof GpioManager && args.length == 1) {
-          if(args.length == 1) {
-              return WriteRequestFactory.gpioValueImplicit((GpioManager)interfaceManager, args[0]);
-          } else if(args.length == 2) {
-              return WriteRequestFactory.gpioValueExplicit((GpioManager)interfaceManager, args[0], args[1]);
-          }
-      } else if(interfaceManager instanceof I2cManager && args.length == 3) {
-          return WriteRequestFactory.i2c((I2cManager)interfaceManager, args[0], args[1], args[2]);
-      } else if(interfaceManager instanceof SpiManager && args.length == 2) {
-          return WriteRequestFactory.spi((SpiManager)interfaceManager, args[0], args[1]);
-      }
-      throw new IllegalRequestException();
+        if (interfaceManager instanceof GpioManager && args.length == 1) {
+            if (args.length == 1) {
+                return WriteRequestFactory.gpioValueImplicit((GpioManager) interfaceManager, args[0]);
+            } else if (args.length == 2) {
+                return WriteRequestFactory.gpioValueExplicit((GpioManager) interfaceManager, args[0], args[1]);
+            }
+        } else if (interfaceManager instanceof I2cManager && args.length == 3) {
+            return WriteRequestFactory.i2c((I2cManager) interfaceManager, args[0], args[1], args[2]);
+        } else if (interfaceManager instanceof SpiManager && args.length == 2) {
+            return WriteRequestFactory.spi((SpiManager) interfaceManager, args[0], args[1]);
+        }
+        throw new IllegalRequestException();
     }
 
     private static Request gpioValueImplicit(GpioManager gpioManager, String content) throws IllegalRequestException {
@@ -58,32 +58,42 @@ public class WriteRequestFactory {
         int slaveIndex;
         byte[] tBuffer;
         try {
-           slaveIndex = Integer.decode(content);
-           String[] bytes = content1.split(StringConstants.VAL_SEPARATOR.toString());
-           tBuffer = new byte[bytes.length];
-           for(int i = 0; i < bytes.length; i++) {
-               tBuffer[i] = Short.decode(bytes[i]).byteValue();
-           }
-         } catch(NumberFormatException nfe) {
-             throw new IllegalRequestException(nfe);
-         }
-         return new SpiWriteRequest(spiManager, slaveIndex, tBuffer);
+            slaveIndex = Integer.decode(content);
+            if(slaveIndex < 0) {
+                throw new IllegalRequestException();
+            }
+            String[] bytes = content1.split(StringConstants.VAL_SEPARATOR.toString());
+            tBuffer = new byte[bytes.length];
+            for (int i = 0; i < bytes.length; i++) {
+                tBuffer[i] = Short.decode(bytes[i]).byteValue();
+            }
+        } catch (NumberFormatException nfe) {
+            throw new IllegalRequestException(nfe);
+        }
+        return new SpiWriteRequest(spiManager, slaveIndex, tBuffer);
     }
 
     private static Request i2c(I2cManager i2cManager, String content, String content1, String content2) throws IllegalRequestException {
-          int slaveAddress;
-          int registerAddress;
-          try {
-              slaveAddress = Integer.decode(content);
-              registerAddress = Integer.decode(content1);
-          } catch(NumberFormatException nfe) {
-              throw new IllegalRequestException(nfe);
-          }
-          String[] bytesStr = content2.split(StringConstants.VAL_SEPARATOR.toString());
-          byte[] bytes = new byte[bytesStr.length];
-          for(int i = 0; i < bytesStr.length; i++) {
-              bytes[i] = Short.decode(bytesStr[i]).byteValue();
-          }
-          return new I2cWriteRequest(i2cManager, slaveAddress, registerAddress, bytes);
+        int slaveAddress;
+        int registerAddress;
+        byte[] bytes;
+        try {
+            slaveAddress = Integer.decode(content);
+            registerAddress = Integer.decode(content1);
+            if (registerAddress < 0) {
+                throw new IllegalRequestException("register address cannot be negative!");
+            }
+            if (slaveAddress < 0 || slaveAddress > NumericConstants.I2C_MAX_SLAVE_ADDR) {
+                throw new IllegalRequestException(String.format("slave address not in bounds [0;%d]", NumericConstants.I2C_MAX_SLAVE_ADDR));
+            }
+            String[] bytesStr = content2.split(StringConstants.VAL_SEPARATOR.toString());
+            bytes = new byte[bytesStr.length];
+            for (int i = 0; i < bytesStr.length; i++) {
+                bytes[i] = Short.decode(bytesStr[i]).byteValue();
+            }
+        } catch (NumberFormatException nfe) {
+            throw new IllegalRequestException(nfe);
+        }
+        return new I2cWriteRequest(i2cManager, slaveAddress, registerAddress, bytes);
     }
 }
