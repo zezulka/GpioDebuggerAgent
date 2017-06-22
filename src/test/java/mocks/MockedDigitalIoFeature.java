@@ -150,6 +150,7 @@ public class MockedDigitalIoFeature extends AbstractPinFeature implements Digita
 
     @Override
     public void write(Signal signal) {
+        setupOutputIfNecessary();
         output.write(signal);
     }
 
