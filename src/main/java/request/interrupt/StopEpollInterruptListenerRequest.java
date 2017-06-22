@@ -1,9 +1,13 @@
 package request.interrupt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import request.IllegalRequestException;
+
 public final class StopEpollInterruptListenerRequest extends AbstractEpollInterruptListenerRequest {
 
     private static final String PREFIX = "INTR_STOPPED";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(StopEpollInterruptListenerRequest.class);
     private static final InterruptListenerManager MANAGER = EpollInterruptListenerManager.getInstance();
 
     public StopEpollInterruptListenerRequest(InterruptListenerArgs arg) {
@@ -17,6 +21,11 @@ public final class StopEpollInterruptListenerRequest extends AbstractEpollInterr
 
     @Override
     public void handleInterruptRequest() {
-        MANAGER.deregisterInput(super.getArg());
+        try {
+            MANAGER.deregisterInput(super.getArg());
+        } catch (IllegalRequestException ex) {
+            LOGGER.error(null, ex);
+        }
+        
     }
 }

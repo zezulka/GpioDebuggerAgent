@@ -40,19 +40,19 @@ public class RequestParserTestBasic {
 
     @Test
     public void illegalSeparators() throws Exception {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio;read;" + RequestParserUtils.REQUESTED_PIN)).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio;read;" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void nonexistingInterface() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "ggppiioo:read:" + RequestParserUtils.REQUESTED_PIN)).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "ggppiioo:read:" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void nonexistingOperation() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:noop:" + RequestParserUtils.REQUESTED_PIN)).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:noop:" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
@@ -64,13 +64,13 @@ public class RequestParserTestBasic {
 
     @Test
     public void missingOperation() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio::" + RequestParserUtils.REQUESTED_PIN)).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio::" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void missingInterface() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, ":write:" + RequestParserUtils.REQUESTED_PIN)).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, ":write:" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 }

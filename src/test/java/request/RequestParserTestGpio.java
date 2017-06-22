@@ -35,7 +35,7 @@ public class RequestParserTestGpio {
     @Test
     public void gpioWriteTest() {
         try {
-            Request gpioWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:write:" + RequestParserUtils.REQUESTED_PIN);
+            Request gpioWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:write:" + RequestParserUtils.REQUESTED_PIN_NAME);
             assertThat(gpioWrite.getClass()).isEqualTo(GpioWriteRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -48,7 +48,7 @@ public class RequestParserTestGpio {
     @Test
     public void gpioReadTest() {
         try {
-            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:read:" + RequestParserUtils.REQUESTED_PIN);
+            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:read:" + RequestParserUtils.REQUESTED_PIN_NAME);
             assertThat(gpioRead.getClass()).isEqualTo(GpioReadRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());

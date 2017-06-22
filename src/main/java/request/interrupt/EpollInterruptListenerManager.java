@@ -1,16 +1,18 @@
 package request.interrupt;
 
+import io.silverspoon.bulldog.core.gpio.DigitalInput;
+import io.silverspoon.bulldog.core.pin.Pin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.silverspoon.bulldog.linux.gpio.LinuxDigitalInput;
 import java.util.HashMap;
 import java.util.Map;
+import request.IllegalRequestException;
 
 public final class EpollInterruptListenerManager implements InterruptListenerManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EpollInterruptListenerManager.class);
-    private final Map<InterruptListenerArgs, LinuxDigitalInput> inputMap = new HashMap<>();
+    private static final Map<InterruptListenerArgs, DigitalInput> INPUT_MAP = new HashMap<>();
     private static final InterruptListenerManager INTR_MANAGER = new EpollInterruptListenerManager();
 
     private EpollInterruptListenerManager() {
@@ -21,57 +23,47 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
     }
 
     @Override
-    public boolean registerInput(InterruptListenerArgs input) {
-        if (inputMap.containsKey(input)) {
+    public void registerInput(InterruptListenerArgs input) throws IllegalRequestException {
+        if (INPUT_MAP.containsKey(input)) {
             LOGGER.error("Interrupt listener could not have been registered because it had been registered already.");
-            return false;
+            throw new IllegalRequestException("Interrupt listener could not have been registered because it had been registered already.");
         }
-        LinuxDigitalInput newDigitalInput = new LinuxDigitalInput(input.getPin());
-        if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
+        DigitalInput newDigitalInput = input.getDigitalInput();
+        Pin pin = newDigitalInput.getPin();
+        if (!pin.hasFeature(DigitalInput.class)) {
             newDigitalInput.setup();
             newDigitalInput.enableInterrupts();
-            newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
-            input.getPin().addFeature(newDigitalInput);
-            input.getPin().activateFeature(LinuxDigitalInput.class);
+            pin.addFeature(newDigitalInput);
+            pin.activateFeature(DigitalInput.class);
             newDigitalInput.activate();
         }
-        inputMap.put(input, newDigitalInput);
-        if (!newDigitalInput.areInterruptsEnabled()) {
-            throw new AssertionError("iterrupts not enabled");
-        }
-        if (!newDigitalInput.isSetup()) {
-            throw new AssertionError("not setup");
-        }
-        if (!input.getPin().isFeatureActive(newDigitalInput)) {
-            throw new AssertionError("feature is not active");
-        }
-        if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
-            throw new AssertionError("feature missing");
-        }
-        if (!newDigitalInput.isActivatedFeature()) {
-            throw new AssertionError("feature not activated: " + newDigitalInput.getClass());
-        }
+        newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
+        INPUT_MAP.put(input, newDigitalInput);
         LOGGER.info(String.format(
                 "New interrupt listener has been registered: GPIO : %s, interrupt type : %s",
-                input.getPin().getName(),
+                pin.getName(),
                 input.getEdge()));
-        return true;
     }
 
     @Override
-    public boolean deregisterInput(InterruptListenerArgs input) {
-        if (!inputMap.containsKey(input)) {
-            LinuxDigitalInput digitalInput = inputMap.get(input);
-            digitalInput.clearInterruptListeners();
-            inputMap.remove(input);
+    public void deregisterInput(InterruptListenerArgs args) throws IllegalRequestException {
+        if (INPUT_MAP.containsKey(args)) {
+            DigitalInput input = INPUT_MAP.get(args);
+            input.clearInterruptListeners();
+            INPUT_MAP.remove(args);
             LOGGER.info(String.format(
                     "Interrupt listener has been deregistered: GPIO : %s, interrupt type : %s",
                     input.getPin().getName(),
-                    input.getEdge()));
-            return true;
+                    args.getEdge()));
         } else {
             LOGGER.error("Interrupt listener could not have been deregistered because it had not been registered.");
-            return false;
+            throw new IllegalRequestException("Interrupt listener could not have been deregistered because it had not been registered.");
         }
+    }
+
+    @Override
+    public void clearAllListeners() {
+        INPUT_MAP.values().forEach((input) -> input.clearInterruptListeners());
+        INPUT_MAP.clear();
     }
 }

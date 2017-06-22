@@ -36,7 +36,7 @@ public abstract class AbstractEpollInterruptListenerRequest implements Interrupt
    public void giveFeedbackToClient() throws IOException {
        String response = getMessagePrefix()
                                 + ':'
-                                + arg.getPin().getName()
+                                + arg.getDigitalInput().getPin().getName()
                                 + ':' + arg.getEdge()
                                 + ':'
                                 + LocalTime.now().getNano()

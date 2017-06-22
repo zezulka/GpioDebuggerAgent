@@ -29,7 +29,7 @@ public class RequestParserTestInterrupts {
     @Test
     public void registerInterrupt() {
         try {
-            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_START:" + RequestParserUtils.REQUESTED_PIN + " FALLING");
+            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_START:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING");
             assertThat(gpioRead.getClass()).isEqualTo(StartEpollInterruptListenerRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -39,7 +39,7 @@ public class RequestParserTestInterrupts {
     @Test
     public void deregisterInterrupt() {
         try {
-            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN + " BOTH");
+            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " BOTH");
             assertThat(gpioRead.getClass()).isEqualTo(StopEpollInterruptListenerRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -48,13 +48,13 @@ public class RequestParserTestInterrupts {
     
     @Test
     public void erroneousOperation() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR____:" + RequestParserUtils.REQUESTED_PIN + " FALLING")).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR____:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING")).
                 isInstanceOf(IllegalRequestException.class);
     }
     
     @Test
     public void erroneousEdge() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN + " FAILING")).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " FAILING")).
                 isInstanceOf(IllegalRequestException.class);
     }
     

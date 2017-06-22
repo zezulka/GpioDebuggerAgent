@@ -1,29 +1,33 @@
 package request.interrupt;
 
 import io.silverspoon.bulldog.core.Edge;
-import io.silverspoon.bulldog.core.pin.Pin;
+import io.silverspoon.bulldog.core.gpio.DigitalInput;
 
 /**
-  * Placeholder class for dealing with interrupts.
+  * DVO class for dealing with interrupts.
   *
   */
 public class InterruptListenerArgs {
-    private final Pin pin;
+    
+    private final DigitalInput digitalInput;
     private final Edge edge;
 
     /**
      * @throws IllegalArgumentException pin is null
      */
-    public InterruptListenerArgs(Pin pin, Edge edge) {
+    public InterruptListenerArgs(DigitalInput pin, Edge edge) {
         if(pin == null) {
-            throw new IllegalArgumentException("Pin cannot be null");
+            throw new IllegalArgumentException("Pin featurescannot be null");
         }
-        this.pin = pin;
+        if(!(pin instanceof DigitalInput)) {
+            throw new IllegalArgumentException("Pin feature must implement DigitaInput interface.");
+        }
+        this.digitalInput = pin;
         this.edge = edge;
     }
 
-    public Pin getPin() {
-        return this.pin;
+    public DigitalInput getDigitalInput() {
+        return this.digitalInput;
     }
 
     public Edge getEdge() {

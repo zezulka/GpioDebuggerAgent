@@ -15,6 +15,7 @@
  */
 package request;
 
+import io.silverspoon.bulldog.core.pin.Pin;
 import java.util.function.Function;
 
 import mocks.MockedSpiManager;
@@ -27,7 +28,8 @@ public class RequestParserUtils {
     public static final GpioManager MOCKED_GPIO_MANAGER = new MockedGpioManager();
     public static final I2cManager MOCKED_I2C_MANAGER = new MockedI2cManager();
     public static final SpiManager MOCKED_SPI_MANAGER = new MockedSpiManager();
-    public static final String REQUESTED_PIN = MOCKED_GPIO_MANAGER.getPin("P0").getName();
+    public static final Pin REQUESTED_PIN = MOCKED_GPIO_MANAGER.getPin("P0");
+    public static final String REQUESTED_PIN_NAME = REQUESTED_PIN.getName();
     public static final Function<Interface, InterfaceManager> CONVERTER = (t) -> {
         switch (t) {
             case GPIO:
