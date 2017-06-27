@@ -25,15 +25,16 @@ public class MockedI2cManager implements I2cManager {
 
     public MockedI2cManager() {
     }
-    
+
     @Override
-    public String readFromI2c(int slave, int address, int len) {
+    public String readFromI2c(int slave, int len) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void writeIntoI2c(int slave, int address, byte[] message) {
+    public void writeIntoI2c(int slave, byte[] message) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
     
 }

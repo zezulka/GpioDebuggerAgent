@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParserTestBasic {
+public class RequestParserBasicTest {
 
     @Before
     public void setUp() {

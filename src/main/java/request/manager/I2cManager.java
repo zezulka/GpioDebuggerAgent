@@ -10,11 +10,11 @@ public interface I2cManager extends InterfaceManager {
      *
      * @return I2c contents.
      */
-    public String readFromI2c(int slave, int address, int len);
+    public String readFromI2c(int slave, int len);
 
     /*
      * Reads bytes from the given address. I2c connection must have
      * been established before calling this method.
      */
-    public void writeIntoI2c(int slave, int address, byte[] message);
+    public void writeIntoI2c(int slave, byte[] message);
 }

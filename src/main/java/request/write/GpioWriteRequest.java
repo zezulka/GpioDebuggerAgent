@@ -88,8 +88,7 @@ public class GpioWriteRequest implements WriteRequest {
     @Override
     public void giveFeedbackToClient() throws IOException {
         AgentConnectionManager.setMessageToSend(String.format(
-                StringConstants.GPIO_RESPONSE_FORMAT.toString(), this.desiredVoltage ? "HIGH" : "LOW", this.pin.getAddress(),
-                this.pin.getIndexOnPort(),this.pin.getName()));
+                StringConstants.GPIO_RESPONSE_FORMAT.toString(), this.pin.getName(), this.desiredVoltage ? "HIGH" : "LOW"));
     }
 
 }

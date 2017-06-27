@@ -6,6 +6,7 @@ import request.manager.SpiManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.StringConstants;
 /**
  *
  * @author Miloslav Zezulka, 2017
@@ -52,8 +53,7 @@ public class SpiReadRequest implements ReadRequest {
       for(char c : response.toCharArray()) {
           build = build.append(getOneLineOfResponse(c));
       }
-      AgentConnectionManager.setMessageToSend("SPI interface"
-              + " response:\n" + build.toString() + '\n');
+      AgentConnectionManager.setMessageToSend(String.format(StringConstants.SPI_READ_RESPONSE_FORMAT.toString(), build.toString() + '\n'));
     }
 
     private String getOneLineOfResponse(char c) {

@@ -54,7 +54,6 @@ public class GpioReadRequest implements ReadRequest {
             voltageLvl = "HIGH";
         }
         AgentConnectionManager.setMessageToSend(String.format(
-                StringConstants.GPIO_RESPONSE_FORMAT.toString(), voltageLvl, this.pin.getAddress(),
-                this.pin.getIndexOnPort(),this.pin.getName()));
+                StringConstants.GPIO_RESPONSE_FORMAT.toString(), this.pin.getName(), voltageLvl));
     }
 }

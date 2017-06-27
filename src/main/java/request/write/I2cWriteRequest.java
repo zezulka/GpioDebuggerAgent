@@ -1,8 +1,12 @@
 package request.write;
 
 import net.AgentConnectionManager;
+import request.StringConstants;
 
 import request.manager.I2cManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -10,36 +14,33 @@ import request.manager.I2cManager;
  */
 public class I2cWriteRequest implements WriteRequest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(I2cWriteRequest.class);
+
     private final I2cManager i2cManager;
     private final byte[] content;
-    private final int registerAddress;
     private final int slaveAddress;
 
-    public I2cWriteRequest(I2cManager i2cManager, int slaveAddress, int registerAddress, byte[] content) {
+    public I2cWriteRequest(I2cManager i2cManager, int slaveAddress, byte[] content) {
         if(content == null || content.length < 1) {
             throw new IllegalArgumentException("content must be a nonempty byte array");
         }
         if(slaveAddress < 0x00) {
-            throw new IllegalArgumentException("slave address must be an positive integer");
-        }
-        if(registerAddress < 0x00) {
-            throw new IllegalArgumentException("register address must be an positive integer");
+            throw new IllegalArgumentException("slave address must be a positive integer");
         }
         this.content = content;
         this.slaveAddress = slaveAddress;
-        this.registerAddress = registerAddress;
         this.i2cManager = i2cManager;
     }
 
     @Override
     public void write() {
-        i2cManager.writeIntoI2c(this.slaveAddress, this.registerAddress, this.content);
+        LOGGER.info(String.format("I2c write request from slave %x and of length %d", slaveAddress, content.length));
+        i2cManager.writeIntoI2c(this.slaveAddress, this.content);
     }
 
     @Override
     public void giveFeedbackToClient() {
-        AgentConnectionManager.setMessageToSend("Write I2c request has been"
-                + " submitted, result:\n"+ i2cManager.readFromI2c(this.slaveAddress, this.registerAddress, content.length));
+        AgentConnectionManager.setMessageToSend(String.format(StringConstants.I2C_WRITE_RESPONSE_FORMAT.toString()));
     }
 
 

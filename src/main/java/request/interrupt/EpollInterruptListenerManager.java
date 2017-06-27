@@ -35,8 +35,6 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
         digitalIo.addInterruptListener(new LinuxEpollListenerImpl(input));
         pin.activateFeature(DigitalIO.class);
         digitalIo.activate();
-        
-        pin.activateFeature(DigitalIO.class);
         INPUT_MAP.put(input, digitalIo);
         LOGGER.info(String.format(
                 "New interrupt listener has been registered: GPIO : %s, interrupt type : %s",

@@ -17,17 +17,17 @@ package request;
 
 /**
  *
- * @author Miloslav
+ * @author Miloslav Zezulka
  */
 public enum StringConstants {
 
     ERROR_RESPONSE("ERR"),
     REQ_WORD_SEPARATOR(":"),
-    GPIO_RESPONSE_FORMAT("Gpio request response\n"+
-                         "Pin voltage: %s\n"+
-                         "Gpio address: %d\n"+
-                         "Port index: %d\n"+
-                         "Name: %s\n"),
+    GPIO_RESPONSE_FORMAT("GPIO:%s:%s"),
+    I2C_READ_RESPONSE_FORMAT("I2C:%s"),
+    I2C_WRITE_RESPONSE_FORMAT("I2C:Write completed successfully"),
+    SPI_READ_RESPONSE_FORMAT("SPI:%s"),
+    SPI_WRITE_RESPONSE_FORMAT("SPI:Write completed successfully"),
     VAL_SEPARATOR(" ");
     private final String msg;
 

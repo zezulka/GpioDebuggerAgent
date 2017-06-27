@@ -24,7 +24,7 @@ import request.interrupt.*;
  *
  * @author Miloslav Zezulka
  */
-public class RequestParserTestInterrupts {
+public class RequestParserInterruptsTest {
 
     @Test
     public void registerInterrupt() {

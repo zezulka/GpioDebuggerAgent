@@ -6,6 +6,7 @@ import request.manager.SpiManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.StringConstants;
 
 /**
  *
@@ -50,6 +51,6 @@ public class SpiWriteRequest implements WriteRequest {
       */
     @Override
     public void giveFeedbackToClient() {
-      AgentConnectionManager.setMessageToSend("SPI interface write successfull.");
+      AgentConnectionManager.setMessageToSend(String.format(StringConstants.SPI_WRITE_RESPONSE_FORMAT.toString()));
     }
 }

@@ -33,8 +33,8 @@ public class ReadRequestFactory {
      public static Request of(InterfaceManager interfaceManager, String... args) throws IllegalRequestException {
         if(interfaceManager instanceof GpioManager && args.length == 1) {
             return ReadRequestFactory.gpio((GpioManager)interfaceManager, args[0]);
-        } else if(interfaceManager instanceof I2cManager && args.length == 3) {
-            return ReadRequestFactory.i2c((I2cManager)interfaceManager, args[0], args[1], args[2]);
+        } else if(interfaceManager instanceof I2cManager && args.length == 2) {
+            return ReadRequestFactory.i2c((I2cManager)interfaceManager, args[0], args[1]);
         } else if(interfaceManager instanceof SpiManager && args.length == 2) {
             return ReadRequestFactory.spi((SpiManager)interfaceManager, args[0], args[1]);
         }
@@ -83,20 +83,15 @@ public class ReadRequestFactory {
             }
     }
 
-    private static Request i2c(I2cManager deviceManager, String content, String content1, String content2)
+    private static Request i2c(I2cManager deviceManager, String content, String content1)
     throws IllegalRequestException {
           int slaveAddress;
-          int registerAddressLo;
           int len;
           try {
               slaveAddress = Integer.decode(content);
-              registerAddressLo = Integer.decode(content1);
-              len = Integer.decode(content2);
+              len = Integer.decode(content1);
               if(len <= 0) {
                   throw new IllegalRequestException("len must be positive!");
-              }
-              if(registerAddressLo < 0) {
-                  throw new IllegalRequestException("register address cannot be negative!");
               }
               if(slaveAddress < 0 || slaveAddress > NumericConstants.I2C_MAX_SLAVE_ADDR) {
                   throw new IllegalRequestException(String.format("slave address not in bounds [0;%d]", NumericConstants.I2C_MAX_SLAVE_ADDR));
@@ -104,7 +99,7 @@ public class ReadRequestFactory {
           } catch(NumberFormatException nfe) {
               throw new IllegalRequestException(nfe);
           }
-          return new I2cReadRequest(deviceManager, slaveAddress, registerAddressLo, len);
+          return new I2cReadRequest(deviceManager, slaveAddress, len);
     }
 
 }

@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParserTestGpio {
+public class RequestParserGpioTest {
 
     @Before
     public void setUp() {

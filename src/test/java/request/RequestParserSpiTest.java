@@ -24,7 +24,7 @@ import request.write.SpiWriteRequest;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParserTestSpi {
+public class RequestParserSpiTest {
 
     @Test
     public void spiRead() {

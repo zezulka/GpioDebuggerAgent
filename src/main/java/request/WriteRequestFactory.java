@@ -38,8 +38,8 @@ public class WriteRequestFactory {
             } else if (args.length == 2) {
                 return WriteRequestFactory.gpioValueExplicit((GpioManager) interfaceManager, args[0], args[1]);
             }
-        } else if (interfaceManager instanceof I2cManager && args.length == 3) {
-            return WriteRequestFactory.i2c((I2cManager) interfaceManager, args[0], args[1], args[2]);
+        } else if (interfaceManager instanceof I2cManager && args.length == 2) {
+            return WriteRequestFactory.i2c((I2cManager) interfaceManager, args[0], args[1]);
         } else if (interfaceManager instanceof SpiManager && args.length == 2) {
             return WriteRequestFactory.spi((SpiManager) interfaceManager, args[0], args[1]);
         }
@@ -73,20 +73,15 @@ public class WriteRequestFactory {
         return new SpiWriteRequest(spiManager, slaveIndex, tBuffer);
     }
 
-    private static Request i2c(I2cManager i2cManager, String content, String content1, String content2) throws IllegalRequestException {
+    private static Request i2c(I2cManager i2cManager, String content, String content1) throws IllegalRequestException {
         int slaveAddress;
-        int registerAddress;
         byte[] bytes;
         try {
             slaveAddress = Integer.decode(content);
-            registerAddress = Integer.decode(content1);
-            if (registerAddress < 0) {
-                throw new IllegalRequestException("register address cannot be negative!");
-            }
             if (slaveAddress < 0 || slaveAddress > NumericConstants.I2C_MAX_SLAVE_ADDR) {
                 throw new IllegalRequestException(String.format("slave address not in bounds [0;%d]", NumericConstants.I2C_MAX_SLAVE_ADDR));
             }
-            String[] bytesStr = content2.split(StringConstants.VAL_SEPARATOR.toString());
+            String[] bytesStr = content1.split(StringConstants.VAL_SEPARATOR.toString());
             bytes = new byte[bytesStr.length];
             for (int i = 0; i < bytesStr.length; i++) {
                 bytes[i] = Short.decode(bytesStr[i]).byteValue();
@@ -94,6 +89,6 @@ public class WriteRequestFactory {
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);
         }
-        return new I2cWriteRequest(i2cManager, slaveAddress, registerAddress, bytes);
+        return new I2cWriteRequest(i2cManager, slaveAddress, bytes);
     }
 }
