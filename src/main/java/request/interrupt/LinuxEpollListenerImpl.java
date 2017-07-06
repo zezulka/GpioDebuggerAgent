@@ -34,6 +34,7 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
     @Override
     public void interruptRequest(InterruptEventArgs iea) {
         try {
+            LOGGER.debug(String.format("interrupt edge was %s", iea.getEdge()));
             super.giveFeedbackToClient();
         } catch (IOException ex) {
             LOGGER.error(null, ex);

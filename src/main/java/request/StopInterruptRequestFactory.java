@@ -40,7 +40,7 @@ public class StopInterruptRequestFactory {
                 throw new IllegalRequestException(ex);
             }
             LOGGER.info(String.format("Interrupt listener removal request submitted: pin : %s, type: %s", pin.getName(), edge.toString()));
-            return new StopEpollInterruptListenerRequest(new InterruptListenerArgs(pin.as(DigitalIO.class), edge));
+            return new StopEpollInterruptListenerRequest(new InterruptListenerArgs(pin, edge));
         }
         throw new IllegalRequestException("Corrupted string format.");
     }

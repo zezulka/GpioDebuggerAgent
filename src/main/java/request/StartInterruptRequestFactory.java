@@ -1,7 +1,7 @@
 package request;
 
 import io.silverspoon.bulldog.core.Edge;
-import io.silverspoon.bulldog.core.gpio.DigitalIO;
+import io.silverspoon.bulldog.core.gpio.DigitalInput;
 import io.silverspoon.bulldog.core.pin.Pin;
 
 import request.interrupt.StartEpollInterruptListenerRequest;
@@ -42,7 +42,7 @@ public class StartInterruptRequestFactory {
                 throw new IllegalRequestException(ex);
             }
             LOGGER.info(String.format("New interrupt listener request submitted: pin : %s, type: %s", pin.getName(), edge.toString()));
-            return new StartEpollInterruptListenerRequest(new InterruptListenerArgs(pin.as(DigitalIO.class), edge));
+            return new StartEpollInterruptListenerRequest(new InterruptListenerArgs(pin, edge));
         }
         throw new IllegalRequestException("Corrupted string format.");
     }

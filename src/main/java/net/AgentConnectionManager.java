@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import request.IllegalRequestException;
 import request.Interface;
+import request.interrupt.EpollInterruptListenerManager;
+import request.interrupt.InterruptListenerManager;
 import request.manager.BoardManager;
 import request.manager.BoardManagerBulldogImpl;
 import request.manager.GpioManagerBulldogImpl;
@@ -60,7 +62,9 @@ public class AgentConnectionManager implements Runnable {
                 throw new IllegalArgumentException();
         }
     };
+    
     private static final ProtocolManager PROTOCOL_MANAGER = ProtocolManager.getInstance(CONVERTER);
+    private static final InterruptListenerManager LISTENER_MANAGER = EpollInterruptListenerManager.getInstance();
     private static final Logger LOGGER = LoggerFactory.getLogger(AgentConnectionManager.class);
 
     /**
@@ -79,27 +83,33 @@ public class AgentConnectionManager implements Runnable {
     }
 
     /**
-     * Initialises server. This method must be executed only once per client
+     * Prepares agent for accepting connection (on the network level).
+     * This method must be executed only once per client
      * (i.e. resources must be initialised only once). Should the method be
      * executed more than once, such attempt is ignored.
      */
-    private void init() {
-        if (selector != null || serverSocketChannel != null) {
-            LOGGER.error(ProtocolMessages.S_ERR_INIT_MORE_THAN_ONCE.toString());
-            return;
-        }
+    private void prepareForAcceptingConnection() {
         LOGGER.info(ProtocolMessages.S_SERVER_INIT.toString());
         try {
             selector = Selector.open();
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.configureBlocking(true);
-            serverSocketChannel.socket().bind(new InetSocketAddress(port));
+            serverSocketChannel.bind(new InetSocketAddress(port));
+            serverSocketChannel.socket().setReuseAddress(true);
             serverSocketChannel.configureBlocking(false);
-            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         } catch (IOException ex) {
             LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
         }
         LOGGER.info(ProtocolMessages.S_SERVER_INIT_SUCCESS.toString());
+    }
+
+    private void registerAcceptOperation() {
+       try {
+           LOGGER.info("now accepting connection from client");
+           serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+       } catch(IOException ex) {
+           LOGGER.error(ex.getMessage());
+       }
     }
 
     /**
@@ -113,13 +123,13 @@ public class AgentConnectionManager implements Runnable {
     }
 
     public static void setMessageToSend(String message) {
+        LOGGER.debug(String.format("setMessageToSend called, input %s", message));
         messageToSend = message;
         if (message != null) {
             try {
                 socketChannel.register(selector, SelectionKey.OP_WRITE);
                 selector.wakeup();
             } catch (ClosedChannelException ex) {
-                serverSocketChannel = null;
                 LOGGER.error("There has been an attempt to "
                         + "register write operation on channel which has been closed.");
 
@@ -143,9 +153,10 @@ public class AgentConnectionManager implements Runnable {
      */
     @Override
     public void run() {
-        LOGGER.info("Agent successfully launched.");
+        LOGGER.info("Agent launched.");
+        prepareForAcceptingConnection();
         while (true) {
-            init();
+            registerAcceptOperation();
             runImpl();
         }
     }
@@ -174,7 +185,7 @@ public class AgentConnectionManager implements Runnable {
                 if (!selector.isOpen()) {
                     return;
                 }
-                selector.select(TIMEOUT);
+                selector.select();
                 Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
                 if(!processRegisteredKeys(keys)) {
                     return;
@@ -189,10 +200,11 @@ public class AgentConnectionManager implements Runnable {
 
     private boolean processRegisteredKeys(Iterator<SelectionKey> keys) throws IOException {
         while (keys.hasNext()) {
-            if(!processNextKey(keys.next())) {
+            SelectionKey key = keys.next();
+            keys.remove();
+            if(!processNextKey(key)) {
                 return false;
             }
-            keys.remove();
         }
         return true;
     }
@@ -203,7 +215,6 @@ public class AgentConnectionManager implements Runnable {
         }
         if (key.isAcceptable()) {
             accept();
-            LOGGER.info(ProtocolMessages.S_CONNECTION_ACCEPT.toString());
         }
         if (key.isReadable()) {
             String receivedMessage = read();
@@ -244,10 +255,15 @@ public class AgentConnectionManager implements Runnable {
      *
      * @param key
      */
-    private void write(SelectionKey key) throws IOException {
+    private void write(SelectionKey key) {
         LOGGER.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
-        socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
-        key.interestOps(SelectionKey.OP_READ);
+        try {
+          socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
+          key.interestOps(SelectionKey.OP_READ);
+        } catch(IOException ex) {
+            LOGGER.info(ex.getMessage());
+        }
+        setMessageToSend(null);
     }
 
     /**
@@ -273,23 +289,16 @@ public class AgentConnectionManager implements Runnable {
     }
 
     /*
-     * Closes connection and cleans up all network resources.
+     * Closes connection.
      */
     private void closeConnection() {
         try {
-            if (serverSocketChannel != null) {
-                LOGGER.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
-            }
-            if (selector != null) {
-                selector.close();
-                selector = null;
-            }
-            BOARD_MANAGER.cleanUpResources();
-            serverSocketChannel.socket().close();
-            serverSocketChannel.close();
-            serverSocketChannel = null;
-        } catch (IOException ex) {
-            LOGGER.error(null, ex);
+            LOGGER.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
+            socketChannel.close();
+            LISTENER_MANAGER.clearAllListeners();
+        } catch(IOException ex) {
+            LOGGER.error(ex.getMessage());
         }
+
     }
 }

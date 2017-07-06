@@ -44,8 +44,8 @@ public class ProtocolManager {
 
     private ProtocolManager(Function<Interface, InterfaceManager> converter) {
         this.converter = converter;
-    }    
-    
+    }
+
     public static ProtocolManager getInstance(Function<Interface, InterfaceManager> converter) {
         return new ProtocolManager(converter);
     }
@@ -78,7 +78,7 @@ public class ProtocolManager {
                     + "been submitted",request.getClass()));
         if (request instanceof ReadRequest) {
             ReadRequest req = (ReadRequest) request;
-            LOGGER.info(String.format(", the result was=%s",request.getClass(), req.read()));
+            LOGGER.info(String.format(", the result was=%s", req.read()));
         } else if (request instanceof WriteRequest) {
             WriteRequest req = (WriteRequest) request;
             req.write();

@@ -18,12 +18,8 @@ package request.manager;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 
-import io.silverspoon.bulldog.core.pin.Pin;
-
 import io.silverspoon.bulldog.core.platform.Board;
 import io.silverspoon.bulldog.core.platform.Platform;
-
-import java.io.IOException;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package request.interrupt;
 
-import io.silverspoon.bulldog.core.gpio.DigitalIO;
-import io.silverspoon.bulldog.core.pin.Pin;
+import io.silverspoon.bulldog.core.gpio.DigitalInput;
+import io.silverspoon.bulldog.linux.gpio.LinuxDigitalInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,7 @@ import request.IllegalRequestException;
 public final class EpollInterruptListenerManager implements InterruptListenerManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EpollInterruptListenerManager.class);
-    private static final Map<InterruptListenerArgs, DigitalIO> INPUT_MAP = new HashMap<>();
+    private static final Map<InterruptListenerArgs, DigitalInput> INPUT_MAP = new HashMap<>();
     private static final InterruptListenerManager INTR_MANAGER = new EpollInterruptListenerManager();
 
     private EpollInterruptListenerManager() {
@@ -28,24 +28,26 @@ public final class EpollInterruptListenerManager implements InterruptListenerMan
             LOGGER.error("Interrupt listener could not have been registered because it had been registered already.");
             throw new IllegalRequestException("Interrupt listener could not have been registered because it had been registered already.");
         }
-        DigitalIO digitalIo = input.getDigitalIoFeature();
-        Pin pin = digitalIo.getPin();
-        digitalIo.setup();
-        digitalIo.enableInterrupts();
-        digitalIo.addInterruptListener(new LinuxEpollListenerImpl(input));
-        pin.activateFeature(DigitalIO.class);
-        digitalIo.activate();
-        INPUT_MAP.put(input, digitalIo);
+        DigitalInput newDigitalInput = new LinuxDigitalInput(input.getPin());
+        newDigitalInput.setup();
+        newDigitalInput.enableInterrupts();
+        newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
+        if(!input.getPin().hasFeature(LinuxDigitalInput.class)) {
+            input.getPin().addFeature(newDigitalInput);
+        }
+        input.getPin().activateFeature(LinuxDigitalInput.class);
+        newDigitalInput.activate();
+        INPUT_MAP.put(input, newDigitalInput);
         LOGGER.info(String.format(
                 "New interrupt listener has been registered: GPIO : %s, interrupt type : %s",
-                pin.getName(),
+                input.getPin().getName(),
                 input.getEdge()));
     }
 
     @Override
     public void deregisterInput(InterruptListenerArgs args) throws IllegalRequestException {
         if (INPUT_MAP.containsKey(args)) {
-            DigitalIO input = INPUT_MAP.get(args);
+            DigitalInput input = INPUT_MAP.get(args);
             input.clearInterruptListeners();
             INPUT_MAP.remove(args);
             LOGGER.info(String.format(

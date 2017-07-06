@@ -2,6 +2,7 @@ package request.interrupt;
 
 import java.io.IOException;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import net.AgentConnectionManager;
 
 import org.slf4j.Logger;
@@ -30,16 +31,16 @@ public abstract class AbstractEpollInterruptListenerRequest implements Interrupt
     * Sends back client message in special format (i.e. must be parsed on client side).
     * Contains pin on which the interrupt was registered. In its prefix, information
     * about whether the interrupt listener has been (de)registered or generated, is contained.
-    * @throws IOException 
+    * @throws IOException
     */
    @Override
    public void giveFeedbackToClient() throws IOException {
        String response = getMessagePrefix()
                                 + ':'
-                                + arg.getDigitalIoFeature().getPin().getName()
+                                + arg.getPin().getName()
                                 + ':' + arg.getEdge()
                                 + ':'
-                                + LocalTime.now().getNano()
+                                + LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME)
                                 + '\n';
        LOGGER.info(String.format("[Interrupt listeners] sent to client: %s", response));
        AgentConnectionManager.setMessageToSend(response);

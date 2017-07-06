@@ -22,7 +22,9 @@ public class MockedBoard extends AbstractBoard {
     public MockedBoard() {
         for (int i = 0; i < 10; i++) {
             Pin pin = new Pin("P" + i, i, "A", i);
-            getPins().add(pin.addFeature(new MockedDigitalIoFeature(pin, new MockedDigitalInput(pin), new MockedDigitalOutput(pin))));
+            getPins().add(pin.addFeature(new MockedDigitalIoFeature(pin, new MockedDigitalInput(pin), new MockedDigitalOutput(pin)))
+                     .addFeature(new MockedDigitalInput(pin))
+                     .addFeature(new MockedDigitalOutput(pin)));
             getI2cBuses().add(new MockedI2cBus("I2C" + i));
             getSerialPorts().add(new MockedSerialPort("Serial" + i));
         }
