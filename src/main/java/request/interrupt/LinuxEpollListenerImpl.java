@@ -1,5 +1,6 @@
 package request.interrupt;
 
+import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.event.InterruptListener;
 
@@ -34,8 +35,11 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
     @Override
     public void interruptRequest(InterruptEventArgs iea) {
         try {
-            LOGGER.debug(String.format("interrupt edge was %s", iea.getEdge()));
-            super.giveFeedbackToClient();
+            //choose only edge which the client registered
+            if(super.getArg().getEdge().equals(Edge.Both) || super.getArg().getEdge().equals(iea.getEdge())) {
+                LOGGER.debug(String.format("interrupt edge was %s", iea.getEdge()));
+                super.giveFeedbackToClient();
+            }
         } catch (IOException ex) {
             LOGGER.error(null, ex);
         }
