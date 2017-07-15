@@ -19,9 +19,9 @@ public class RequestParser {
        * <li>GPIO:READ:{PIN_NAME}</li>
        * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
        * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{LEN}(:{INTERFACE_NAME})?</li>
-       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{DATA}({' ' + DATA})?{:INTERFACE_NAME}?</li>
-       * <li>SPI:READ:{CHIP_INDEX}:{DATA}{' ' + DATA}*{:INTERFACE_NAME}?<li>
-       * <li>SPI:WRITE:{CHIP_INDEX}:{DATA}{' ' + DATA}*{:INTERFACE_NAME}?<li>
+       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{DATA}*{:INTERFACE_NAME}?</li>
+       * <li>SPI:READ:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
+       * <li>SPI:WRITE:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
        * <li>GPIO:INTR_{INTR_STOP|INTR_START}:{PIN_NAME + ' ' + INTERRUPT_TYPE}</li>
      * </ul>
      * ,':' being the delimiter symbol.

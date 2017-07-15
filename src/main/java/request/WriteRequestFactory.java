@@ -59,13 +59,15 @@ public class WriteRequestFactory {
         byte[] tBuffer;
         try {
             slaveIndex = Integer.decode(content);
-            if(slaveIndex < 0) {
+            if (slaveIndex < 0) {
                 throw new IllegalRequestException();
             }
-            String[] bytes = content1.split(StringConstants.VAL_SEPARATOR.toString());
-            tBuffer = new byte[bytes.length];
-            for (int i = 0; i < bytes.length; i++) {
-                tBuffer[i] = Short.decode(bytes[i]).byteValue();
+            if(content1.length() % 2 == 1) {
+                throw new IllegalRequestException("Byte array does not have even number of digits");
+            }
+            tBuffer = new byte[content1.length()/2];
+            for (int i = 0; i < content1.length(); i += 2) {
+                tBuffer[i/2] = (byte) Short.parseShort(content1.substring(i, i + 2), 16);
             }
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);
@@ -81,10 +83,12 @@ public class WriteRequestFactory {
             if (slaveAddress < 0 || slaveAddress > NumericConstants.I2C_MAX_SLAVE_ADDR) {
                 throw new IllegalRequestException(String.format("slave address not in bounds [0;%d]", NumericConstants.I2C_MAX_SLAVE_ADDR));
             }
-            String[] bytesStr = content1.split(StringConstants.VAL_SEPARATOR.toString());
-            bytes = new byte[bytesStr.length];
-            for (int i = 0; i < bytesStr.length; i++) {
-                bytes[i] = Short.decode(bytesStr[i]).byteValue();
+            if(content1.length() % 2 == 1) {
+                throw new IllegalRequestException("Byte array does not have even number of digits");
+            }
+            bytes = new byte[content1.length()/2];
+            for (int i = 0; i < content1.length(); i += 2) {
+                bytes[i/2] = (byte) Short.parseShort(content1.substring(i, i + 2), 16);
             }
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);

@@ -42,7 +42,7 @@ public class RequestParserI2cTest {
     @Test
     public void i2cWriteRequest() {
         try {
-            Request gpioWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "i2c:write:0x68:0x00 0xFF 0xAB 0x10 0x00");
+            Request gpioWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "i2c:write:0x68:00FFAB1000");
             assertThat(gpioWrite.getClass()).isEqualTo(I2cWriteRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());

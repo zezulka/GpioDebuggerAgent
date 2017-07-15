@@ -29,7 +29,7 @@ public class RequestParserSpiTest {
     @Test
     public void spiRead() {
         try {
-            Request spiRead = RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:0x00:0x00 0x00 0xFF 0xFF 0xCA");
+            Request spiRead = RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:0x00:0000FFFFCA");
             assertThat(spiRead.getClass()).isEqualTo(SpiReadRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -39,7 +39,7 @@ public class RequestParserSpiTest {
     @Test
     public void spiWrite() {
         try {
-            Request spiWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "spi:write:0x00:0x00 0x00 0xFF 0xFF 0xCA");
+            Request spiWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "spi:write:0x00:0000FFFFCA");
             assertThat(spiWrite.getClass()).isEqualTo(SpiWriteRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -48,13 +48,13 @@ public class RequestParserSpiTest {
     
     @Test
     public void spiReadMissingChipIndex() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read::0x00 0x00 0xFF 0xFF 0xCA")).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read::0000FFFFCA")).
                 isInstanceOf(IllegalRequestException.class);
     }
     
     @Test
     public void spiReadNegativeChipIndex() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:-1:0x00 0x00 0xFF 0xFF 0xCA")).
+        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:-1:0000FFFFCA")).
                 isInstanceOf(IllegalRequestException.class);
     }
     
