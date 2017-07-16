@@ -245,7 +245,7 @@ public class AgentConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        setMessageToSend(BOARD_MANAGER.getBoardName());
+        setMessageToSend("INIT:"+BOARD_MANAGER.getBoardName());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
