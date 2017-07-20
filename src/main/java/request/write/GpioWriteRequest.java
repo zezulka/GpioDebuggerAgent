@@ -68,13 +68,6 @@ public class GpioWriteRequest implements WriteRequest {
     public void write() {
         try {
             gpioManager.write(this.pin, desiredVoltage ? Signal.High : Signal.Low);
-            //let's make sure the value is the one the client requested
-            if(this.desiredVoltage != gpioManager.read(pin).getBooleanValue()) {
-                throw new IllegalStateException(
-                    String.format("Pin %s has been written to, expected value %b, got %b",
-                    this.pin.getName(), this.desiredVoltage, !this.desiredVoltage)
-                );
-            }
         } catch (IllegalRequestException ex) {
             LOGGER.error("GPIO write request failed.", ex);
         }
