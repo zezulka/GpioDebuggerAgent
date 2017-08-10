@@ -1,6 +1,6 @@
 package request.write;
 
-import net.AgentConnectionManager;
+import net.ConnectionManager;
 import request.StringConstants;
 
 import request.manager.I2cManager;
@@ -40,7 +40,7 @@ public class I2cWriteRequest implements WriteRequest {
 
     @Override
     public void giveFeedbackToClient() {
-        AgentConnectionManager.setMessageToSend(String.format(StringConstants.I2C_WRITE_RESPONSE_FORMAT.toString()));
+        ConnectionManager.setMessageToSend(String.format(StringConstants.I2C_WRITE_RESPONSE_FORMAT.toString()));
     }
 
 

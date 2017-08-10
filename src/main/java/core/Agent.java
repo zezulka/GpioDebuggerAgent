@@ -2,7 +2,7 @@ package core;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import net.AgentConnectionManager;
+import net.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class Agent {
     public static void main(String[] args) {
         try {
             ServerSocket s = new ServerSocket(12345);
-            new Thread(AgentConnectionManager.getManagerWithDefaultPort()).start();
+            new Thread(ConnectionManager.getManagerWithDefaultPort()).start();
         } catch (IOException ex) {
             LOGGER.error("Application already running!");
             System.exit(1);

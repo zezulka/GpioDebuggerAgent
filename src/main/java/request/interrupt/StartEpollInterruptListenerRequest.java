@@ -1,5 +1,6 @@
 package request.interrupt;
 
+import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import request.IllegalRequestException;
@@ -10,7 +11,7 @@ public final class StartEpollInterruptListenerRequest extends AbstractEpollInter
     private static final Logger LOGGER = LoggerFactory.getLogger(StartEpollInterruptListenerRequest.class);
     private static final InterruptListenerManager MANAGER = EpollInterruptListenerManager.getInstance();
 
-    public StartEpollInterruptListenerRequest(InterruptListenerArgs arg) {
+    public StartEpollInterruptListenerRequest(InterruptEventArgs arg) {
         super(arg);
     }
 
@@ -22,7 +23,7 @@ public final class StartEpollInterruptListenerRequest extends AbstractEpollInter
     @Override
     public void handleInterruptRequest() {
         try {
-            MANAGER.registerInput(super.getArg());
+            MANAGER.registerListener(super.getArg());
         } catch (IllegalRequestException ex) {
             LOGGER.error(null, ex);
         }

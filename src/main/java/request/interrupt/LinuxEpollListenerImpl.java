@@ -20,7 +20,7 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
         return PREFIX;
     }
 
-    public LinuxEpollListenerImpl(InterruptListenerArgs arg) {
+    public LinuxEpollListenerImpl(InterruptEventArgs arg) {
         super(arg);
     }
 
@@ -34,15 +34,23 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
 
     @Override
     public void interruptRequest(InterruptEventArgs iea) {
+        if (!shouldBeEventProcessed(iea)) {
+            LOGGER.debug("Interrupt event triggered even though no listener has been registered. IEA: " + iea);
+            return;
+        }
         try {
-            //choose only edge which the client registered
-            if(super.getArg().getEdge().equals(Edge.Both) || super.getArg().getEdge().equals(iea.getEdge())) {
-                LOGGER.debug(String.format("interrupt edge was %s", iea.getEdge()));
-                super.giveFeedbackToClient();
-            }
+            LOGGER.debug(String.format("interrupt edge was %s", iea.getEdge()));
+            super.giveFeedbackToClient();
         } catch (IOException ex) {
             LOGGER.error(null, ex);
         }
+    }
+
+    private boolean shouldBeEventProcessed(InterruptEventArgs input) {
+        InterruptEventArgs regArg = getArg();
+        return (regArg.getEdge().equals(Edge.Both)
+                || regArg.getEdge().equals(input.getEdge()))
+                && regArg.getPin().equals(input.getPin());
     }
 
 }

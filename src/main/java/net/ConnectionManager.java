@@ -30,7 +30,7 @@ import request.manager.SpiManagerBulldogImpl;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class AgentConnectionManager implements Runnable {
+public class ConnectionManager implements Runnable {
 
     private static ServerSocketChannel serverSocketChannel;
     private static SocketChannel socketChannel;
@@ -48,7 +48,7 @@ public class AgentConnectionManager implements Runnable {
      */
     public static final long TIMEOUT = 10 * 1000;
 
-    private static final AgentConnectionManager INSTANCE = new AgentConnectionManager();
+    private static final ConnectionManager INSTANCE = new ConnectionManager();
     private static final BoardManager BOARD_MANAGER = BoardManagerBulldogImpl.getInstance();
     private static final Function<Interface, InterfaceManager> CONVERTER = (t) -> {
         switch (t) {
@@ -65,12 +65,12 @@ public class AgentConnectionManager implements Runnable {
     
     private static final ProtocolManager PROTOCOL_MANAGER = ProtocolManager.getInstance(CONVERTER);
     private static final InterruptListenerManager LISTENER_MANAGER = EpollInterruptListenerManager.getInstance();
-    private static final Logger LOGGER = LoggerFactory.getLogger(AgentConnectionManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
     /**
      * Creates connection manager with default socket port.
      */
-    private AgentConnectionManager() {
+    private ConnectionManager() {
     }
 
     /**
@@ -78,8 +78,8 @@ public class AgentConnectionManager implements Runnable {
      *
      * @param port
      */
-    private AgentConnectionManager(int port) {
-        AgentConnectionManager.port = port;
+    private ConnectionManager(int port) {
+        ConnectionManager.port = port;
     }
 
     /**
@@ -118,7 +118,7 @@ public class AgentConnectionManager implements Runnable {
      *
      * @return
      */
-    public static AgentConnectionManager getManagerWithDefaultPort() {
+    public static ConnectionManager getManagerWithDefaultPort() {
         return INSTANCE;
     }
 
@@ -143,8 +143,8 @@ public class AgentConnectionManager implements Runnable {
      * @param port
      * @return
      */
-    public static AgentConnectionManager getManager(int port) {
-        return new AgentConnectionManager(port);
+    public static ConnectionManager getManager(int port) {
+        return new ConnectionManager(port);
     }
 
     /**
@@ -228,7 +228,7 @@ public class AgentConnectionManager implements Runnable {
                 setMessageToSend(ProtocolMessages.S_ILLEGAL_REQUEST.toString());
             }
         }
-        if (key.isWritable() && messageToSend != null) {
+        if (key.isWritable()) {
             write(key);
         }
         return true;

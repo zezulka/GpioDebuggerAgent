@@ -1,6 +1,6 @@
 package request.read;
 
-import net.AgentConnectionManager;
+import net.ConnectionManager;
 
 import request.manager.SpiManager;
 
@@ -53,7 +53,7 @@ public class SpiReadRequest implements ReadRequest {
       for(char c : response.toCharArray()) {
           build = build.append(getOneLineOfResponse(c));
       }
-      AgentConnectionManager.setMessageToSend(String.format(StringConstants.SPI_READ_RESPONSE_FORMAT.toString(), build.toString() + '\n'));
+      ConnectionManager.setMessageToSend(String.format(StringConstants.SPI_READ_RESPONSE_FORMAT.toString(), build.toString() + '\n'));
     }
 
     private String getOneLineOfResponse(char c) {

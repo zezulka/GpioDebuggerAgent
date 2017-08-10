@@ -76,10 +76,7 @@ public class ProtocolManager {
     private void performRequest(Request request) throws IOException {
         LOGGER.info(String.format("Request of type %s has "
                     + "been submitted",request.getClass()));
-        if (request instanceof ReadRequest) {
-            ReadRequest req = (ReadRequest) request;
-            LOGGER.info(String.format(", the result was=%s", req.read()));
-        } else if (request instanceof WriteRequest) {
+        if (request instanceof WriteRequest) {
             WriteRequest req = (WriteRequest) request;
             req.write();
         } else if (request instanceof InterruptListenerRequest) {

@@ -7,7 +7,6 @@
     <packaging>jar</packaging>
 
     <build>
-
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -29,7 +28,6 @@
                             folder after update project configuration.
                         -->
                         <phase>process-resources</phase>
-                        <!--            <phase>generate-test-sources</phase>-->
                         <goals>
                             <goal>add-test-source</goal>
                         </goals>

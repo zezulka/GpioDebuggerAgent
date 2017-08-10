@@ -1,6 +1,6 @@
 package request.read;
 
-import net.AgentConnectionManager;
+import net.ConnectionManager;
 import request.StringConstants;
 
 import request.manager.I2cManager;
@@ -35,7 +35,7 @@ public class I2cReadRequest implements ReadRequest {
 
     @Override
     public void giveFeedbackToClient() {
-        AgentConnectionManager.setMessageToSend(String.format(StringConstants.I2C_READ_RESPONSE_FORMAT.toString(), read() + '\n'));
+        ConnectionManager.setMessageToSend(String.format(StringConstants.I2C_READ_RESPONSE_FORMAT.toString(), read() + '\n'));
     }
 
 }

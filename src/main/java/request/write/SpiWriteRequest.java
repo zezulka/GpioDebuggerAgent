@@ -1,6 +1,6 @@
 package request.write;
 
-import net.AgentConnectionManager;
+import net.ConnectionManager;
 
 import request.manager.SpiManager;
 
@@ -51,6 +51,6 @@ public class SpiWriteRequest implements WriteRequest {
       */
     @Override
     public void giveFeedbackToClient() {
-      AgentConnectionManager.setMessageToSend(String.format(StringConstants.SPI_WRITE_RESPONSE_FORMAT.toString()));
+      ConnectionManager.setMessageToSend(String.format(StringConstants.SPI_WRITE_RESPONSE_FORMAT.toString()));
     }
 }

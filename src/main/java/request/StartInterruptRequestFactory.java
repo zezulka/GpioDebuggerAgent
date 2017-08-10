@@ -1,11 +1,10 @@
 package request;
 
 import io.silverspoon.bulldog.core.Edge;
-import io.silverspoon.bulldog.core.gpio.DigitalInput;
+import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.pin.Pin;
 
 import request.interrupt.StartEpollInterruptListenerRequest;
-import request.interrupt.InterruptListenerArgs;
 import request.manager.GpioManager;
 
 import org.slf4j.Logger;
@@ -21,15 +20,15 @@ public class StartInterruptRequestFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StartInterruptRequestFactory.class);
 
-    public static Request of(InterfaceManager gpioManager, String interruptListenerArgs) throws IllegalRequestException {
+    public static Request of(InterfaceManager gpioManager, String interruptEventArgs) throws IllegalRequestException {
         if(gpioManager instanceof GpioManager) {
-            return StartInterruptRequestFactory.of((GpioManager)gpioManager, interruptListenerArgs);
+            return StartInterruptRequestFactory.of((GpioManager)gpioManager, interruptEventArgs);
         }
         throw new IllegalRequestException();
     }
 
-    private static Request of(GpioManager gpioManager, String interruptListenerArgs) throws IllegalRequestException {
-        String[] strArray = interruptListenerArgs.split(StringConstants.VAL_SEPARATOR.toString());
+    private static Request of(GpioManager gpioManager, String interruptEventArgs) throws IllegalRequestException {
+        String[] strArray = interruptEventArgs.split(StringConstants.VAL_SEPARATOR.toString());
         if (strArray.length == 2) {
             Pin pin = gpioManager.getPin(strArray[0]);
             if(pin == null) {
@@ -42,11 +41,11 @@ public class StartInterruptRequestFactory {
                 throw new IllegalRequestException(ex);
             }
             LOGGER.info(String.format("New interrupt listener request submitted: pin : %s, type: %s", pin.getName(), edge.toString()));
-            return new StartEpollInterruptListenerRequest(new InterruptListenerArgs(pin, edge));
+            return new StartEpollInterruptListenerRequest(new InterruptEventArgs(pin, edge));
         }
         throw new IllegalRequestException("Corrupted string format.");
     }
-    
+
     private static String getFirstUppercaseRestLowercase(String string) throws IllegalRequestException {
         if(string == null) {
             throw new IllegalRequestException();

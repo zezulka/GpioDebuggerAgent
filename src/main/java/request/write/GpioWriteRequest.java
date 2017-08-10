@@ -4,8 +4,9 @@ import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.Signal;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
-import net.AgentConnectionManager;
+import net.ConnectionManager;
 
 import request.IllegalRequestException;
 import request.StringConstants;
@@ -80,8 +81,12 @@ public class GpioWriteRequest implements WriteRequest {
      */
     @Override
     public void giveFeedbackToClient() throws IOException {
-        AgentConnectionManager.setMessageToSend(String.format(
-                StringConstants.GPIO_RESPONSE_FORMAT.toString(), this.pin.getName(), this.desiredVoltage ? "HIGH" : "LOW"));
+        try {
+            ConnectionManager.setMessageToSend(String.format(
+                    StringConstants.GPIO_RESPONSE_FORMAT.toString(), this.pin.getName(), this.gpioManager.read(pin).getBooleanValue() ? "HIGH" : "LOW"));
+        } catch (IllegalRequestException ex) {
+            LOGGER.error("Agent failed to read the pin value after the pin has been modified.", ex);
+        }
     }
 
 }
