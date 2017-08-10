@@ -49,6 +49,7 @@ public class EpollInterruptListenerManagerTest {
      * Happy scenario test.
      */
     @Test
+    @Ignore
     public void deregisterExistingInterruptListener() {
         InterruptEventArgs args = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Both);
         try {
