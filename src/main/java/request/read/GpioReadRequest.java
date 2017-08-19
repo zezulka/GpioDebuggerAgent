@@ -21,11 +21,12 @@ public class GpioReadRequest implements ReadRequest {
     private final Pin pin;
     private final GpioManager gpioManager;
 
-    public GpioReadRequest(GpioManager gpioManager, String pinName) {
+    public GpioReadRequest(GpioManager gpioManager, String pinName)
+    throws IllegalRequestException {
         this.gpioManager = gpioManager;
         this.pin = this.gpioManager.getPin(pinName);
         if(pin == null) {
-            throw new IllegalArgumentException("pin with the given name has not been found");
+            throw new IllegalRequestException("pin with the given name has not been found");
         }
     }
 
