@@ -30,7 +30,7 @@ import request.manager.SpiManagerBulldogImpl;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class ConnectionManager implements Runnable {
+public final class ConnectionManager implements Runnable {
 
     private static ServerSocketChannel serverSocketChannel;
     private static SocketChannel socketChannel;
@@ -39,7 +39,7 @@ public class ConnectionManager implements Runnable {
      * Default socket port.
      */
     public static final int DEFAULT_SOCK_PORT = 8088;
-    private static int port = DEFAULT_SOCK_PORT;
+    private static int port;
     private static String messageToSend;
 
     /**
@@ -47,10 +47,14 @@ public class ConnectionManager implements Runnable {
      * agent waits for incoming connections for.
      */
     public static final long TIMEOUT = 10 * 1000;
+    private static final int BUFF_SIZE = 1024;
+    private static final int END_OF_STREAM = -1;
 
     private static final ConnectionManager INSTANCE = new ConnectionManager();
-    private static final BoardManager BOARD_MANAGER = BoardManagerBulldogImpl.getInstance();
-    private static final Function<Interface, InterfaceManager> CONVERTER = (t) -> {
+    private static final BoardManager BOARD_MANAGER
+            = BoardManagerBulldogImpl.getInstance();
+    private static final Function<Interface, InterfaceManager> CONVERTER = (t)
+            -> {
         switch (t) {
             case GPIO:
                 return GpioManagerBulldogImpl.getInstance(BOARD_MANAGER);
@@ -62,34 +66,30 @@ public class ConnectionManager implements Runnable {
                 throw new IllegalArgumentException();
         }
     };
-    
-    private static final ProtocolManager PROTOCOL_MANAGER = ProtocolManager.getInstance(CONVERTER);
-    private static final InterruptListenerManager LISTENER_MANAGER = EpollInterruptListenerManager.getInstance();
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
-    /**
-     * Creates connection manager with default socket port.
-     */
+    private static final ProtocolManager PROTOCOL_MANAGER
+            = ProtocolManager.getInstance(CONVERTER);
+    private static final InterruptListenerManager LISTENER_MANAGER
+            = EpollInterruptListenerManager.getInstance();
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(ConnectionManager.class);
+
     private ConnectionManager() {
+        this(DEFAULT_SOCK_PORT);
+    }
+
+    public ConnectionManager(int sockPort) {
+        ConnectionManager.port = sockPort;
     }
 
     /**
-     * Creates connection manager with the port given.
-     *
-     * @param port
-     */
-    private ConnectionManager(int port) {
-        ConnectionManager.port = port;
-    }
-
-    /**
-     * Prepares agent for accepting connection (on the network level).
-     * This method must be executed only once per client
-     * (i.e. resources must be initialised only once). Should the method be
-     * executed more than once, such attempt is ignored.
+     * Prepares agent for accepting connection (on the network level). This
+     * method must be executed only once per client (i.e. resources must be
+     * initialised only once). Should the method be executed more than once,
+     * such attempt is ignored.
      */
     private void prepareForAcceptingConnection() {
-        LOGGER.info(ProtocolMessages.S_SERVER_INIT.toString());
+        LOGGER.info(ProtocolMessages.SERVER_INIT.toString());
         try {
             selector = Selector.open();
             serverSocketChannel = ServerSocketChannel.open();
@@ -98,18 +98,18 @@ public class ConnectionManager implements Runnable {
             serverSocketChannel.socket().setReuseAddress(true);
             serverSocketChannel.configureBlocking(false);
         } catch (IOException ex) {
-            LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+            LOGGER.error(ProtocolMessages.IO_EXCEPTION.toString(), ex);
         }
-        LOGGER.info(ProtocolMessages.S_SERVER_INIT_SUCCESS.toString());
+        LOGGER.info(ProtocolMessages.SERVER_INIT_SUCCESS.toString());
     }
 
     private void registerAcceptOperation() {
-       try {
-           LOGGER.info("now accepting connection from client");
-           serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-       } catch(IOException ex) {
-           LOGGER.error(ex.getMessage());
-       }
+        try {
+            LOGGER.info("now accepting connection from client");
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+        }
     }
 
     /**
@@ -123,7 +123,7 @@ public class ConnectionManager implements Runnable {
     }
 
     public static void setMessageToSend(String message) {
-        LOGGER.debug(String.format("setMessageToSend called, input %s", message));
+        LOGGER.debug(String.format("message sent to client %s", message));
         messageToSend = message;
         if (message != null) {
             try {
@@ -131,20 +131,10 @@ public class ConnectionManager implements Runnable {
                 selector.wakeup();
             } catch (ClosedChannelException ex) {
                 LOGGER.error("There has been an attempt to "
-                        + "register write operation on channel which has been closed.");
+                        + "register write operation on closed channel.");
 
             }
         }
-    }
-
-    /**
-     * Static factory method used for getting instance of an agent.
-     *
-     * @param port
-     * @return
-     */
-    public static ConnectionManager getManager(int port) {
-        return new ConnectionManager(port);
     }
 
     /**
@@ -162,19 +152,22 @@ public class ConnectionManager implements Runnable {
     }
 
     /*
-     * Before running this method, connection must have already been established with a client!
+     * Before running this method, connection must have already been established
+     * with a client!
      *
-     * This implementation is based on non-blocking IO standard library, Java NIO.
+     * This implementation is based on Java NIO.
      * Firstly, agent waits for incoming requests (thread is put to sleep
      * for the time specified in the TIMEOUT constant).
      *
-     * Firstly, the agent tries to send inital message (which is the name of the device),
-     * which can be considered to be the handshake part of the protocol.
+     * Firstly, the agent tries to send inital message
+     * (which is the name of the device), which can be considered to be the
+     * handshake part of the protocol.
      *
-     * The only request which arrives from client is the one handled by the {@code read()} method.
-     * Accepted message is processed and then parsed. Should any error occur during
-     * this parse, IllegalRequestException is thrown and error message is send back
-     * to client.
+     * The only request which arrives from client is the one handled by the
+     * {@code read()} method.
+     * Accepted message is processed and then parsed. Should any error occur
+     * during this parse, IllegalRequestException is thrown and error message
+     * is send back to client.
      *
      * Agent communicates with client using the {@code write()} method.
      *
@@ -186,23 +179,25 @@ public class ConnectionManager implements Runnable {
                     return;
                 }
                 selector.select();
-                Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
-                if(!processRegisteredKeys(keys)) {
+                Iterator<SelectionKey> keys
+                        = selector.selectedKeys().iterator();
+                if (!processRegisteredKeys(keys)) {
                     return;
                 }
             }
         } catch (IOException ex) {
-            LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+            LOGGER.error(ProtocolMessages.IO_EXCEPTION.toString(), ex);
         } finally {
             closeConnection();
         }
     }
 
-    private boolean processRegisteredKeys(Iterator<SelectionKey> keys) throws IOException {
+    private boolean processRegisteredKeys(Iterator<SelectionKey> keys)
+            throws IOException {
         while (keys.hasNext()) {
             SelectionKey key = keys.next();
             keys.remove();
-            if(!processNextKey(key)) {
+            if (!processNextKey(key)) {
                 return false;
             }
         }
@@ -225,7 +220,7 @@ public class ConnectionManager implements Runnable {
                 PROTOCOL_MANAGER.parseRequest(receivedMessage);
             } catch (IllegalRequestException ex) {
                 LOGGER.error(null, ex);
-                setMessageToSend(ProtocolMessages.S_ILLEGAL_REQUEST.toString());
+                setMessageToSend(ProtocolMessages.ILLEGAL_REQUEST.toString());
             }
         }
         if (key.isWritable()) {
@@ -245,7 +240,7 @@ public class ConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        setMessageToSend("INIT:"+BOARD_MANAGER.getBoardName());
+        setMessageToSend("INIT:" + BOARD_MANAGER.getBoardName());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
@@ -256,11 +251,11 @@ public class ConnectionManager implements Runnable {
      * @param key
      */
     private void write(SelectionKey key) {
-        LOGGER.info(ProtocolMessages.S_CLIENT_FEEDBACK.toString());
+        LOGGER.info(ProtocolMessages.CLIENT_FEEDBACK.toString());
         try {
-          socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
-          key.interestOps(SelectionKey.OP_READ);
-        } catch(IOException ex) {
+            socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
+            key.interestOps(SelectionKey.OP_READ);
+        } catch (IOException ex) {
             LOGGER.info(ex.getMessage());
         }
         setMessageToSend(null);
@@ -275,15 +270,15 @@ public class ConnectionManager implements Runnable {
      * @throws IOException
      */
     private String read() throws IOException {
-        ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+        ByteBuffer readBuffer = ByteBuffer.allocate(BUFF_SIZE);
         readBuffer.clear();
         int read = socketChannel.read(readBuffer);
-        if (read == -1) {
-            LOGGER.info(ProtocolMessages.S_NOTHING_TO_READ.toString());
+        if (read == END_OF_STREAM) {
+            LOGGER.info(ProtocolMessages.NOTHING_TO_READ.toString());
             return null;
         }
         readBuffer.flip();
-        byte[] data = new byte[1024];
+        byte[] data = new byte[BUFF_SIZE];
         readBuffer.get(data, 0, read);
         return new String(data).replaceAll("\0", "");
     }
@@ -293,10 +288,11 @@ public class ConnectionManager implements Runnable {
      */
     private void closeConnection() {
         try {
-            LOGGER.info(String.format("Connection closed with %s", socketChannel.getRemoteAddress().toString()));
+            LOGGER.info(String.format("Connection closed with %s",
+                    socketChannel.getRemoteAddress().toString()));
             socketChannel.close();
             LISTENER_MANAGER.clearAllListeners();
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
         }
 

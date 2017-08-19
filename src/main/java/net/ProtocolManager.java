@@ -27,41 +27,46 @@ import request.IllegalRequestException;
 import request.Request;
 import request.RequestParser;
 import request.interrupt.InterruptListenerRequest;
-import request.read.ReadRequest;
 import request.write.WriteRequest;
 
 import request.manager.InterfaceManager;
 
 /**
- * Responsibilities: provide utility methods which are going to
- * enable request processing.
+ * Responsibilities: provide utility methods which are going to enable request
+ * processing.
  *
  * @author Miloslav Zezulka, 2017
  */
-public class ProtocolManager {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProtocolManager.class);
+public final class ProtocolManager {
+
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(ProtocolManager.class);
     private final Function<Interface, InterfaceManager> converter;
 
     private ProtocolManager(Function<Interface, InterfaceManager> converter) {
         this.converter = converter;
     }
 
-    public static ProtocolManager getInstance(Function<Interface, InterfaceManager> converter) {
+    public static ProtocolManager
+            getInstance(Function<Interface, InterfaceManager> converter) {
         return new ProtocolManager(converter);
     }
 
     /**
      * Takes message which was read from the input stream and tries to parse it.
-     * If the String representing the current request is not valid, IllegalRequestException
-     * is thrown. In case request is valid, ProtocolManager.performRequest is invoked.
+     * If the String representing the current request is not valid,
+     * IllegalRequestException is thrown. In case request is valid,
+     * ProtocolManager.performRequest is invoked.
+     *
      * @throws IllegalRequestException if request is not valid
      * @throws IOException
      */
-    public void parseRequest(String receivedMessage) throws IllegalRequestException, IOException {
-        LOGGER.info(ProtocolMessages.S_REQUEST_CAPTURED + " " +receivedMessage);
+    public void parseRequest(String receivedMessage)
+            throws IllegalRequestException, IOException {
+        LOGGER.info(ProtocolMessages.REQUEST_CAPTURED + " " + receivedMessage);
         Request req = RequestParser.parse(this.converter, receivedMessage);
         performRequest(req);
-        LOGGER.info(ProtocolMessages.S_REQUEST_OK.toString());
+        LOGGER.info(ProtocolMessages.REQUEST_OK.toString());
     }
 
     /**
@@ -75,7 +80,7 @@ public class ProtocolManager {
      */
     private void performRequest(Request request) throws IOException {
         LOGGER.info(String.format("Request of type %s has "
-                    + "been submitted",request.getClass()));
+                + "been submitted", request.getClass()));
         if (request instanceof WriteRequest) {
             WriteRequest req = (WriteRequest) request;
             req.write();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Miloslav.
+ * Copyright 2017 Miloslav Zezulka.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,70 +29,86 @@ import request.manager.InterfaceManager;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class WriteRequestFactory {
+public final class WriteRequestFactory {
 
-    public static Request of(InterfaceManager interfaceManager, String... args) throws IllegalRequestException {
+    private static final int HEX = 16;
+
+    private WriteRequestFactory() {
+    }
+
+    public static Request of(InterfaceManager interfaceManager, String... args)
+            throws IllegalRequestException {
         if (interfaceManager instanceof GpioManager && args.length == 1) {
             if (args.length == 1) {
-                return WriteRequestFactory.gpioValueImplicit((GpioManager) interfaceManager, args[0]);
+                return gpioValImplicit((GpioManager) interfaceManager, args[0]);
             } else if (args.length == 2) {
-                return WriteRequestFactory.gpioValueExplicit((GpioManager) interfaceManager, args[0], args[1]);
+                return gpioValExplicit((GpioManager) interfaceManager, args[0],
+                        args[1]);
             }
         } else if (interfaceManager instanceof I2cManager && args.length == 2) {
-            return WriteRequestFactory.i2c((I2cManager) interfaceManager, args[0], args[1]);
+            return i2c((I2cManager) interfaceManager, args[0], args[1]);
         } else if (interfaceManager instanceof SpiManager && args.length == 2) {
-            return WriteRequestFactory.spi((SpiManager) interfaceManager, args[0], args[1]);
+            return spi((SpiManager) interfaceManager, args[0], args[1]);
         }
         throw new IllegalRequestException();
     }
 
-    private static Request gpioValueImplicit(GpioManager gpioManager, String content) throws IllegalRequestException {
+    private static Request gpioValImplicit(GpioManager gpioManager,
+            String content) throws IllegalRequestException {
         return new GpioWriteRequest(gpioManager, content.trim());
     }
 
-    private static Request gpioValueExplicit(GpioManager gpioManager, String content, String content1) throws IllegalRequestException {
-        return new GpioWriteRequest(gpioManager, content.trim(), content1.trim());
+    private static Request gpioValExplicit(GpioManager gpioManager,
+            String content, String content1) throws IllegalRequestException {
+        return new GpioWriteRequest(gpioManager, content.trim(),
+                content1.trim());
     }
 
-    private static Request spi(SpiManager spiManager, String content, String content1) throws IllegalRequestException {
+    private static Request spi(SpiManager spiManager, String content,
+            String content1) throws IllegalRequestException {
         int slaveIndex;
-        byte[] tBuffer;
+        byte[] tBuf;
         try {
             slaveIndex = Integer.decode(content);
             if (slaveIndex < 0) {
                 throw new IllegalRequestException();
             }
-            if(content1.length() % 2 == 1) {
-                throw new IllegalRequestException("Byte array does not have even number of digits");
+            if (content1.length() % 2 == 1) {
+                throw new IllegalRequestException("odd number of digits");
             }
-            tBuffer = new byte[content1.length()/2];
+            tBuf = new byte[content1.length() / 2];
             for (int i = 0; i < content1.length(); i += 2) {
-                tBuffer[i/2] = (byte) Short.parseShort(content1.substring(i, i + 2), 16);
+                tBuf[i / 2] = (byte) Short
+                        .parseShort(content1.substring(i, i + 2), HEX);
             }
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);
         }
-        return new SpiWriteRequest(spiManager, slaveIndex, tBuffer);
+        return new SpiWriteRequest(spiManager, slaveIndex, tBuf);
     }
 
-    private static Request i2c(I2cManager i2cManager, String content, String content1) throws IllegalRequestException {
-        int slaveAddress;
+    private static Request i2c(I2cManager i2cManager, String content,
+            String content1) throws IllegalRequestException {
+        int slaveAddr;
         byte[] bytes;
         try {
-            slaveAddress = Integer.decode(content);
-            if (slaveAddress < 0 || slaveAddress > NumericConstants.I2C_MAX_SLAVE_ADDR) {
-                throw new IllegalRequestException(String.format("slave address not in bounds [0;%d]", NumericConstants.I2C_MAX_SLAVE_ADDR));
+            slaveAddr = Integer.decode(content);
+            if (slaveAddr < 0 || slaveAddr > NumericConstants.I2C_MAX_ADDR) {
+                throw new IllegalRequestException(String
+                        .format("slave address not in bounds [0;%d]",
+                                NumericConstants.I2C_MAX_ADDR));
             }
-            if(content1.length() % 2 == 1) {
-                throw new IllegalRequestException("Byte array does not have even number of digits");
+            if (content1.length() % 2 == 1) {
+                throw new IllegalRequestException("odd number of digits");
             }
-            bytes = new byte[content1.length()/2];
+            bytes = new byte[content1.length() / 2];
             for (int i = 0; i < content1.length(); i += 2) {
-                bytes[i/2] = (byte) Short.parseShort(content1.substring(i, i + 2), 16);
+                bytes[i / 2] = (byte) Short
+                        .parseShort(content1.substring(i, i + 2), HEX);
             }
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);
         }
-        return new I2cWriteRequest(i2cManager, slaveAddress, bytes);
+        return new I2cWriteRequest(i2cManager, slaveAddr, bytes);
     }
 }

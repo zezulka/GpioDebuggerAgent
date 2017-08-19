@@ -13,44 +13,60 @@ import org.slf4j.LoggerFactory;
 import request.manager.InterfaceManager;
 
 /**
- * Handles client request for registering interrupt listener (edge-trigged).
+ * Handles client request for registering interrupt listener (edge-triggered).
+ *
  * @author Miloslav Zezulka
  */
-public class StartInterruptRequestFactory {
+public final class StartInterruptRequestFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StartInterruptRequestFactory.class);
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(StartInterruptRequestFactory.class);
 
-    public static Request of(InterfaceManager gpioManager, String interruptEventArgs) throws IllegalRequestException {
-        if(gpioManager instanceof GpioManager) {
-            return StartInterruptRequestFactory.of((GpioManager)gpioManager, interruptEventArgs);
+    private StartInterruptRequestFactory() {
+    }
+
+    public static Request of(InterfaceManager gpioManager,
+            String interruptEventArgs) throws IllegalRequestException {
+        if (gpioManager instanceof GpioManager) {
+            return StartInterruptRequestFactory.of((GpioManager) gpioManager,
+                    interruptEventArgs);
         }
         throw new IllegalRequestException();
     }
 
-    private static Request of(GpioManager gpioManager, String interruptEventArgs) throws IllegalRequestException {
-        String[] strArray = interruptEventArgs.split(StringConstants.VAL_SEPARATOR.toString());
-        if (strArray.length == 2) {
-            Pin pin = gpioManager.getPin(strArray[0]);
-            if(pin == null) {
-                throw new IllegalRequestException(String.format("Pin with name %s has not been found.", strArray[0]));
-            }
-            Edge edge;
-            try {
-                edge = Edge.valueOf(getFirstUppercaseRestLowercase(strArray[1]));
-            } catch (IllegalArgumentException ex) {
-                throw new IllegalRequestException(ex);
-            }
-            LOGGER.info(String.format("New interrupt listener request submitted: pin : %s, type: %s", pin.getName(), edge.toString()));
-            return new StartEpollInterruptListenerRequest(new InterruptEventArgs(pin, edge));
+    private static Request of(GpioManager gpioManager,
+            String intrEventArgs) throws IllegalRequestException {
+        String[] strArr
+                = intrEventArgs.split(StringConstants.VAL_SEPARATOR.toString());
+        if (strArr.length != 2) {
+            throw new IllegalRequestException("Corrupted string format.");
         }
-        throw new IllegalRequestException("Corrupted string format.");
+
+        Pin pin = gpioManager.getPin(strArr[0]);
+        if (pin == null) {
+            throw new IllegalRequestException(String
+                    .format("Pin %s not found.", strArr[0]));
+        }
+        Edge edge;
+        try {
+            edge = Edge.valueOf(getFirstUppercaseRestLowercase(strArr[1]));
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalRequestException(ex);
+        }
+        LOGGER.info(String
+                .format("New interrupt listener request submitted: %s",
+                        intrEventArgs));
+        return new StartEpollInterruptListenerRequest(
+                new InterruptEventArgs(pin, edge)
+        );
     }
 
-    private static String getFirstUppercaseRestLowercase(String string) throws IllegalRequestException {
-        if(string == null) {
+    private static String getFirstUppercaseRestLowercase(String string)
+            throws IllegalRequestException {
+        if (string == null) {
             throw new IllegalRequestException();
         }
-        return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
+        return string.substring(0, 1).toUpperCase()
+                + string.substring(1).toLowerCase();
     }
-
 }

@@ -9,11 +9,13 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerRequest
+public final class LinuxEpollListenerImpl
+        extends AbstractEpollInterruptListenerRequest
         implements InterruptListener {
 
     private static final String PREFIX = "INTR_GENERATED";
-    private static final Logger LOGGER = LoggerFactory.getLogger(LinuxEpollListenerImpl.class);
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(LinuxEpollListenerImpl.class);
 
     @Override
     protected String getMessagePrefix() {
@@ -35,7 +37,8 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
     @Override
     public void interruptRequest(InterruptEventArgs iea) {
         if (!shouldBeEventProcessed(iea)) {
-            LOGGER.debug("Interrupt event triggered even though no listener has been registered. IEA: " + iea);
+            LOGGER.debug("Interrupt event triggered even "
+                    + "though no listener has been registered. IEA: " + iea);
             return;
         }
         try {
@@ -52,5 +55,4 @@ public class LinuxEpollListenerImpl extends AbstractEpollInterruptListenerReques
                 || regArg.getEdge().equals(input.getEdge()))
                 && regArg.getPin().equals(input.getPin());
     }
-
 }

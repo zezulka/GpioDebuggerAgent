@@ -15,12 +15,14 @@ public interface GpioManager extends InterfaceManager {
      *
      * @throws request.IllegalRequestException pin has not been found
      */
-    public Signal read(Pin pin) throws IllegalRequestException;
+    Signal read(Pin pin) throws IllegalRequestException;
 
     /**
      * Writes signal {@code sig} to {@code pin} given in the input.
+     *
      * @throws IllegalRequestException pin has not been found
      */
-    public void write(Pin pin, Signal sig) throws IllegalRequestException;
-    public Pin getPin(String pinName);
+    void write(Pin pin, Signal sig) throws IllegalRequestException;
+
+    Pin getPin(String pinName);
 }

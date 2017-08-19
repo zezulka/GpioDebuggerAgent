@@ -9,7 +9,7 @@ import request.IllegalRequestException;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class GpioManagerBulldogImpl implements GpioManager {
+public final class GpioManagerBulldogImpl implements GpioManager {
 
     private final BoardManager boardManager;
 
@@ -36,7 +36,7 @@ public class GpioManagerBulldogImpl implements GpioManager {
     @Override
     public void write(Pin pin, Signal sig) throws IllegalRequestException {
         if (pin == null) {
-            throw new IllegalRequestException("descriptor does not have any mapping to it on this board");
+            throw new IllegalRequestException("no mapping to the pin found");
         }
         applyVoltage(sig, pin);
     }

@@ -13,11 +13,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class I2cManagerBulldogImpl implements I2cManager {
+public final class I2cManagerBulldogImpl implements I2cManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(I2cManager.class);
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(I2cManager.class);
     private static I2cConnection i2cConnection;
     private final BoardManager boardManager;
+    private static final int MASK = 0xFF;
 
     private I2cManagerBulldogImpl(BoardManager boardManager) {
         this.boardManager = boardManager;
@@ -40,11 +42,12 @@ public class I2cManagerBulldogImpl implements I2cManager {
             i2cConnection.readBytes(buff);
             StringBuilder builder = new StringBuilder();
             for (byte b : buff) {
+                //byte is always interpreted as signed, we
+                //dont want that in this case
                 builder = builder
-                        .append((short) (b & 0xFF)) //byte is always interpreted as signed, we
-                                                    //dont want that in this case
+                        .append((short) (b & MASK))
                         .append("\t0x")
-                        .append(Integer.toHexString(b & 0xFF))
+                        .append(Integer.toHexString(b & MASK))
                         .append('\n');
             }
             return builder.toString();
@@ -68,13 +71,13 @@ public class I2cManagerBulldogImpl implements I2cManager {
         try {
             i2cConnection.writeBytes(message);
         } catch (IOException ex) {
-            LOGGER.error(ProtocolMessages.S_IO_EXCEPTION.toString(), ex);
+            LOGGER.error(ProtocolMessages.IO_EXCEPTION.toString(), ex);
         }
     }
 
     private void createConnectionIfNecessary(int address) {
         if (i2cConnection == null) {
-            i2cConnection = this.boardManager.getI2c().createI2cConnection(address);
+            i2cConnection = boardManager.getI2c().createI2cConnection(address);
             return;
         }
         if (i2cConnection.getAddress() != address) {
@@ -83,7 +86,8 @@ public class I2cManagerBulldogImpl implements I2cManager {
             } catch (IOException ex) {
                 LOGGER.error(null, ex);
             } finally {
-                i2cConnection = this.boardManager.getI2c().createI2cConnection(address);
+                i2cConnection
+                        = boardManager.getI2c().createI2cConnection(address);
             }
         }
     }

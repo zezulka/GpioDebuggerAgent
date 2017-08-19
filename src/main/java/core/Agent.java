@@ -12,16 +12,17 @@ import org.slf4j.LoggerFactory;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class Agent {
+public final class Agent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Agent.class);
+    private static final int SERVER_SOCKET_PORT = 12345;
 
     private Agent() {
     }
 
     public static void main(String[] args) {
         try {
-            ServerSocket s = new ServerSocket(12345);
+            ServerSocket s = new ServerSocket(SERVER_SOCKET_PORT);
             new Thread(ConnectionManager.getManagerWithDefaultPort()).start();
         } catch (IOException ex) {
             LOGGER.error("Application already running!");

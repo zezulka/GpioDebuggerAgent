@@ -5,10 +5,14 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 import request.manager.InterfaceManager;
+
 /**
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParser {
+public final class RequestParser {
+
+    private RequestParser() {
+    }
 
     /**
      * Parses client request given by String read from agent's
@@ -16,13 +20,14 @@ public class RequestParser {
      *
      *
      * <ul>
-       * <li>GPIO:READ:{PIN_NAME}</li>
-       * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
-       * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{LEN}(:{INTERFACE_NAME})?</li>
-       * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{DATA}*{:INTERFACE_NAME}?</li>
-       * <li>SPI:READ:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
-       * <li>SPI:WRITE:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
-       * <li>GPIO:INTR_{INTR_STOP|INTR_START}:{PIN_NAME + ' ' + INTERRUPT_TYPE}</li>
+     * <li>GPIO:READ:{PIN_NAME}</li>
+     * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
+     * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{LEN}(:{INTERFACE_NAME})?</li>
+     * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{DATA}*{:INTERFACE_NAME}?</li>
+     * <li>SPI:READ:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
+     * <li>SPI:WRITE:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
+     * <li>GPIO:INTR_{INTR_STOP|INTR_START}:{PIN_NAME + ' ' +
+     * INTERRUPT_TYPE}</li>
      * </ul>
      * ,':' being the delimiter symbol.
      *
@@ -35,13 +40,17 @@ public class RequestParser {
      * @throws IllegalRequestException in case illegal String request has been
      * provided, including null parameter
      */
-    public static Request parse(Function<Interface, InterfaceManager> converter, String clientInput) throws IllegalRequestException {
+    public static Request parse(Function<Interface, InterfaceManager> converter,
+            String clientInput) throws IllegalRequestException {
         if (clientInput == null) {
             throw new IllegalRequestException("request cannot be null");
         }
-        String[] request = clientInput.split(StringConstants.REQ_WORD_SEPARATOR.toString());
-        if(request.length < NumericConstants.MIN_NUM_ARGS) {
-            throw new IllegalRequestException(String.format("No such request with %d number of arguments exists.", request.length));
+        String[] request
+                = clientInput.split(StringConstants.REQ_SEPARATOR.toString());
+        if (request.length < NumericConstants.MIN_NUM_ARGS) {
+            throw new IllegalRequestException(String
+                    .format("Request must have at least %d args.",
+                            request.length));
         }
         Interface interfc;
         Operation op;
@@ -52,20 +61,26 @@ public class RequestParser {
             throw new IllegalRequestException(ex);
         }
         switch (op) {
-            
+
             case READ: {
-                return ReadRequestFactory.of(converter.apply(interfc), Arrays.copyOfRange(request, 2, request.length));
+                return ReadRequestFactory.of(converter.apply(interfc),
+                        Arrays.copyOfRange(request, 2, request.length));
             }
             case WRITE: {
-                return WriteRequestFactory.of(converter.apply(interfc), Arrays.copyOfRange(request, 2, request.length));
+                return WriteRequestFactory.of(converter.apply(interfc),
+                        Arrays.copyOfRange(request, 2, request.length));
             }
             case INTR_STOP: {
-                return StopInterruptRequestFactory.of(converter.apply(interfc), request[2]);
+                return StopInterruptRequestFactory.of(converter.apply(interfc),
+                        request[2]);
             }
             case INTR_START: {
-                return StartInterruptRequestFactory.of(converter.apply(interfc), request[2]);
+                return StartInterruptRequestFactory.of(converter.apply(interfc),
+                        request[2]);
             }
+            default:
+                throw new IllegalRequestException("invalid operation");
         }
-        throw new IllegalRequestException("invalid number of arguments");
+
     }
 }

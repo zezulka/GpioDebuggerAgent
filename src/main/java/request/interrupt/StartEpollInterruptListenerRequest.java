@@ -5,11 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import request.IllegalRequestException;
 
-public final class StartEpollInterruptListenerRequest extends AbstractEpollInterruptListenerRequest {
+public final class StartEpollInterruptListenerRequest
+        extends AbstractEpollInterruptListenerRequest {
 
     private static final String PREFIX = "INTR_STARTED";
-    private static final Logger LOGGER = LoggerFactory.getLogger(StartEpollInterruptListenerRequest.class);
-    private static final InterruptListenerManager MANAGER = EpollInterruptListenerManager.getInstance();
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(StartEpollInterruptListenerRequest.class);
+    private static final InterruptListenerManager MANAGER
+            = EpollInterruptListenerManager.getInstance();
 
     public StartEpollInterruptListenerRequest(InterruptEventArgs arg) {
         super(arg);

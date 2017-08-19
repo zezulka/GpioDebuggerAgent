@@ -22,7 +22,7 @@ package request;
 public enum StringConstants {
 
     ERROR_RESPONSE("ERR"),
-    REQ_WORD_SEPARATOR(":"),
+    REQ_SEPARATOR(":"),
     GPIO_RESPONSE_FORMAT("GPIO:%s:%s"),
     I2C_READ_RESPONSE_FORMAT("I2C:%s"),
     I2C_WRITE_RESPONSE_FORMAT("I2C:Write completed successfully"),

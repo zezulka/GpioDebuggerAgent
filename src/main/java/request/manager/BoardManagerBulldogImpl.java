@@ -23,9 +23,6 @@ import io.silverspoon.bulldog.core.platform.Platform;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Class which takes care of communicating with the device itself, namely using
  * bulldog library (for more information about the library, please see
@@ -38,10 +35,9 @@ public final class BoardManagerBulldogImpl implements BoardManager {
 
     private static final Board BOARD = Platform.createBoard();
     private static final BoardManager INSTANCE = new BoardManagerBulldogImpl();
-    private static final Logger LOGGER = LoggerFactory.getLogger(BoardManagerBulldogImpl.class);
 
     public BoardManagerBulldogImpl() {
-        if(BOARD == null) {
+        if (BOARD == null) {
             throw new IllegalArgumentException("board cannot be null");
         }
     }
@@ -59,7 +55,7 @@ public final class BoardManagerBulldogImpl implements BoardManager {
     public void cleanUpResources() {
         BOARD.shutdown();
     }
-    
+
     @Override
     public Board getBoard() {
         return BOARD;
@@ -72,9 +68,9 @@ public final class BoardManagerBulldogImpl implements BoardManager {
     }
 
     /**
-      * Returns SPI bus. Note that this implementation returns the first bus
-      * in the collection (held by Board object).
-      */
+     * Returns SPI bus. Note that this implementation returns the first bus in
+     * the collection (held by Board object).
+     */
     @Override
     public SpiBus getSpi() {
         List<SpiBus> buses = BOARD.getSpiBuses();

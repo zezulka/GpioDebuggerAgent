@@ -6,7 +6,7 @@ package request.manager;
  */
 public interface SpiManager extends InterfaceManager {
 
-    public String readFromSpi(int slaveIndex, byte[] rBuffer);
+    String readFromSpi(int slaveIndex, byte[] rBuffer);
 
-    public void writeIntoSpi(int slaveIndex, byte[] tBuffer);
+    void writeIntoSpi(int slaveIndex, byte[] tBuffer);
 }
