@@ -51,8 +51,6 @@ public final class LinuxEpollListenerImpl
 
     private boolean shouldBeEventProcessed(InterruptEventArgs input) {
         InterruptEventArgs regArg = getArg();
-        return (regArg.getEdge().equals(Edge.Both)
-                || regArg.getEdge().equals(input.getEdge()))
-                && regArg.getPin().equals(input.getPin());
+        return (regArg.getEdge().equals(Edge.Both) || regArg.equals(input));
     }
 }
