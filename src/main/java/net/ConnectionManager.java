@@ -123,17 +123,16 @@ public final class ConnectionManager implements Runnable {
     }
 
     public static void setMessageToSend(String message) {
-        LOGGER.debug(String.format("message sent to client %s", message));
+        if (message == null) {
+            throw new IllegalArgumentException("message cannot be null");
+        }
         messageToSend = message;
-        if (message != null) {
-            try {
-                socketChannel.register(selector, SelectionKey.OP_WRITE);
-                selector.wakeup();
-            } catch (ClosedChannelException ex) {
-                LOGGER.error("There has been an attempt to "
-                        + "register write operation on closed channel.");
-
-            }
+        try {
+            socketChannel.register(selector, SelectionKey.OP_WRITE);
+            selector.wakeup();
+        } catch (ClosedChannelException ex) {
+            LOGGER.error("There has been an attempt to "
+                    + "register write operation on closed channel.", ex);
         }
     }
 
@@ -254,11 +253,12 @@ public final class ConnectionManager implements Runnable {
         LOGGER.info(ProtocolMessages.CLIENT_FEEDBACK.toString());
         try {
             socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
+            LOGGER.debug(String
+                    .format("sent to client %s", messageToSend));
             key.interestOps(SelectionKey.OP_READ);
         } catch (IOException ex) {
             LOGGER.info(ex.getMessage());
         }
-        setMessageToSend(null);
     }
 
     /**

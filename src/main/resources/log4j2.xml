@@ -11,8 +11,8 @@
   </appenders>
 
   <loggers>
-    <root level="debug">
-      <appender-ref ref="Console"/>
+    <root level="all">
+      <appender-ref  ref="Console"/>
       <appender-ref ref="file"/>
     </root>
   </loggers>

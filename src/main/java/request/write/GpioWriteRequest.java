@@ -45,7 +45,7 @@ public final class GpioWriteRequest implements WriteRequest {
      * This constructor derives desired voltage level from the current one on
      * the pin; inverted value is written onto the pin as result.
      *
-     * @throws IllegalRequestException pin provided in the constructor does not
+     * @throws IllegalRequestException pin provided does not
      * exist on this board.
      */
     public GpioWriteRequest(GpioManager gpioManager, String pinName)
