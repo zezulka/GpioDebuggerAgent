@@ -1,5 +1,6 @@
 package request.interrupt;
 
+import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -18,6 +19,8 @@ public abstract class AbstractEpollInterruptListenerRequest
         implements InterruptListenerRequest {
 
     private final InterruptEventArgs arg;
+    private boolean triggeredByBothEdgeListener = false;
+    private Edge bothEdgeListenerEdge;
     private static final Logger LOGGER
             = LoggerFactory
                     .getLogger(AbstractEpollInterruptListenerRequest.class);
@@ -47,13 +50,21 @@ public abstract class AbstractEpollInterruptListenerRequest
         String response = getMessagePrefix()
                 + ':'
                 + arg.getPin().getName()
-                + ':' + arg.getEdge()
+                + ':'
+                + (triggeredByBothEdgeListener
+                        ? bothEdgeListenerEdge : arg.getEdge())
                 + ':'
                 + LocalTime.now().format(FORMATTER)
                 + '\n';
+        triggeredByBothEdgeListener = false;
         LOGGER.info(String
-                .format("[Interrupt listeners] sent to client: %s", response));
+                .format("sent to client: %s", response));
         ConnectionManager.setMessageToSend(response);
+    }
+
+    protected final void setEdge(Edge edge) {
+        this.bothEdgeListenerEdge = edge;
+        this.triggeredByBothEdgeListener = true;
     }
 
     protected final InterruptEventArgs getArg() {

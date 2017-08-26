@@ -37,8 +37,8 @@ public final class LinuxEpollListenerImpl
     @Override
     public void interruptRequest(InterruptEventArgs iea) {
         if (!shouldBeEventProcessed(iea)) {
-            LOGGER.debug("Interrupt event triggered even "
-                    + "though no listener has been registered. IEA: " + iea);
+            LOGGER.debug(String.format("interrupt edge was %s, skipping...",
+                    iea.getEdge()));
             return;
         }
         try {
@@ -51,6 +51,9 @@ public final class LinuxEpollListenerImpl
 
     private boolean shouldBeEventProcessed(InterruptEventArgs input) {
         InterruptEventArgs regArg = getArg();
-        return (regArg.getEdge().equals(Edge.Both) || regArg.equals(input));
+        boolean isRegisteredForBoth = regArg.getEdge().equals(Edge.Both)
+                && regArg.getPin().equals(input.getPin());
+        return EpollInterruptListenerManager.anySuitableListenerActive(input)
+                && (isRegisteredForBoth || regArg.equals(input));
     }
 }

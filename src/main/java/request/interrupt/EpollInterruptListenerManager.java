@@ -32,7 +32,7 @@ public final class EpollInterruptListenerManager
     @Override
     public void registerListener(InterruptEventArgs input)
             throws IllegalRequestException {
-        if (isListenerRegistered(input)) {
+        if (anySuitableListenerActive(input)) {
             LOGGER.error("Interrupt listener could not have been registered"
                     + " because it had been registered already.");
             throw new IllegalRequestException("Interrupt listener could not "
@@ -62,7 +62,7 @@ public final class EpollInterruptListenerManager
     @Override
     public void deregisterListener(InterruptEventArgs args)
             throws IllegalRequestException {
-        if (isListenerRegistered(args)) {
+        if (anySuitableListenerActive(args)) {
             DigitalInput input = LISTENER_MAP.get(args);
             input.clearInterruptListeners();
             LISTENER_MAP.remove(args);
@@ -79,7 +79,7 @@ public final class EpollInterruptListenerManager
         }
     }
 
-    public boolean isListenerRegistered(InterruptEventArgs input) {
+    public static boolean anySuitableListenerActive(InterruptEventArgs input) {
         if (input == null) {
             return false;
         }
@@ -88,8 +88,7 @@ public final class EpollInterruptListenerManager
 
     @Override
     public void clearAllListeners() {
-        LISTENER_MAP
-                .values().forEach((input) -> input.clearInterruptListeners());
+        LISTENER_MAP.values().forEach((val) -> val.clearInterruptListeners());
         LISTENER_MAP.clear();
     }
 }
