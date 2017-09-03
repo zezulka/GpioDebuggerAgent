@@ -8,7 +8,10 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -239,8 +242,35 @@ public final class ConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        setMessageToSend("INIT:" + BOARD_MANAGER.getBoardName());
+        StringBuilder builder = new StringBuilder("INIT:");
+        builder.append(BOARD_MANAGER.getBoardName()).append(':');
+        for (Feature f : getFeaturesAvailable()) {
+            builder.append(f.name()).append(' ');
+        }
+        setMessageToSend(builder.toString());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
+    }
+
+    private Set<Feature> getFeaturesAvailable() {
+        Set<Feature> result = new HashSet<>();
+        if (Util.isUserRoot()) {
+            addAllFeatures(result);
+        } else if (Util.isUserInGpioGroup()) {
+            result.add(Feature.GPIO);
+            result.add(Feature.INTERRUPTS);
+        }
+        return result;
+    }
+
+    private void addAllFeatures(Set<Feature> set) {
+        set.addAll(Arrays.asList(Feature.values()));
+    }
+
+    private enum Feature {
+        GPIO,
+        INTERRUPTS,
+        I2C,
+        SPI;
     }
 
     /**
