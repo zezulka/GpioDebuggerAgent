@@ -45,6 +45,7 @@ public final class EpollInterruptListenerManager
         LinuxDigitalInput newDigitalInput
                 = new LinuxDigitalInput(input.getPin());
         newDigitalInput.setup();
+        newDigitalInput.clearInterruptListeners();
         newDigitalInput.enableInterrupts();
         newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
         if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
@@ -53,6 +54,21 @@ public final class EpollInterruptListenerManager
         input.getPin().activateFeature(LinuxDigitalInput.class);
         newDigitalInput.activate();
         LISTENER_MAP.put(input, newDigitalInput);
+        deregisterListener(input);
+
+        LinuxDigitalInput anotherDigIn
+                = new LinuxDigitalInput(input.getPin());
+        anotherDigIn.setup();
+        anotherDigIn.clearInterruptListeners();
+        anotherDigIn.enableInterrupts();
+        anotherDigIn.addInterruptListener(new LinuxEpollListenerImpl(input));
+        if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
+            input.getPin().addFeature(anotherDigIn);
+        }
+        input.getPin().activateFeature(LinuxDigitalInput.class);
+        anotherDigIn.activate();
+
+        LISTENER_MAP.put(input, anotherDigIn);
         LOGGER.info(String.format(
                 "Interrupt listener registered: pin: %s, interrupt type: %s",
                 input.getPin().getName(),
