@@ -38,7 +38,7 @@ public final class SpiManagerBulldogImpl implements SpiManager {
             message = spiConnection.transfer(rBuffer);
         } catch (IOException ex) {
             LOGGER.error(null, ex);
-            return StringConstants.ERROR_RESPONSE.toString();
+            return StringConstants.ERROR_RESPONSE;
         }
         LOGGER.debug("reading finished.");
         return new String(message.getReceivedBytes());

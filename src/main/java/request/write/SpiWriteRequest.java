@@ -48,11 +48,11 @@ public final class SpiWriteRequest implements WriteRequest {
      * confirming that request has been successfully processed. This is due to
      * variability of SPI devices, which do not have an uniform way of
      * communicating with them. Should client wish to view results of this
-     * request, he must submit another SpiReadRequest.
+     * request, he must submit another SPI read request instead.
      */
     @Override
     public void giveFeedbackToClient() {
         ConnectionManager.setMessageToSend(String.format(
-                StringConstants.SPI_WRITE_RESPONSE_FORMAT.toString()));
+                StringConstants.SPI_WRITE_RESPONSE_FORMAT));
     }
 }

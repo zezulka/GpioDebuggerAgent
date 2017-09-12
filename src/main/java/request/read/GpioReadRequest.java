@@ -55,7 +55,7 @@ public final class GpioReadRequest implements ReadRequest {
             voltageLvl = "HIGH";
         }
         ConnectionManager.setMessageToSend(String.format(
-                StringConstants.GPIO_RESPONSE_FORMAT.toString(),
+                StringConstants.GPIO_RESPONSE_FORMAT,
                 pin.getName(),
                 voltageLvl)
         );

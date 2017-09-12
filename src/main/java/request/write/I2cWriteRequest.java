@@ -45,7 +45,7 @@ public final class I2cWriteRequest implements WriteRequest {
     @Override
     public void giveFeedbackToClient() {
         ConnectionManager.setMessageToSend(String
-                .format(StringConstants.I2C_WRITE_RESPONSE_FORMAT.toString()));
+                .format(StringConstants.I2C_WRITE_RESPONSE_FORMAT));
     }
 
 }

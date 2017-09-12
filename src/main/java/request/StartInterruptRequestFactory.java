@@ -37,7 +37,7 @@ public final class StartInterruptRequestFactory {
     private static Request of(GpioManager gpioManager,
             String intrEventArgs) throws IllegalRequestException {
         String[] strArr
-                = intrEventArgs.split(StringConstants.VAL_SEPARATOR.toString());
+                = intrEventArgs.split(StringConstants.VAL_SEPARATOR);
         if (strArr.length != 2) {
             throw new IllegalRequestException("Corrupted string format.");
         }

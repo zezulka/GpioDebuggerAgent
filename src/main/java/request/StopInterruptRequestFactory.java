@@ -34,8 +34,7 @@ public final class StopInterruptRequestFactory {
 
     private static Request of(GpioManager gpioManager, String intrEventArgs)
             throws IllegalRequestException {
-        String[] strArr
-                = intrEventArgs.split(StringConstants.VAL_SEPARATOR.toString());
+        String[] strArr = intrEventArgs.split(StringConstants.VAL_SEPARATOR);
         if (strArr.length == 2) {
             Pin pin = gpioManager.getPin(strArr[0]);
             if (pin == null) {

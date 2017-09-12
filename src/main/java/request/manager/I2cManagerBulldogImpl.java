@@ -29,11 +29,6 @@ public final class I2cManagerBulldogImpl implements I2cManager {
         return new I2cManagerBulldogImpl(boardManager);
     }
 
-    /**
-     * Reads bytes from i2c interface.
-     *
-     * @return I2c contents.
-     */
     @Override
     public String readFromI2c(int slave, int len) {
         createConnectionIfNecessary(slave);
@@ -45,16 +40,14 @@ public final class I2cManagerBulldogImpl implements I2cManager {
                 //byte is always interpreted as signed, we
                 //dont want that in this case
                 builder = builder
-                        .append((short) (b & MASK))
-                        .append("\t0x")
-                        .append(Integer.toHexString(b & MASK))
-                        .append('\n');
+                        .append(' ')
+                        .append((short) (b & MASK));
             }
             return builder.toString();
         } catch (IOException ex) {
-            LOGGER.error(null, ex);
+            LOGGER.error(null, ex);  
+            return null;
         }
-        return "";
     }
 
     /*

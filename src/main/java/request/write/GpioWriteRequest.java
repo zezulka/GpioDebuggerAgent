@@ -87,7 +87,7 @@ public final class GpioWriteRequest implements WriteRequest {
     public void giveFeedbackToClient() throws IOException {
         try {
             ConnectionManager.setMessageToSend(String.format(
-                    StringConstants.GPIO_RESPONSE_FORMAT.toString(),
+                    StringConstants.GPIO_RESPONSE_FORMAT,
                     pin.getName(),
                     gpioManager.read(pin).getBooleanValue() ? "HIGH" : "LOW")
             );

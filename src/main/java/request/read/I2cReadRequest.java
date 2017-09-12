@@ -31,18 +31,22 @@ public final class I2cReadRequest implements ReadRequest {
 
     @Override
     public String read() {
-        LOGGER.info(String
-                .format("I2c read request from slave %d and of length %d",
-                        slaveAddress,
-                        len));
-        return i2cManager.readFromI2c(slaveAddress, len);
+        LOGGER.info(String.format("I2c read request from slave %d, length %d",
+                slaveAddress,
+                len));
+        String readValue = i2cManager.readFromI2c(slaveAddress, len);
+        if (readValue == null) {
+            return StringConstants.ERROR_RESPONSE;
+        } else {
+            return String.format(
+                    StringConstants.I2C_READ_RESPONSE_FORMAT, read()
+            );
+        }
     }
 
     @Override
     public void giveFeedbackToClient() {
-        ConnectionManager.setMessageToSend(String
-                .format(StringConstants.I2C_READ_RESPONSE_FORMAT.toString(),
-                        read() + '\n'));
+        ConnectionManager.setMessageToSend(read());
     }
 
 }

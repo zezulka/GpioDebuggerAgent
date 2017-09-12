@@ -40,12 +40,9 @@ public final class SpiReadRequest implements ReadRequest {
 
     private void writeSpiInfoIntoLogger(byte[] tBuffer) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Spi read request:\n");
-        builder.append("contents of transferbuffer:\n");
         for (byte element : tBuffer) {
             builder = builder.append(' ').append(element);
         }
-        builder = builder.append('\n');
         LOGGER.info(builder.toString());
     }
 
@@ -57,8 +54,9 @@ public final class SpiReadRequest implements ReadRequest {
             build = build.append(getOneLineOfResponse(c));
         }
         ConnectionManager.setMessageToSend(String
-                .format(StringConstants.SPI_READ_RESPONSE_FORMAT.toString(),
-                        build.toString() + '\n'));
+                .format(StringConstants.SPI_READ_RESPONSE_FORMAT,
+                        build.toString())
+        );
     }
 
     private String getOneLineOfResponse(char c) {

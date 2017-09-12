@@ -19,24 +19,20 @@ package request;
  *
  * @author Miloslav Zezulka
  */
-public enum StringConstants {
+public final class StringConstants {
 
-    ERROR_RESPONSE("ERR"),
-    REQ_SEPARATOR(":"),
-    GPIO_RESPONSE_FORMAT("GPIO:%s:%s"),
-    I2C_READ_RESPONSE_FORMAT("I2C:%s"),
-    I2C_WRITE_RESPONSE_FORMAT("I2C:Write completed successfully"),
-    SPI_READ_RESPONSE_FORMAT("SPI:%s"),
-    SPI_WRITE_RESPONSE_FORMAT("SPI:Write completed successfully"),
-    VAL_SEPARATOR(" ");
-    private final String msg;
-
-    StringConstants(String msg) {
-        this.msg = msg;
+    private StringConstants() {
     }
-
-    @Override
-    public String toString() {
-        return this.msg;
-    }
+    
+    public static final String ERROR_RESPONSE = "ERR";
+    public static final String REQ_SEPARATOR = ":";
+    public static final String GPIO_RESPONSE_FORMAT = "GPIO:%s:%s";
+    public static final String I2C_READ_RESPONSE_FORMAT = "I2C:%s";
+    public static final String I2C_WRITE_RESPONSE_FORMAT 
+            = "I2C:Write completed successfully";
+    public static final String SPI_READ_RESPONSE_FORMAT = "SPI:%s";
+    public static final String SPI_WRITE_RESPONSE_FORMAT 
+            = "SPI:Write completed successfully";
+    public static final String VAL_SEPARATOR = " ";
+    
 }

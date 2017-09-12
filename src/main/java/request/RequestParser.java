@@ -46,7 +46,7 @@ public final class RequestParser {
             throw new IllegalRequestException("request cannot be null");
         }
         String[] request
-                = clientInput.split(StringConstants.REQ_SEPARATOR.toString());
+                = clientInput.split(StringConstants.REQ_SEPARATOR);
         if (request.length < NumericConstants.MIN_NUM_ARGS) {
             throw new IllegalRequestException(String
                     .format("Request must have at least %d args.",
