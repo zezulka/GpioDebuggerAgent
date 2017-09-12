@@ -1,5 +1,6 @@
 package request.interrupt;
 
+import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.gpio.DigitalInput;
 import io.silverspoon.bulldog.linux.gpio.LinuxDigitalInput;
@@ -42,19 +43,23 @@ public final class EpollInterruptListenerManager
         //assignment to the same class (and not interface type) is here
         //intentional, activating this feature as DigitalInput breaks the
         //functionality
-        LinuxDigitalInput newDigitalInput
-                = new LinuxDigitalInput(input.getPin());
-        newDigitalInput.setup();
-        newDigitalInput.clearInterruptListeners();
-        newDigitalInput.enableInterrupts();
-        newDigitalInput.addInterruptListener(new LinuxEpollListenerImpl(input));
-        if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
-            input.getPin().addFeature(newDigitalInput);
+        final int numIterations = 5;
+        for (int i = 0; i < numIterations; i++) {
+            LinuxDigitalInput newDigitalInput
+                    = new LinuxDigitalInput(input.getPin());
+            newDigitalInput.setup();
+            newDigitalInput.clearInterruptListeners();
+            newDigitalInput.enableInterrupts();
+            newDigitalInput
+                    .addInterruptListener(new LinuxEpollListenerImpl(input));
+            if (!input.getPin().hasFeature(LinuxDigitalInput.class)) {
+                input.getPin().addFeature(newDigitalInput);
+            }
+            input.getPin().activateFeature(LinuxDigitalInput.class);
+            newDigitalInput.activate();
+            LISTENER_MAP.put(input, newDigitalInput);
+            deregisterListener(input);
         }
-        input.getPin().activateFeature(LinuxDigitalInput.class);
-        newDigitalInput.activate();
-        LISTENER_MAP.put(input, newDigitalInput);
-        deregisterListener(input);
 
         LinuxDigitalInput anotherDigIn
                 = new LinuxDigitalInput(input.getPin());
@@ -67,8 +72,8 @@ public final class EpollInterruptListenerManager
         }
         input.getPin().activateFeature(LinuxDigitalInput.class);
         anotherDigIn.activate();
-
         LISTENER_MAP.put(input, anotherDigIn);
+
         LOGGER.info(String.format(
                 "Interrupt listener registered: pin: %s, interrupt type: %s",
                 input.getPin().getName(),
@@ -99,7 +104,17 @@ public final class EpollInterruptListenerManager
         if (input == null) {
             return false;
         }
-        return LISTENER_MAP.containsKey(input);
+        if (LISTENER_MAP.containsKey(input)) {
+            return true;
+        }
+
+        for (InterruptEventArgs iea : LISTENER_MAP.keySet()) {
+            if (iea.getEdge().equals(Edge.Both)
+                    && iea.getPin().equals(input.getPin())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
