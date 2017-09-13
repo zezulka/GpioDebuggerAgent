@@ -2,13 +2,12 @@ package request.interrupt;
 
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
-import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import net.ConnectionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.Request;
 
 /**
  * Abstract class roofing all classes dealing with interrupt listeners.
@@ -16,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * @author Miloslav Zezulka
  */
 public abstract class AbstractEpollInterruptListenerRequest
-        implements InterruptListenerRequest {
+        implements Request {
 
     private final InterruptEventArgs arg;
     private boolean triggeredByBothEdgeListener = false;
@@ -43,10 +42,9 @@ public abstract class AbstractEpollInterruptListenerRequest
      * prefix, information about whether the interrupt listener has been
      * (de)registered or generated, is contained.
      *
-     * @throws IOException
      */
     @Override
-    public final void giveFeedbackToClient() throws IOException {
+    public final String getFormattedResponse() {
         String response = getMessagePrefix()
                 + ':'
                 + arg.getPin().getName()
@@ -59,7 +57,7 @@ public abstract class AbstractEpollInterruptListenerRequest
         triggeredByBothEdgeListener = false;
         LOGGER.info(String
                 .format("sent to client: %s", response));
-        ConnectionManager.setMessageToSend(response);
+        return response;
     }
 
     protected final void setEdge(Edge edge) {

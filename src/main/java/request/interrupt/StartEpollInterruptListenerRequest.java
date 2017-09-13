@@ -24,7 +24,7 @@ public final class StartEpollInterruptListenerRequest
     }
 
     @Override
-    public void handleInterruptRequest() {
+    public void performRequest() {
         try {
             MANAGER.registerListener(super.getArg());
         } catch (IllegalRequestException ex) {

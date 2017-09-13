@@ -1,18 +1,18 @@
 package request.write;
 
-import net.ConnectionManager;
 import request.StringConstants;
 
 import request.manager.I2cManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.Request;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
-public final class I2cWriteRequest implements WriteRequest {
+public final class I2cWriteRequest implements Request {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(I2cWriteRequest.class);
@@ -35,7 +35,7 @@ public final class I2cWriteRequest implements WriteRequest {
     }
 
     @Override
-    public void write() {
+    public void performRequest() {
         LOGGER.info(String
                 .format("I2c write request from slave %x and of length %d",
                         slaveAddress, content.length));
@@ -43,9 +43,8 @@ public final class I2cWriteRequest implements WriteRequest {
     }
 
     @Override
-    public void giveFeedbackToClient() {
-        ConnectionManager.setMessageToSend(String
-                .format(StringConstants.I2C_WRITE_RESPONSE_FORMAT));
+    public String getFormattedResponse() {
+        return String.format(StringConstants.I2C_WRITE_RESPONSE_FORMAT);
     }
 
 }

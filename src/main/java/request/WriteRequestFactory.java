@@ -21,9 +21,9 @@ import request.write.SpiWriteRequest;
 
 import request.manager.I2cManager;
 import request.manager.SpiManager;
-import request.manager.GpioManager;
 
 import request.manager.InterfaceManager;
+import request.manager.PinAccessor;
 
 /**
  *
@@ -38,11 +38,11 @@ public final class WriteRequestFactory {
 
     public static Request of(InterfaceManager interfaceManager, String... args)
             throws IllegalRequestException {
-        if (interfaceManager instanceof GpioManager && args.length == 1) {
+        if (interfaceManager instanceof PinAccessor && args.length == 1) {
             if (args.length == 1) {
-                return gpioValImplicit((GpioManager) interfaceManager, args[0]);
+                return gpioValImplicit((PinAccessor) interfaceManager, args[0]);
             } else if (args.length == 2) {
-                return gpioValExplicit((GpioManager) interfaceManager, args[0],
+                return gpioValExplicit((PinAccessor) interfaceManager, args[0],
                         args[1]);
             }
         } else if (interfaceManager instanceof I2cManager && args.length == 2) {
@@ -53,14 +53,14 @@ public final class WriteRequestFactory {
         throw new IllegalRequestException();
     }
 
-    private static Request gpioValImplicit(GpioManager gpioManager,
+    private static Request gpioValImplicit(PinAccessor pinAccessor,
             String content) throws IllegalRequestException {
-        return new GpioWriteRequest(gpioManager, content.trim());
+        return new GpioWriteRequest(pinAccessor, content.trim());
     }
 
-    private static Request gpioValExplicit(GpioManager gpioManager,
+    private static Request gpioValExplicit(PinAccessor pinAccessor,
             String content, String content1) throws IllegalRequestException {
-        return new GpioWriteRequest(gpioManager, content.trim(),
+        return new GpioWriteRequest(pinAccessor, content.trim(),
                 content1.trim());
     }
 

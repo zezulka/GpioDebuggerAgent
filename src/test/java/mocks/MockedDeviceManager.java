@@ -15,18 +15,13 @@
  */
 package mocks;
 
+import board.manager.BoardManager;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
 
-import io.silverspoon.bulldog.core.pin.Pin;
-
 import io.silverspoon.bulldog.core.platform.Board;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import request.manager.BoardManager;
 
 /**
  *
@@ -34,14 +29,16 @@ import request.manager.BoardManager;
  */
 public class MockedDeviceManager implements BoardManager {
     private static final Board BOARD = new MockedBoard();
-    private static List<I2cBus> I2CBUSES = Collections.EMPTY_LIST;
+    private static final List<I2cBus> I2CBUSES = new ArrayList<>();
+    private static final List<SpiBus> SPIBUSES = new ArrayList<>();
     private static final BoardManager INSTANCE = new MockedDeviceManager();
 
     private MockedDeviceManager() {
         if(BOARD == null) {
             throw new IllegalArgumentException("board cannot be null");
         }
-        I2CBUSES = new ArrayList<>(BOARD.getI2cBuses());
+        I2CBUSES.addAll(BOARD.getI2cBuses());
+        SPIBUSES.addAll(BOARD.getSpiBuses());
     }
 
     public static BoardManager getInstance() {
@@ -64,8 +61,7 @@ public class MockedDeviceManager implements BoardManager {
 
     @Override
     public SpiBus getSpi() {
-        List<SpiBus> buses = BOARD.getSpiBuses();
-        return buses.size() < 1 ? null : buses.get(0);
+        return SPIBUSES.size() < 1 ? null : SPIBUSES.get(0);
     }
     /*
      * NO-OP

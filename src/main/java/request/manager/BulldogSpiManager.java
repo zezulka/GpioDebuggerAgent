@@ -1,5 +1,6 @@
 package request.manager;
 
+import board.manager.BoardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,13 +8,12 @@ import io.silverspoon.bulldog.core.io.bus.spi.SpiConnection;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiMessage;
 
 import java.io.IOException;
-import request.StringConstants;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
-public final class SpiManagerBulldogImpl implements SpiManager {
+public final class BulldogSpiManager implements SpiManager {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(SpiManager.class);
@@ -21,27 +21,28 @@ public final class SpiManagerBulldogImpl implements SpiManager {
     private final BoardManager boardManager;
     private static final int MAX_SLAVE_INDEX = 2;
 
-    private SpiManagerBulldogImpl(BoardManager boardManager) {
+    private BulldogSpiManager(BoardManager boardManager) {
         this.boardManager = boardManager;
     }
 
-    public static SpiManagerBulldogImpl getInstance(BoardManager boardManager) {
-        return new SpiManagerBulldogImpl(boardManager);
+    public static BulldogSpiManager getInstance(BoardManager boardManager) {
+        return new BulldogSpiManager(boardManager);
     }
 
     @Override
-    public String readFromSpi(int slaveIndex, byte[] rBuffer) {
+    public byte[] readFromSpi(int slaveIndex, byte[] rBuffer) {
         LOGGER.debug("Reading from SPI...");
         SpiMessage message;
         try {
             createConnectionIfNecessary(slaveIndex);
             message = spiConnection.transfer(rBuffer);
+            LOGGER.debug("reading finished.");
+            return message.getReceivedBytes();
+
         } catch (IOException ex) {
-            LOGGER.error(null, ex);
-            return StringConstants.ERROR_RESPONSE;
+            LOGGER.error("reading failed.", ex);
+            return null;
         }
-        LOGGER.debug("reading finished.");
-        return new String(message.getReceivedBytes());
     }
 
     @Override

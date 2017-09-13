@@ -21,12 +21,12 @@ import request.IllegalRequestException;
 import request.Interface;
 import request.interrupt.EpollInterruptListenerManager;
 import request.interrupt.InterruptListenerManager;
-import request.manager.BoardManager;
-import request.manager.BoardManagerBulldogImpl;
-import request.manager.GpioManagerBulldogImpl;
-import request.manager.I2cManagerBulldogImpl;
+import board.manager.BoardManager;
+import board.manager.BoardManagerBulldogImpl;
+import request.manager.BulldogPinAccessor;
+import request.manager.BulldogI2cManager;
 import request.manager.InterfaceManager;
-import request.manager.SpiManagerBulldogImpl;
+import request.manager.BulldogSpiManager;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -60,18 +60,18 @@ public final class ConnectionManager implements Runnable {
             -> {
         switch (t) {
             case GPIO:
-                return GpioManagerBulldogImpl.getInstance(BOARD_MANAGER);
+                return new BulldogPinAccessor(BOARD_MANAGER);
             case I2C:
-                return I2cManagerBulldogImpl.getInstance(BOARD_MANAGER);
+                return BulldogI2cManager.getInstance(BOARD_MANAGER);
             case SPI:
-                return SpiManagerBulldogImpl.getInstance(BOARD_MANAGER);
+                return BulldogSpiManager.getInstance(BOARD_MANAGER);
             default:
                 throw new IllegalArgumentException();
         }
     };
 
     private static final ProtocolManager PROTOCOL_MANAGER
-            = ProtocolManager.getInstance(CONVERTER);
+            = new ProtocolManager(CONVERTER);
     private static final InterruptListenerManager LISTENER_MANAGER
             = EpollInterruptListenerManager.getInstance();
     private static final Logger LOGGER
@@ -220,6 +220,7 @@ public final class ConnectionManager implements Runnable {
             }
             try {
                 PROTOCOL_MANAGER.parseRequest(receivedMessage);
+                LOGGER.info(ProtocolMessages.REQUEST_OK.toString());
             } catch (IllegalRequestException ex) {
                 LOGGER.error(null, ex);
                 setMessageToSend(ProtocolMessages.ILLEGAL_REQUEST.toString());

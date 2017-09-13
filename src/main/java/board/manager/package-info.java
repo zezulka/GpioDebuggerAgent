@@ -1,8 +1,3 @@
-package mocks;
-
-
-import request.manager.SpiManager;
-
 /*
  * Copyright 2017 miloslav.
  *
@@ -18,17 +13,4 @@ import request.manager.SpiManager;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-public class MockedSpiManager implements SpiManager {
-
-    @Override
-    public byte[] readFromSpi(int slaveIndex, byte[] rBuffer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void writeIntoSpi(int slaveIndex, byte[] tBuffer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-}
+package board.manager;

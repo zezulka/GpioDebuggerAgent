@@ -4,8 +4,6 @@ import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.event.InterruptListener;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +25,10 @@ public final class LinuxEpollListenerImpl
     }
 
     @Override
-    public void handleInterruptRequest() {
+    public void performRequest() {
         /**
          * NO-OP: this is not a client generated request, there is nothing to
-         * parse, only send message to client that the event happened
+         * do, only send message to client that the event happened
          */
     }
 
@@ -39,12 +37,8 @@ public final class LinuxEpollListenerImpl
         if (!shouldBeEventProcessed(iea)) {
             return;
         }
-        try {
-            LOGGER.debug(String.format("interrupt edge %s", iea.getEdge()));
-            super.giveFeedbackToClient();
-        } catch (IOException ex) {
-            LOGGER.error(null, ex);
-        }
+        LOGGER.debug(String.format("interrupt edge %s", iea.getEdge()));
+        super.getFormattedResponse();
     }
 
     private boolean shouldBeEventProcessed(InterruptEventArgs input) {

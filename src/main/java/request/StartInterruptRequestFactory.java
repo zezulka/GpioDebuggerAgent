@@ -5,12 +5,12 @@ import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.pin.Pin;
 
 import request.interrupt.StartEpollInterruptListenerRequest;
-import request.manager.GpioManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import request.manager.InterfaceManager;
+import request.manager.PinAccessor;
 
 /**
  * Handles client request for registering interrupt listener (edge-triggered).
@@ -27,14 +27,14 @@ public final class StartInterruptRequestFactory {
 
     public static Request of(InterfaceManager gpioManager,
             String interruptEventArgs) throws IllegalRequestException {
-        if (gpioManager instanceof GpioManager) {
-            return StartInterruptRequestFactory.of((GpioManager) gpioManager,
+        if (gpioManager instanceof PinAccessor) {
+            return StartInterruptRequestFactory.of((PinAccessor) gpioManager,
                     interruptEventArgs);
         }
         throw new IllegalRequestException();
     }
 
-    private static Request of(GpioManager gpioManager,
+    private static Request of(PinAccessor pinAccessor,
             String intrEventArgs) throws IllegalRequestException {
         String[] strArr
                 = intrEventArgs.split(StringConstants.VAL_SEPARATOR);
@@ -42,7 +42,7 @@ public final class StartInterruptRequestFactory {
             throw new IllegalRequestException("Corrupted string format.");
         }
 
-        Pin pin = gpioManager.getPin(strArr[0]);
+        Pin pin = pinAccessor.getPin(strArr[0]);
         if (pin == null) {
             throw new IllegalRequestException(String
                     .format("Pin %s not found.", strArr[0]));
@@ -53,9 +53,6 @@ public final class StartInterruptRequestFactory {
         } catch (IllegalArgumentException ex) {
             throw new IllegalRequestException(ex);
         }
-        LOGGER.info(String
-                .format("New interrupt listener request submitted: %s",
-                        intrEventArgs));
         return new StartEpollInterruptListenerRequest(
                 new InterruptEventArgs(pin, edge)
         );

@@ -1,80 +1,59 @@
 package request.write;
 
-import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.Signal;
-
-import java.io.IOException;
-
-import net.ConnectionManager;
 
 import request.IllegalRequestException;
 import request.StringConstants;
-
-import request.manager.GpioManager;
+import request.manager.PinAccessor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.Request;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
-public final class GpioWriteRequest implements WriteRequest {
+public final class GpioWriteRequest implements Request {
 
-    private final Pin pin;
     private final boolean desiredVoltage;
     private static final Logger LOGGER
             = LoggerFactory.getLogger(GpioWriteRequest.class);
-    private final GpioManager gpioManager;
+    private final PinAccessor pinAccessor;
+    private final String pinName;
 
-    public GpioWriteRequest(GpioManager gpioManager, String pinName,
+    public GpioWriteRequest(PinAccessor pinAccessor, String pinName,
             String desiredVoltage) throws IllegalRequestException {
         try {
             this.desiredVoltage = Integer.parseInt(desiredVoltage) != 0;
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException e) {
             throw new IllegalRequestException("desiredVoltage not numeric");
         }
-        this.gpioManager = gpioManager;
-        this.pin = this.gpioManager.getPin(pinName);
-        if (pin == null) {
-            throw new IllegalRequestException("pin not found");
-        }
+        this.pinName = pinName;
+        this.pinAccessor = pinAccessor;
     }
 
     /**
      * This constructor derives desired voltage level from the current one on
      * the pin; inverted value is written onto the pin as result.
      *
-     * @throws IllegalRequestException pin provided does not
-     * exist on this board.
+     * @throws IllegalRequestException pin provided does not exist on this
+     * board.
      */
-    public GpioWriteRequest(GpioManager gpioManager, String pinName)
+    public GpioWriteRequest(PinAccessor gpioManager, String pinName)
             throws IllegalRequestException {
-        this.gpioManager = gpioManager;
-        this.pin = this.gpioManager.getPin(pinName);
-        if (pin == null) {
-            throw new IllegalRequestException("pin not found");
-        }
-        try {
-            this.desiredVoltage = !this.gpioManager.read(pin).getBooleanValue();
-        } catch (IllegalRequestException ex) {
-            LOGGER.error(String.format("pin %s not available", pin.getName()));
-            throw new IllegalRequestException("pin not available");
-        }
+        this.pinAccessor = gpioManager;
+        this.pinName = pinName;
+        this.desiredVoltage = !this.pinAccessor.read(this.pinName);
     }
 
-    /**
-     * Writes value to the pin (both specified in GpioWriteRequest constructor)
-     * and checks whether the value has been actually written.
-     *
-     * @throws IllegalStateException check mentioned fails
-     */
     @Override
-    public void write() {
+    public void performRequest() {
         try {
-            gpioManager.write(pin, desiredVoltage ? Signal.High : Signal.Low);
+            pinAccessor.write(desiredVoltage ? Signal.High : Signal.Low,
+                    pinName);
         } catch (IllegalRequestException ex) {
-            LOGGER.error("GPIO write request failed.", ex);
+            LOGGER.error("GPIO write request failed", ex);
         }
     }
 
@@ -84,15 +63,15 @@ public final class GpioWriteRequest implements WriteRequest {
      * turned off or on.
      */
     @Override
-    public void giveFeedbackToClient() throws IOException {
+    public String getFormattedResponse() {
         try {
-            ConnectionManager.setMessageToSend(String.format(
+            return String.format(
                     StringConstants.GPIO_RESPONSE_FORMAT,
-                    pin.getName(),
-                    gpioManager.read(pin).getBooleanValue() ? "HIGH" : "LOW")
-            );
+                    pinName,
+                    pinAccessor.read(pinName) ? "HIGH" : "LOW");
         } catch (IllegalRequestException ex) {
-            LOGGER.error("read after modification failed", ex);
+            LOGGER.error("could not read from pin after GPIO write", ex);
+            return StringConstants.ERROR_RESPONSE;
         }
     }
 

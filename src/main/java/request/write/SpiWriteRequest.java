@@ -1,18 +1,17 @@
 package request.write;
 
-import net.ConnectionManager;
-
 import request.manager.SpiManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.Request;
 import request.StringConstants;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
-public final class SpiWriteRequest implements WriteRequest {
+public final class SpiWriteRequest implements Request {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(SpiWriteRequest.class);
@@ -27,7 +26,7 @@ public final class SpiWriteRequest implements WriteRequest {
     }
 
     @Override
-    public void write() {
+    public void performRequest() {
         spiManager.writeIntoSpi(slaveIndex, tBuf);
         writeSpiInfoIntoLogger(tBuf);
     }
@@ -44,15 +43,14 @@ public final class SpiWriteRequest implements WriteRequest {
     }
 
     /**
-     * Important note: no content is sent to client by this method, only message
+     * Important note: no data is sent to client by this method, only message
      * confirming that request has been successfully processed. This is due to
      * variability of SPI devices, which do not have an uniform way of
      * communicating with them. Should client wish to view results of this
      * request, he must submit another SPI read request instead.
      */
     @Override
-    public void giveFeedbackToClient() {
-        ConnectionManager.setMessageToSend(String.format(
-                StringConstants.SPI_WRITE_RESPONSE_FORMAT));
+    public String getFormattedResponse() {
+        return String.format(StringConstants.SPI_WRITE_RESPONSE_FORMAT);
     }
 }

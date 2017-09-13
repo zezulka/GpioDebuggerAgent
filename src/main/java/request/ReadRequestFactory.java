@@ -21,8 +21,8 @@ import request.read.SpiReadRequest;
 
 import request.manager.I2cManager;
 import request.manager.SpiManager;
-import request.manager.GpioManager;
 import request.manager.InterfaceManager;
+import request.manager.PinAccessor;
 
 /**
  *
@@ -37,8 +37,8 @@ public final class ReadRequestFactory {
 
     public static Request of(InterfaceManager interfaceManager, String... args)
             throws IllegalRequestException {
-        if (interfaceManager instanceof GpioManager && args.length == 1) {
-            return ReadRequestFactory.gpio((GpioManager) interfaceManager,
+        if (interfaceManager instanceof PinAccessor && args.length == 1) {
+            return ReadRequestFactory.gpio((PinAccessor) interfaceManager,
                     args[0]);
         } else if (interfaceManager instanceof I2cManager && args.length == 2) {
             return ReadRequestFactory.i2c((I2cManager) interfaceManager,
@@ -59,22 +59,11 @@ public final class ReadRequestFactory {
      * @return
      * @throws request.IllegalRequestException
      */
-    private static Request gpio(GpioManager gpioManager, String content)
+    private static Request gpio(PinAccessor pinAccessor, String content)
             throws IllegalRequestException {
-        return new GpioReadRequest(gpioManager, content.trim());
+        return new GpioReadRequest(pinAccessor, content);
     }
 
-    /**
-     * Returns ReadRequest instance based on the {@code interfc} Interface.
-     *
-     * @param interfc
-     * @param content String variable which has got different meaning based upon
-     * the interface it is being passed to
-     * @param content1 another String variable which has got different meaning
-     * based upon the interface it is being passed to
-     * @return
-     * @throws request.IllegalRequestException
-     */
     private static Request spi(SpiManager deviceManager, String content,
             String content1)
             throws IllegalRequestException {

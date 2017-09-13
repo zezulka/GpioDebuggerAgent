@@ -4,11 +4,11 @@ import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.pin.Pin;
 import request.interrupt.StopEpollInterruptListenerRequest;
-import request.manager.GpioManager;
 import request.manager.InterfaceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.manager.PinAccessor;
 
 /**
  * Handles client request for deregistering interrupt listener (edge-triggered).
@@ -23,20 +23,20 @@ public final class StopInterruptRequestFactory {
     private StopInterruptRequestFactory() {
     }
 
-    public static Request of(InterfaceManager gpioManager, String intrEventArgs)
+    public static Request of(InterfaceManager pinAccessor, String intrEventArgs)
             throws IllegalRequestException {
-        if (gpioManager instanceof GpioManager) {
-            return StopInterruptRequestFactory.of((GpioManager) gpioManager,
+        if (pinAccessor instanceof PinAccessor) {
+            return StopInterruptRequestFactory.of((PinAccessor) pinAccessor,
                     intrEventArgs);
         }
         throw new IllegalRequestException();
     }
 
-    private static Request of(GpioManager gpioManager, String intrEventArgs)
+    private static Request of(PinAccessor pinAccessor, String intrEventArgs)
             throws IllegalRequestException {
         String[] strArr = intrEventArgs.split(StringConstants.VAL_SEPARATOR);
         if (strArr.length == 2) {
-            Pin pin = gpioManager.getPin(strArr[0]);
+            Pin pin = pinAccessor.getPin(strArr[0]);
             if (pin == null) {
                 throw new IllegalRequestException(String
                         .format("Pin %s has not found.", strArr[0]));
@@ -47,9 +47,6 @@ public final class StopInterruptRequestFactory {
             } catch (IllegalArgumentException ex) {
                 throw new IllegalRequestException(ex);
             }
-            LOGGER.info(String
-                    .format("Interrupt listener removal request submitted: %s",
-                            intrEventArgs));
             return new StopEpollInterruptListenerRequest(
                     new InterruptEventArgs(pin, edge)
             );

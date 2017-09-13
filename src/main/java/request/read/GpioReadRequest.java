@@ -1,63 +1,40 @@
 package request.read;
 
-import io.silverspoon.bulldog.core.pin.Pin;
-
-import java.io.IOException;
-
-import net.ConnectionManager;
-
 import request.IllegalRequestException;
 import request.StringConstants;
 
-import request.manager.GpioManager;
+import request.manager.PinAccessor;
 
 /**
  *
  * @author Miloslav Zezulka, 2017
  */
-public final class GpioReadRequest implements ReadRequest {
+public final class GpioReadRequest extends AbstractReadRequest {
 
-    private final Pin pin;
-    private final GpioManager gpioManager;
+    private final PinAccessor gpioManager;
+    private final String pinName;
 
-    public GpioReadRequest(GpioManager gpioManager, String pinName)
+    public GpioReadRequest(PinAccessor gpioManager, String pinName)
             throws IllegalRequestException {
         this.gpioManager = gpioManager;
-        this.pin = this.gpioManager.getPin(pinName);
-        if (pin == null) {
-            throw new IllegalRequestException("pin not found");
-        }
+        this.pinName = pinName;
     }
 
-    /**
-     * Attempts to read input denoted in getInstance() method and if successful,
-     * returns the pin numeric value as a result. String containing number is
-     * returned due to interface which this class implements.
-     *
-     * @return String numeric representation of the read signal
-     */
     @Override
-    public String read() {
+    public String getFormattedResponse() {
         try {
-            return String.valueOf(gpioManager.read(this.pin).getNumericValue());
+            String voltageLvl;
+            if (gpioManager.read(pinName)) {
+                voltageLvl = "HIGH";
+            } else {
+                voltageLvl = "LOW";
+            }
+            return String.format(
+                    StringConstants.GPIO_RESPONSE_FORMAT,
+                    pinName,
+                    voltageLvl);
         } catch (IllegalRequestException ex) {
-            return "-1";
+            return StringConstants.ERROR_RESPONSE;
         }
-    }
-
-    @Override
-    public void giveFeedbackToClient() throws IOException {
-        int status = Integer.parseInt(read());
-        String voltageLvl;
-        if (status == 0) {
-            voltageLvl = "LOW";
-        } else {
-            voltageLvl = "HIGH";
-        }
-        ConnectionManager.setMessageToSend(String.format(
-                StringConstants.GPIO_RESPONSE_FORMAT,
-                pin.getName(),
-                voltageLvl)
-        );
     }
 }

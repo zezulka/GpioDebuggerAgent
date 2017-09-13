@@ -27,7 +27,7 @@ public class MockedI2cManager implements I2cManager {
     }
 
     @Override
-    public String readFromI2c(int slave, int len) {
+    public byte[] readFromI2c(int slave, int len) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
