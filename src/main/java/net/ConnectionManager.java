@@ -9,20 +9,20 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import request.IllegalRequestException;
-import request.Interface;
+import request.DeviceInterface;
 import request.interrupt.EpollInterruptListenerManager;
 import request.interrupt.InterruptListenerManager;
 import board.manager.BoardManager;
 import board.manager.BoardManagerBulldogImpl;
+import java.util.ArrayList;
+import java.util.List;
 import request.manager.BulldogPinAccessor;
 import request.manager.BulldogI2cManager;
 import request.manager.InterfaceManager;
@@ -56,19 +56,19 @@ public final class ConnectionManager implements Runnable {
     private static final ConnectionManager INSTANCE = new ConnectionManager();
     private static final BoardManager BOARD_MANAGER
             = BoardManagerBulldogImpl.getInstance();
-    private static final Function<Interface, InterfaceManager> CONVERTER = (t)
-            -> {
-        switch (t) {
-            case GPIO:
-                return new BulldogPinAccessor(BOARD_MANAGER);
-            case I2C:
-                return BulldogI2cManager.getInstance(BOARD_MANAGER);
-            case SPI:
-                return BulldogSpiManager.getInstance(BOARD_MANAGER);
-            default:
-                throw new IllegalArgumentException();
-        }
-    };
+    private static final Function<DeviceInterface, InterfaceManager> CONVERTER
+            = (t) -> {
+                switch (t) {
+                    case GPIO:
+                        return new BulldogPinAccessor(BOARD_MANAGER);
+                    case I2C:
+                        return BulldogI2cManager.getInstance(BOARD_MANAGER);
+                    case SPI:
+                        return BulldogSpiManager.getInstance(BOARD_MANAGER);
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            };
 
     private static final ProtocolManager PROTOCOL_MANAGER
             = new ProtocolManager(CONVERTER);
@@ -252,8 +252,8 @@ public final class ConnectionManager implements Runnable {
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
-    private Set<Feature> getFeaturesAvailable() {
-        Set<Feature> result = new HashSet<>();
+    private List<Feature> getFeaturesAvailable() {
+        List<Feature> result = new ArrayList<>();
         if (Util.isUserRoot()) {
             addAllFeatures(result);
         } else if (Util.isUserInGpioGroup()) {
@@ -263,7 +263,7 @@ public final class ConnectionManager implements Runnable {
         return result;
     }
 
-    private void addAllFeatures(Set<Feature> set) {
+    private void addAllFeatures(List<Feature> set) {
         set.addAll(Arrays.asList(Feature.values()));
     }
 
@@ -281,14 +281,13 @@ public final class ConnectionManager implements Runnable {
      * @param key
      */
     private void write(SelectionKey key) {
-        LOGGER.info(ProtocolMessages.CLIENT_FEEDBACK.toString());
         try {
             socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
             LOGGER.debug(String
                     .format("sent to client %s", messageToSend));
             key.interestOps(SelectionKey.OP_READ);
         } catch (IOException ex) {
-            LOGGER.info(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -314,9 +313,6 @@ public final class ConnectionManager implements Runnable {
         return new String(data).replaceAll("\0", "");
     }
 
-    /*
-     * Closes connection.
-     */
     private void closeConnection() {
         try {
             LOGGER.info(String.format("Connection closed with %s",

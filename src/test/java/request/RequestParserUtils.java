@@ -30,7 +30,7 @@ public class RequestParserUtils {
     public static final SpiManager MOCKED_SPI_MANAGER = new MockedSpiManager();
     public static final Pin REQUESTED_PIN = MOCKED_PIN_ACCESSOR.getBoard().getPin("P0");
     public static final String REQUESTED_PIN_NAME = REQUESTED_PIN.getName();
-    public static final Function<Interface, InterfaceManager> CONVERTER = (t) -> {
+    public static final Function<DeviceInterface, InterfaceManager> CONVERTER = (t) -> {
         switch (t) {
             case GPIO:
                 return MOCKED_PIN_ACCESSOR;

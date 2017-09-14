@@ -16,7 +16,7 @@
 package net;
 
 import java.io.IOException;
-import request.Interface;
+import request.DeviceInterface;
 
 import java.util.function.Function;
 
@@ -39,17 +39,18 @@ public final class ProtocolManager {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(ProtocolManager.class);
-    private final Function<Interface, InterfaceManager> converter;
+    private final Function<DeviceInterface, InterfaceManager> converter;
 
-    public ProtocolManager(Function<Interface, InterfaceManager> converter) {
+    public ProtocolManager(
+            Function<DeviceInterface, InterfaceManager> converter) {
         this.converter = converter;
     }
 
     /**
      * Takes message which was read from the input stream and tries to parse it.
      * If the String representing the current request is not valid,
-     * IllegalRequestException is thrown. In case request is valid,
-     * request is performed and appropriate response is sent back to client.
+     * IllegalRequestException is thrown. In case request is valid, request is
+     * performed and appropriate response is sent back to client.
      *
      * @throws IllegalRequestException if request is not valid
      * @throws IOException
@@ -68,4 +69,3 @@ public final class ProtocolManager {
         ConnectionManager.setMessageToSend(request.getFormattedResponse());
     }
 }
-

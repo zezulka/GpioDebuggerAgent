@@ -40,7 +40,8 @@ public final class RequestParser {
      * @throws IllegalRequestException in case illegal String request has been
      * provided, including null parameter
      */
-    public static Request parse(Function<Interface, InterfaceManager> converter,
+    public static Request parse(
+            Function<DeviceInterface, InterfaceManager> converter,
             String clientInput) throws IllegalRequestException {
         if (clientInput == null) {
             throw new IllegalRequestException("request cannot be null");
@@ -52,10 +53,10 @@ public final class RequestParser {
                     .format("Request must have at least %d args.",
                             request.length));
         }
-        Interface interfc;
+        DeviceInterface interfc;
         Operation op;
         try {
-            interfc = Interface.valueOf(request[0].trim().toUpperCase());
+            interfc = DeviceInterface.valueOf(request[0].trim().toUpperCase());
             op = Operation.valueOf(request[1].trim().toUpperCase());
         } catch (IllegalArgumentException ex) {
             throw new IllegalRequestException(ex);

@@ -3,6 +3,7 @@ package request.interrupt;
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.event.InterruptListener;
+import net.ConnectionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,15 @@ public final class LinuxEpollListenerImpl
             return;
         }
         LOGGER.debug(String.format("interrupt edge %s", iea.getEdge()));
-        super.getFormattedResponse();
+        /**
+         * Classes in this package should not invoke setMessageToSend, but
+         * method of this class gets invoked asynchronously outside of the
+         * message parser cycle (see ProtocolManager.performRequest for more
+         * details). In general, interruptRequest method gets invoked outside
+         * of the main thread, so additional threading needn't be dealt with.
+         *
+         */
+        ConnectionManager.setMessageToSend(super.getFormattedResponse());
     }
 
     private boolean shouldBeEventProcessed(InterruptEventArgs input) {

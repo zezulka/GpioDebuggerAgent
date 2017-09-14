@@ -8,8 +8,6 @@ public enum ProtocolMessages {
       SERVER_INIT("Initializing server..."),
       SERVER_INIT_SUCCESS("...initialization successful."),
       CONNECTION_ACCEPT("Now accepting connection."),
-      FINISHED("Server has been shut down."),
-      CLIENT_FEEDBACK("Sending information back to client..."),
       ERR_INIT_MORE_THAN_ONCE("Init method called more than once!"),
       NOTHING_TO_READ("Reached end of the stream, closing connection..."),
       IO_EXCEPTION("I/O exception"),
