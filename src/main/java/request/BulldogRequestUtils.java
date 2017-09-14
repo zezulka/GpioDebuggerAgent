@@ -1,8 +1,12 @@
 package request;
 
+import java.time.format.DateTimeFormatter;
+
 public final class BulldogRequestUtils {
 
     private static final int MASK = 0xFF;
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter
+            .ofPattern("HH.mm.ss.S");
 
     private BulldogRequestUtils() {
     }

@@ -4,11 +4,11 @@ import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import request.IllegalRequestException;
+import request.StringConstants;
 
 public final class StopEpollInterruptListenerRequest
         extends AbstractEpollInterruptListenerRequest {
 
-    private static final String PREFIX = "INTR_STOPPED";
     private static final Logger LOGGER
             = LoggerFactory.getLogger(StopEpollInterruptListenerRequest.class);
     private static final InterruptListenerManager MANAGER
@@ -19,8 +19,8 @@ public final class StopEpollInterruptListenerRequest
     }
 
     @Override
-    protected String getMessagePrefix() {
-        return PREFIX;
+    protected String getMessageFormatter() {
+        return StringConstants.STOP_INTRS_RESPONSE_FORMAT;
     }
 
     @Override

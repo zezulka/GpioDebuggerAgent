@@ -27,8 +27,8 @@ public final class SpiWriteRequest implements Request {
 
     @Override
     public void performRequest() {
-        spiManager.writeIntoSpi(slaveIndex, tBuf);
         writeSpiInfoIntoLogger(tBuf);
+        spiManager.writeIntoSpi(slaveIndex, tBuf);
     }
 
     private void writeSpiInfoIntoLogger(byte[] tBuffer) {
@@ -38,8 +38,7 @@ public final class SpiWriteRequest implements Request {
         for (byte element : tBuffer) {
             builder = builder.append(' ').append(element);
         }
-        builder = builder.append('\n');
-        LOGGER.info(builder.toString());
+        LOGGER.debug(builder.toString());
     }
 
     /**

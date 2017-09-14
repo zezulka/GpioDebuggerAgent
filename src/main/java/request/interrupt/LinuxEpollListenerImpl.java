@@ -6,18 +6,18 @@ import io.silverspoon.bulldog.core.event.InterruptListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.StringConstants;
 
 public final class LinuxEpollListenerImpl
         extends AbstractEpollInterruptListenerRequest
         implements InterruptListener {
 
-    private static final String PREFIX = "INTR_GENERATED";
     private static final Logger LOGGER
             = LoggerFactory.getLogger(LinuxEpollListenerImpl.class);
 
     @Override
-    protected String getMessagePrefix() {
-        return PREFIX;
+    protected String getMessageFormatter() {
+        return StringConstants.GENERATED_INTR_RESPONSE_FORMAT;
     }
 
     public LinuxEpollListenerImpl(InterruptEventArgs arg) {

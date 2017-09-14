@@ -3,10 +3,11 @@ package request.interrupt;
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import request.BulldogRequestUtils;
 import request.Request;
 
 /**
@@ -23,16 +24,12 @@ public abstract class AbstractEpollInterruptListenerRequest
     private static final Logger LOGGER
             = LoggerFactory
                     .getLogger(AbstractEpollInterruptListenerRequest.class);
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter
-            .ofPattern("HH.mm.ss.S");
 
     /**
      * @throws IllegalArgumentException args is null
      */
     public AbstractEpollInterruptListenerRequest(InterruptEventArgs arg) {
-        if (arg == null) {
-            throw new IllegalArgumentException("Args cannot be null");
-        }
+        Objects.requireNonNull(arg, "arg");
         this.arg = arg;
     }
 
@@ -45,15 +42,10 @@ public abstract class AbstractEpollInterruptListenerRequest
      */
     @Override
     public final String getFormattedResponse() {
-        String response = getMessagePrefix()
-                + ':'
-                + arg.getPin().getName()
-                + ':'
-                + (triggeredByBothEdgeListener
-                        ? bothEdgeListenerEdge : arg.getEdge())
-                + ':'
-                + LocalTime.now().format(FORMATTER)
-                + '\n';
+        String response = String.format(getMessageFormatter(),
+                arg.getPin().getName(), (triggeredByBothEdgeListener
+                ? bothEdgeListenerEdge : arg.getEdge()),
+                LocalTime.now().format(BulldogRequestUtils.FORMATTER));
         triggeredByBothEdgeListener = false;
         LOGGER.info(String
                 .format("sent to client: %s", response));
@@ -69,5 +61,5 @@ public abstract class AbstractEpollInterruptListenerRequest
         return this.arg;
     }
 
-    protected abstract String getMessagePrefix();
+    protected abstract String getMessageFormatter();
 }
