@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
  * Main class, which represents an entry point for the whole application. Only
  * one instance can be run at a time.
  *
- * @author Miloslav Zezulka, 2017
  */
 public final class Agent {
 

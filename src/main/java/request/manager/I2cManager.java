@@ -1,9 +1,5 @@
 package request.manager;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public interface I2cManager extends InterfaceManager {
 
     /**

@@ -11,10 +11,6 @@ import net.ProtocolMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public final class BulldogI2cManager implements I2cManager {
 
     private static final Logger LOGGER

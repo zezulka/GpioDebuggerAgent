@@ -7,10 +7,6 @@ import io.silverspoon.bulldog.core.pin.Pin;
 import java.util.Objects;
 import request.IllegalRequestException;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public final class BulldogPinAccessor implements PinAccessor {
 
     private final BoardManager boardManager;

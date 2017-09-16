@@ -13,7 +13,6 @@ import request.manager.PinAccessor;
 /**
  * Handles client request for deregistering interrupt listener (edge-triggered).
  *
- * @author Miloslav Zezulka, 2017
  */
 public final class StopInterruptRequestFactory {
 

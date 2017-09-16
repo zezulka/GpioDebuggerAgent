@@ -8,10 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import request.Request;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public final class I2cWriteRequest implements Request {
 
     private static final Logger LOGGER

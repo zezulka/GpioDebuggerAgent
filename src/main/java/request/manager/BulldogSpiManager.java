@@ -9,10 +9,6 @@ import io.silverspoon.bulldog.core.io.bus.spi.SpiMessage;
 
 import java.io.IOException;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public final class BulldogSpiManager implements SpiManager {
 
     private static final Logger LOGGER

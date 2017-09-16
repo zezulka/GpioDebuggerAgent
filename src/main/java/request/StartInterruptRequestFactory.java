@@ -15,7 +15,6 @@ import request.manager.PinAccessor;
 /**
  * Handles client request for registering interrupt listener (edge-triggered).
  *
- * @author Miloslav Zezulka
  */
 public final class StartInterruptRequestFactory {
 

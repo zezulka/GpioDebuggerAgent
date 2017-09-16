@@ -7,10 +7,6 @@ import org.slf4j.LoggerFactory;
 import request.BulldogRequestUtils;
 import request.StringConstants;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public final class SpiReadRequest extends AbstractReadRequest {
 
     private static final Logger LOGGER

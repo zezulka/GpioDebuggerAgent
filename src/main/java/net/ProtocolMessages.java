@@ -1,9 +1,5 @@
 package net;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public enum ProtocolMessages {
       SERVER_INIT("Initializing server..."),
       SERVER_INIT_SUCCESS("...initialization successful."),

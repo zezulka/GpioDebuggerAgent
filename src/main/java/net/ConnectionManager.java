@@ -31,7 +31,6 @@ import request.manager.BulldogSpiManager;
 /**
  * Responsibility: manage all the connections binded to the device.
  *
- * @author Miloslav Zezulka, 2017
  */
 public final class ConnectionManager implements Runnable {
 

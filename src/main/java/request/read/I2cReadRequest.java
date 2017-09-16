@@ -9,10 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import request.BulldogRequestUtils;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public final class I2cReadRequest extends AbstractReadRequest {
 
     private final I2cManager i2cManager;

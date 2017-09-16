@@ -5,10 +5,6 @@ import request.StringConstants;
 
 import request.manager.PinAccessor;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public final class GpioReadRequest extends AbstractReadRequest {
 
     private final PinAccessor gpioManager;

@@ -13,7 +13,6 @@ import request.Request;
 /**
  * Abstract class roofing all classes dealing with interrupt listeners.
  *
- * @author Miloslav Zezulka
  */
 public abstract class AbstractEpollInterruptListenerRequest
         implements Request {

@@ -4,10 +4,6 @@ import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.pin.Pin;
 import request.IllegalRequestException;
 
-/**
- *
- * @author Miloslav Zezulka, 2017
- */
 public interface PinAccessor extends InterfaceManager {
 
     /**

@@ -6,9 +6,6 @@ import java.util.function.Function;
 
 import request.manager.InterfaceManager;
 
-/**
- * @author Miloslav Zezulka, 2017
- */
 public final class RequestParser {
 
     private RequestParser() {

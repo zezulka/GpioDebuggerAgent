@@ -1,9 +1,5 @@
 package request;
 
-/**
- *
- * @author Miloslav Zezulka
- */
 public final class StringConstants {
 
     private StringConstants() {
