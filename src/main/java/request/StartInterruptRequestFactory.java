@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import request.manager.InterfaceManager;
-import request.manager.PinAccessor;
+import request.manager.GpioManager;
 
 /**
  * Handles client request for registering interrupt listener (edge-triggered).
@@ -26,14 +26,14 @@ public final class StartInterruptRequestFactory {
 
     public static Request of(InterfaceManager gpioManager,
             String interruptEventArgs) throws IllegalRequestException {
-        if (gpioManager instanceof PinAccessor) {
-            return StartInterruptRequestFactory.of((PinAccessor) gpioManager,
+        if (gpioManager instanceof GpioManager) {
+            return StartInterruptRequestFactory.of((GpioManager) gpioManager,
                     interruptEventArgs);
         }
         throw new IllegalRequestException();
     }
 
-    private static Request of(PinAccessor pinAccessor,
+    private static Request of(GpioManager pinAccessor,
             String intrEventArgs) throws IllegalRequestException {
         String[] strArr
                 = intrEventArgs.split(StringConstants.VAL_SEPARATOR);

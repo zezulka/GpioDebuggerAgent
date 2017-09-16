@@ -1,17 +1,19 @@
 package request.manager;
 
 import board.manager.BoardManager;
+
 import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.gpio.base.DigitalIOFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
+
 import java.util.Objects;
 import request.IllegalRequestException;
 
-public final class BulldogPinAccessor implements PinAccessor {
+public final class BulldogGpioManager implements GpioManager {
 
     private final BoardManager boardManager;
 
-    public BulldogPinAccessor(BoardManager boardManager) {
+    public BulldogGpioManager(BoardManager boardManager) {
         Objects.requireNonNull(boardManager, "boardManager");
         this.boardManager = boardManager;
     }

@@ -20,13 +20,17 @@ public final class BulldogRequestUtils {
         if (array == null) {
             return null;
         }
-        StringBuilder result = new StringBuilder();
-        for (byte b : array) {
+        if (array.length == 0) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder()
+                .append((short) array[0] & MASK);
+        for (int i = 1; i < array.length; i++) {
             //byte is always interpreted as signed, we
             //dont want that in this case
-            result = result
-                    .append(' ')
-                    .append((short) (b & MASK));
+            result = result.append(' ')
+                    .append((short) (array[i] & MASK));
         }
         return result.toString();
     }

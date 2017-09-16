@@ -19,13 +19,13 @@ import io.silverspoon.bulldog.core.pin.Pin;
 import java.util.function.Function;
 
 import mocks.MockedSpiManager;
-import mocks.MockedPinAccessor;
+import mocks.MockedGpioManager;
 import mocks.MockedI2cManager;
 
 import request.manager.*;
 
 public class RequestParserUtils {
-    public static final MockedPinAccessor MOCKED_PIN_ACCESSOR = new MockedPinAccessor();
+    public static final MockedGpioManager MOCKED_PIN_ACCESSOR = new MockedGpioManager();
     public static final I2cManager MOCKED_I2C_MANAGER = new MockedI2cManager();
     public static final SpiManager MOCKED_SPI_MANAGER = new MockedSpiManager();
     public static final Pin REQUESTED_PIN = MOCKED_PIN_ACCESSOR.getBoard().getPin("P0");

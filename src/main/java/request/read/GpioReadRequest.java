@@ -3,15 +3,14 @@ package request.read;
 import request.IllegalRequestException;
 import request.StringConstants;
 
-import request.manager.PinAccessor;
+import request.manager.GpioManager;
 
 public final class GpioReadRequest extends AbstractReadRequest {
 
-    private final PinAccessor gpioManager;
+    private final GpioManager gpioManager;
     private final String pinName;
 
-    public GpioReadRequest(PinAccessor gpioManager, String pinName)
-            throws IllegalRequestException {
+    public GpioReadRequest(GpioManager gpioManager, String pinName) {
         this.gpioManager = gpioManager;
         this.pinName = pinName;
     }

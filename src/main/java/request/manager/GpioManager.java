@@ -4,7 +4,7 @@ import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.pin.Pin;
 import request.IllegalRequestException;
 
-public interface PinAccessor extends InterfaceManager {
+public interface GpioManager extends InterfaceManager {
 
     /**
      *

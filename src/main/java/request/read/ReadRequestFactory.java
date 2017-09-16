@@ -1,13 +1,12 @@
-package request;
+package request.read;
 
-import request.read.GpioReadRequest;
-import request.read.I2cReadRequest;
-import request.read.SpiReadRequest;
-
+import request.IllegalRequestException;
+import request.NumericConstants;
+import request.Request;
 import request.manager.I2cManager;
 import request.manager.SpiManager;
 import request.manager.InterfaceManager;
-import request.manager.PinAccessor;
+import request.manager.GpioManager;
 
 public final class ReadRequestFactory {
 
@@ -18,8 +17,8 @@ public final class ReadRequestFactory {
 
     public static Request of(InterfaceManager interfaceManager, String... args)
             throws IllegalRequestException {
-        if (interfaceManager instanceof PinAccessor && args.length == 1) {
-            return ReadRequestFactory.gpio((PinAccessor) interfaceManager,
+        if (interfaceManager instanceof GpioManager && args.length == 1) {
+            return ReadRequestFactory.gpio((GpioManager) interfaceManager,
                     args[0]);
         } else if (interfaceManager instanceof I2cManager && args.length == 2) {
             return ReadRequestFactory.i2c((I2cManager) interfaceManager,
@@ -40,7 +39,7 @@ public final class ReadRequestFactory {
      * @return
      * @throws request.IllegalRequestException
      */
-    private static Request gpio(PinAccessor pinAccessor, String content)
+    private static Request gpio(GpioManager pinAccessor, String content)
             throws IllegalRequestException {
         return new GpioReadRequest(pinAccessor, content);
     }

@@ -6,12 +6,12 @@ import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.platform.Board;
 
 import request.IllegalRequestException;
-import request.manager.PinAccessor;
+import request.manager.GpioManager;
 
-public class MockedPinAccessor implements PinAccessor {
+public class MockedGpioManager implements GpioManager {
     private static final BoardManager MOCKED_MANAGER = MockedDeviceManager.getInstance();
 
-    public MockedPinAccessor() {
+    public MockedGpioManager() {
     }
 
     private void applyVoltage(Signal sig, Pin pin) {
@@ -21,6 +21,9 @@ public class MockedPinAccessor implements PinAccessor {
     @Override
     public boolean read(String pinName) throws IllegalRequestException {
         Pin pin = getPin(pinName);
+        if(pin == null) {
+            throw new IllegalRequestException();
+        }
         MockedDigitalIoFeature feat = pin.getFeature(MockedDigitalIoFeature.class);
         feat.unblockPin();
         return feat.read().getBooleanValue();
@@ -28,7 +31,11 @@ public class MockedPinAccessor implements PinAccessor {
 
     @Override
     public void write(Signal sig, String pinName) throws IllegalRequestException {
-        applyVoltage(sig, getPin(pinName));
+        Pin pin = getPin(pinName);
+        if(pin == null) {
+            throw new IllegalRequestException();
+        }
+        applyVoltage(sig, pin);
     }
 
     @Override

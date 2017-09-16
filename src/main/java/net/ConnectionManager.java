@@ -23,7 +23,7 @@ import board.manager.BoardManager;
 import board.manager.BoardManagerBulldogImpl;
 import java.util.ArrayList;
 import java.util.List;
-import request.manager.BulldogPinAccessor;
+import request.manager.BulldogGpioManager;
 import request.manager.BulldogI2cManager;
 import request.manager.InterfaceManager;
 import request.manager.BulldogSpiManager;
@@ -59,7 +59,7 @@ public final class ConnectionManager implements Runnable {
             = (t) -> {
                 switch (t) {
                     case GPIO:
-                        return new BulldogPinAccessor(BOARD_MANAGER);
+                        return new BulldogGpioManager(BOARD_MANAGER);
                     case I2C:
                         return BulldogI2cManager.getInstance(BOARD_MANAGER);
                     case SPI:

@@ -4,26 +4,26 @@ import io.silverspoon.bulldog.core.Signal;
 
 import request.IllegalRequestException;
 import request.StringConstants;
-import request.manager.PinAccessor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import request.Request;
+import request.manager.GpioManager;
 
 public final class GpioWriteRequest implements Request {
 
-    private final boolean desiredVoltage;
+    private Boolean desiredVoltage = null;
     private static final Logger LOGGER
             = LoggerFactory.getLogger(GpioWriteRequest.class);
-    private final PinAccessor pinAccessor;
+    private final GpioManager pinAccessor;
     private final String pinName;
 
-    public GpioWriteRequest(PinAccessor pinAccessor, String pinName,
-            String desiredVoltage) throws IllegalRequestException {
+    public GpioWriteRequest(GpioManager pinAccessor, String pinName,
+            String desiredVoltage) {
         try {
             this.desiredVoltage = Integer.parseInt(desiredVoltage) != 0;
         } catch (NumberFormatException e) {
-            throw new IllegalRequestException("desiredVoltage not numeric");
+            throw new IllegalArgumentException("desiredVoltage not numeric");
         }
         this.pinName = pinName;
         this.pinAccessor = pinAccessor;
@@ -36,16 +36,17 @@ public final class GpioWriteRequest implements Request {
      * @throws IllegalRequestException pin provided does not exist on this
      * board.
      */
-    public GpioWriteRequest(PinAccessor gpioManager, String pinName)
-            throws IllegalRequestException {
+    public GpioWriteRequest(GpioManager gpioManager, String pinName) {
         this.pinAccessor = gpioManager;
         this.pinName = pinName;
-        this.desiredVoltage = !this.pinAccessor.read(this.pinName);
     }
 
     @Override
     public void performRequest() {
         try {
+            if (desiredVoltage == null) {
+                this.desiredVoltage = !this.pinAccessor.read(this.pinName);
+            }
             pinAccessor.write(desiredVoltage ? Signal.High : Signal.Low,
                     pinName);
         } catch (IllegalRequestException ex) {
