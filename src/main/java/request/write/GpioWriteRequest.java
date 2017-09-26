@@ -7,10 +7,9 @@ import request.StringConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import request.Request;
 import request.manager.GpioManager;
 
-public final class GpioWriteRequest implements Request {
+public final class GpioWriteRequest implements WriteRequest {
 
     private Boolean desiredVoltage = null;
     private static final Logger LOGGER

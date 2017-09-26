@@ -6,9 +6,8 @@ import request.manager.I2cManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import request.Request;
 
-public final class I2cWriteRequest implements Request {
+public final class I2cWriteRequest implements WriteRequest {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(I2cWriteRequest.class);

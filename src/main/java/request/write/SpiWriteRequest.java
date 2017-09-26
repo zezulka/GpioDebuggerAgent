@@ -4,10 +4,9 @@ import request.manager.SpiManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import request.Request;
 import request.StringConstants;
 
-public final class SpiWriteRequest implements Request {
+public final class SpiWriteRequest implements WriteRequest {
 
     private static final Logger LOGGER
             = LoggerFactory.getLogger(SpiWriteRequest.class);
@@ -23,18 +22,15 @@ public final class SpiWriteRequest implements Request {
 
     @Override
     public void performRequest() {
-        writeSpiInfoIntoLogger(tBuf);
-        spiManager.writeIntoSpi(slaveIndex, tBuf);
-    }
-
-    private void writeSpiInfoIntoLogger(byte[] tBuffer) {
         StringBuilder builder = new StringBuilder();
         builder.append("Spi write request:\n");
         builder.append("contents of transferbuffer:\n");
-        for (byte element : tBuffer) {
+        for (byte element : tBuf) {
             builder = builder.append(' ').append(element);
         }
+        spiManager.writeIntoSpi(slaveIndex, tBuf);
         LOGGER.debug(builder.toString());
+
     }
 
     /**

@@ -8,6 +8,7 @@ public final class StringConstants {
     public static final String ERROR_RESPONSE = "ERR";
     public static final String REQ_SEPARATOR = ":";
     public static final String VAL_SEPARATOR = " ";
+    public static final String INIT_PREFIX = "INIT:";
     public static final String GPIO_RESPONSE_FORMAT = "GPIO:%s:%s";
     public static final String I2C_READ_RESPONSE_FORMAT = "I2C:%s";
     public static final String I2C_WRITE_RESPONSE_FORMAT

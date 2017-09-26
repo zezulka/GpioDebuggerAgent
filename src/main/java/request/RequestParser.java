@@ -18,17 +18,18 @@ public final class RequestParser {
      * {@code InputStream}. The format of the request is one of the following:
      *
      *
-     * <ul>
-     * <li>GPIO:READ:{PIN_NAME}</li>
-     * <li>GPIO:WRITE:{PIN_NAME}{:{0,1}?}</li>
-     * <li>I2C:READ:{SLAVE_ADDRESS_HEX}:{LEN}(:{INTERFACE_NAME})?</li>
-     * <li>I2C:WRITE:{SLAVE_ADDRESS_HEX}:{DATA}*{:INTERFACE_NAME}?</li>
-     * <li>SPI:READ:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
-     * <li>SPI:WRITE:{CHIP_INDEX}:{DATA}*{:INTERFACE_NAME}?<li>
-     * <li>GPIO:INTR_{INTR_STOP|INTR_START}:{PIN_NAME + ' ' +
-     * INTERRUPT_TYPE}</li>
-     * </ul>
-     * ,':' being the delimiter symbol.
+     * GPIO:READ:{PIN_NAME} GPIO:WRITE:{PIN_NAME}{:{0,1}?}
+     *
+     * I2C:READ:{SLAVE_ADDRESS_HEX}:{LEN} 
+     * I2C:WRITE:{SLAVE_ADDRESS_HEX}:{DATA}+
+     * I2C:WRITE_READ:{SLAVE_ADDRESS_HEX}:{DATA}+
+     *
+     * SPI:READ:{CHIP_INDEX}:{DATA}* 
+     * SPI:WRITE:{CHIP_INDEX}:{DATA}*
+     * SPI:WRITE_READ:{CHIP_INDEX}:{DATA}*
+     *
+     * GPIO:INTR_{INTR_STOP|INTR_START}:{PIN_NAME + ' ' + INTERRUPT_TYPE} ,':'
+     * being the delimiter symbol.
      *
      *
      * For available interfaces and operations, please consult documentation of
@@ -69,6 +70,9 @@ public final class RequestParser {
             case WRITE: {
                 return WriteRequestFactory.of(converter.apply(interfc),
                         Arrays.copyOfRange(request, 2, request.length));
+            }
+            case WRITE_READ: {
+                throw new UnsupportedOperationException();
             }
             case INTR_STOP: {
                 return StopInterruptRequestFactory.of(converter.apply(interfc),

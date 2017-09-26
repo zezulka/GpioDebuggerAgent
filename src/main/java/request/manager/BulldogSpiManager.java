@@ -14,11 +14,11 @@ public final class BulldogSpiManager implements SpiManager {
     private static final Logger LOGGER
             = LoggerFactory.getLogger(SpiManager.class);
     private SpiConnection spiConnection;
-    private final BoardManager boardManager;
+    private final BoardManager manager;
     private static final int MAX_SLAVE_INDEX = 2;
 
     private BulldogSpiManager(BoardManager boardManager) {
-        this.boardManager = boardManager;
+        this.manager = boardManager;
     }
 
     public static BulldogSpiManager getInstance(BoardManager boardManager) {
@@ -56,17 +56,8 @@ public final class BulldogSpiManager implements SpiManager {
             throw new IllegalArgumentException(String
                     .format("slave index out of bounds (=%d)", index));
         }
-        if (spiConnection == null) {
-            spiConnection = boardManager.getSpi().createSpiConnection(index);
-        } else if (spiConnection.getAddress() != index) {
-            try {
-                spiConnection.getBus().close();
-                spiConnection
-                        = boardManager.getSpi().createSpiConnection(index);
-            } catch (IOException ex) {
-                LOGGER.error(null, ex);
-            }
-        }
+        spiConnection = manager.getSpi().createSpiConnection(index);
+
         LOGGER.info(String
                 .format("created SpiConnection with slave %d", index));
     }

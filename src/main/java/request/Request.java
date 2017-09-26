@@ -6,6 +6,8 @@ package request;
  *
  */
 public interface Request {
+
     String getFormattedResponse();
+
     void performRequest();
 }

@@ -43,8 +43,8 @@ public final class LinuxEpollListenerImpl
          * Classes in this package should not invoke setMessageToSend, but
          * method of this class gets invoked asynchronously outside of the
          * message parser cycle (see ProtocolManager.performRequest for more
-         * details). In general, interruptRequest method gets invoked outside
-         * of the main thread, so additional threading needn't be dealt with.
+         * details). In general, interruptRequest method gets invoked outside of
+         * the main thread, so additional threading needn't be dealt with.
          *
          */
         ConnectionManager.setMessageToSend(super.getFormattedResponse());

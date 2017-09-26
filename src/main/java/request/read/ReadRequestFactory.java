@@ -2,7 +2,6 @@ package request.read;
 
 import request.IllegalRequestException;
 import request.NumericConstants;
-import request.Request;
 import request.manager.I2cManager;
 import request.manager.SpiManager;
 import request.manager.InterfaceManager;
@@ -15,16 +14,16 @@ public final class ReadRequestFactory {
     private ReadRequestFactory() {
     }
 
-    public static Request of(InterfaceManager interfaceManager, String... args)
+    public static ReadRequest of(InterfaceManager manager, String... args)
             throws IllegalRequestException {
-        if (interfaceManager instanceof GpioManager && args.length == 1) {
-            return ReadRequestFactory.gpio((GpioManager) interfaceManager,
+        if (manager instanceof GpioManager && args.length == 1) {
+            return ReadRequestFactory.gpio((GpioManager) manager,
                     args[0]);
-        } else if (interfaceManager instanceof I2cManager && args.length == 2) {
-            return ReadRequestFactory.i2c((I2cManager) interfaceManager,
+        } else if (manager instanceof I2cManager && args.length == 2) {
+            return ReadRequestFactory.i2c((I2cManager) manager,
                     args[0], args[1]);
-        } else if (interfaceManager instanceof SpiManager && args.length == 2) {
-            return ReadRequestFactory.spi((SpiManager) interfaceManager,
+        } else if (manager instanceof SpiManager && args.length == 2) {
+            return ReadRequestFactory.spi((SpiManager) manager,
                     args[0], args[1]);
         }
         throw new IllegalRequestException();
@@ -39,12 +38,12 @@ public final class ReadRequestFactory {
      * @return
      * @throws request.IllegalRequestException
      */
-    private static Request gpio(GpioManager pinAccessor, String content)
+    private static ReadRequest gpio(GpioManager pinAccessor, String content)
             throws IllegalRequestException {
         return new GpioReadRequest(pinAccessor, content);
     }
 
-    private static Request spi(SpiManager deviceManager, String content,
+    private static ReadRequest spi(SpiManager deviceManager, String content,
             String content1)
             throws IllegalRequestException {
         int slaveIndex;
@@ -68,7 +67,7 @@ public final class ReadRequestFactory {
         }
     }
 
-    private static Request i2c(I2cManager deviceManager, String content,
+    private static ReadRequest i2c(I2cManager deviceManager, String content,
             String content1)
             throws IllegalRequestException {
         int slaveAddr;
