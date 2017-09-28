@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="WARN">
-  <appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="[ %d{HH:mm:ss.S} %-5level] %logger{36} - %msg%n"/>
-    </Console>
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[ %d{HH:mm:ss.S} %-5level] %logger{36} - %msg%n"/>
+        </Console>
 
-    <File name="file" fileName="logs/app.log">
-        <PatternLayout pattern="[ %d{yyyy-mm-dd HH:mm:ss.S} %-5level] %logger{36} - %msg%n"/>
-    </File>
-  </appenders>
+        <File name="file" fileName="logs/app.log">
+            <PatternLayout pattern="[ %d{yyyy-mm-dd HH:mm:ss.S} %-5level] %logger{36} - %msg%n"/>
+        </File>
+    </appenders>
 
-  <loggers>
-    <root level="all">
-      <appender-ref  ref="Console"/>
-      <appender-ref ref="file"/>
-    </root>
-  </loggers>
+    <loggers>
+        <root level="all">
+            <appender-ref  ref="Console"/>
+            <appender-ref ref="file"/>
+        </root>
+    </loggers>
 </configuration>

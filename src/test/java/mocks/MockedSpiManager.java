@@ -1,8 +1,6 @@
 package mocks;
 
-
 import request.manager.SpiManager;
-
 
 public class MockedSpiManager implements SpiManager {
 
@@ -15,5 +13,5 @@ public class MockedSpiManager implements SpiManager {
     public void writeIntoSpi(int slaveIndex, byte[] tBuffer) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

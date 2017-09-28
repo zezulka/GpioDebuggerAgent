@@ -8,7 +8,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.Function;
 
@@ -21,8 +20,7 @@ import request.interrupt.EpollInterruptListenerManager;
 import request.interrupt.InterruptListenerManager;
 import board.manager.BoardManager;
 import board.manager.BoardManagerBulldogImpl;
-import java.util.ArrayList;
-import java.util.List;
+import request.InitMessage;
 import request.manager.BulldogGpioManager;
 import request.manager.BulldogI2cManager;
 import request.manager.InterfaceManager;
@@ -242,35 +240,8 @@ public final class ConnectionManager implements Runnable {
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        StringBuilder builder = new StringBuilder("INIT:");
-        builder.append(BOARD_MANAGER.getBoardName()).append(':');
-        for (Feature f : getFeaturesAvailable()) {
-            builder.append(f.name()).append(' ');
-        }
-        setMessageToSend(builder.toString());
+        setMessageToSend(new InitMessage(BOARD_MANAGER).getFormattedResponse());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
-    }
-
-    private List<Feature> getFeaturesAvailable() {
-        List<Feature> result = new ArrayList<>();
-        if (Util.isUserRoot()) {
-            addAllFeatures(result);
-        } else if (Util.isUserInGpioGroup()) {
-            result.add(Feature.GPIO);
-            result.add(Feature.INTERRUPTS);
-        }
-        return result;
-    }
-
-    private void addAllFeatures(List<Feature> set) {
-        set.addAll(Arrays.asList(Feature.values()));
-    }
-
-    private enum Feature {
-        GPIO,
-        INTERRUPTS,
-        I2C,
-        SPI;
     }
 
     /**

@@ -9,6 +9,7 @@ import request.IllegalRequestException;
 import request.manager.GpioManager;
 
 public class MockedGpioManager implements GpioManager {
+
     private static final BoardManager MOCKED_MANAGER = MockedDeviceManager.getInstance();
 
     public MockedGpioManager() {
@@ -17,11 +18,11 @@ public class MockedGpioManager implements GpioManager {
     private void applyVoltage(Signal sig, Pin pin) {
         pin.getFeature(MockedDigitalIoFeature.class).write(sig);
     }
-    
+
     @Override
     public boolean read(String pinName) throws IllegalRequestException {
         Pin pin = getPin(pinName);
-        if(pin == null) {
+        if (pin == null) {
             throw new IllegalRequestException();
         }
         MockedDigitalIoFeature feat = pin.getFeature(MockedDigitalIoFeature.class);
@@ -32,7 +33,7 @@ public class MockedGpioManager implements GpioManager {
     @Override
     public void write(Signal sig, String pinName) throws IllegalRequestException {
         Pin pin = getPin(pinName);
-        if(pin == null) {
+        if (pin == null) {
             throw new IllegalRequestException();
         }
         applyVoltage(sig, pin);
@@ -42,12 +43,13 @@ public class MockedGpioManager implements GpioManager {
     public Pin getPin(String pinName) {
         return MOCKED_MANAGER.getBoard().getPin(pinName);
     }
-    
+
     /**
      * For testing purposes only. This avoids catching IllegalRequestException.
-     * @return 
+     *
+     * @return
      */
-    public Board getBoard(){
+    public Board getBoard() {
         return MOCKED_MANAGER.getBoard();
     }
 }

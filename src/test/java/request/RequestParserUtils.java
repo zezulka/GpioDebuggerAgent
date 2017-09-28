@@ -25,6 +25,7 @@ import mocks.MockedI2cManager;
 import request.manager.*;
 
 public class RequestParserUtils {
+
     public static final MockedGpioManager MOCKED_PIN_ACCESSOR = new MockedGpioManager();
     public static final I2cManager MOCKED_I2C_MANAGER = new MockedI2cManager();
     public static final SpiManager MOCKED_SPI_MANAGER = new MockedSpiManager();

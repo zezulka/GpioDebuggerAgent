@@ -7,8 +7,7 @@ import io.silverspoon.bulldog.core.platform.Board;
 public interface BoardManager {
 
     /**
-     * Returns device name. This String is used as an identifier for
-     * client.
+     * Returns device name. This String is used as an identifier for client.
      *
      * @return String representation of the device.
      */

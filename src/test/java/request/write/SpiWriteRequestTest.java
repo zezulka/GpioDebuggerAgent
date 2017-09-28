@@ -9,7 +9,7 @@ import request.RequestParserUtils;
 import request.StringConstants;
 
 public class SpiWriteRequestTest {
-    
+
     public SpiWriteRequestTest() {
     }
 
@@ -22,5 +22,5 @@ public class SpiWriteRequestTest {
             fail(ex.getMessage());
         }
     }
-    
+
 }

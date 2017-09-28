@@ -2,11 +2,9 @@ package request.read;
 
 import io.silverspoon.bulldog.core.Signal;
 import mocks.MockedGpioManager;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 import org.junit.Before;
-import request.IllegalRequestException;
 import request.Request;
 import request.RequestParserUtils;
 import request.StringConstants;

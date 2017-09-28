@@ -31,7 +31,7 @@ public class GpioWriteRequestTest {
                 Signal.Low.toString().toUpperCase());
         assertThat(req.getFormattedResponse()).isEqualTo(expectedLow);
     }
-    
+
     @Test
     public void gpioErrorResponse() {
         Request req = new GpioWriteRequest(manager, "");

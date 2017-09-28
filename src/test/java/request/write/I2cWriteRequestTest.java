@@ -10,7 +10,7 @@ import request.RequestParserUtils;
 import request.StringConstants;
 
 public class I2cWriteRequestTest {
-    
+
     public I2cWriteRequestTest() {
     }
 
@@ -23,5 +23,5 @@ public class I2cWriteRequestTest {
             fail(ex.getMessage());
         }
     }
-    
+
 }

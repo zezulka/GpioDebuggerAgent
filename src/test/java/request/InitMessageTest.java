@@ -8,8 +8,9 @@ import org.junit.Before;
 import static org.assertj.core.api.Assertions.*;
 
 public class InitMessageTest {
+
     private static BoardManager manager;
-    
+
     public InitMessageTest() {
     }
 
@@ -17,12 +18,12 @@ public class InitMessageTest {
     public void init() {
         manager = new MockedDeviceManager();
     }
-    
+
     @Test
     public void initMessage() {
         String expected = StringConstants.INIT_PREFIX + manager.getBoardName() + StringConstants.REQ_SEPARATOR + "GPIO ";
         Request req = new MockedInitMessage(manager);
         assertThat(req.getFormattedResponse()).isEqualTo(expected);
     }
-    
+
 }

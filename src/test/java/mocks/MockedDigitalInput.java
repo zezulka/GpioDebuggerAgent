@@ -58,7 +58,7 @@ public class MockedDigitalInput extends AbstractDigitalInput {
     public boolean isSetup() {
         return true;
     }
-    
+
     @Override
     protected void setupImpl() {
     }

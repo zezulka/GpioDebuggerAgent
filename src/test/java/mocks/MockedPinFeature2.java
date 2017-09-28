@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Copyright (c) 2016 Silverspoon.io (silverspoon@silverware.io)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,30 +12,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
+ ****************************************************************************** */
 package mocks;
 
 import io.silverspoon.bulldog.core.pin.AbstractPinFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
 
 public class MockedPinFeature2 extends AbstractPinFeature {
-	
-	public MockedPinFeature2(Pin pin) {
-		super(pin);
-	
-	}
 
-	@Override
-	public String getName() {
-		return "Mocked Feature";
-	}
+    public MockedPinFeature2(Pin pin) {
+        super(pin);
 
-	@Override
-	protected void setupImpl() {
-	}
+    }
 
-	@Override
-	protected void teardownImpl() {
-	}
+    @Override
+    public String getName() {
+        return "Mocked Feature";
+    }
+
+    @Override
+    protected void setupImpl() {
+    }
+
+    @Override
+    protected void teardownImpl() {
+    }
 }
-

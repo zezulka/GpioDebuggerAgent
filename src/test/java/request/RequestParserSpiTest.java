@@ -35,7 +35,7 @@ public class RequestParserSpiTest {
             fail(ex.getMessage());
         }
     }
-    
+
     @Test
     public void spiWrite() {
         try {
@@ -45,19 +45,19 @@ public class RequestParserSpiTest {
             fail(ex.getMessage());
         }
     }
-    
+
     @Test
     public void spiReadMissingChipIndex() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read::0000FFFFCA")).
                 isInstanceOf(IllegalRequestException.class);
     }
-    
+
     @Test
     public void spiReadNegativeChipIndex() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:-1:0000FFFFCA")).
                 isInstanceOf(IllegalRequestException.class);
     }
-    
+
     @Test
     public void spiReadNoData() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:0x00:")).

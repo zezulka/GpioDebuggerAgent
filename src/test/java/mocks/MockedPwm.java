@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Copyright (c) 2016 Silverspoon.io (silverspoon@silverware.io)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
+ ****************************************************************************** */
 package mocks;
 
 import io.silverspoon.bulldog.core.pin.Pin;
@@ -20,55 +20,53 @@ import io.silverspoon.bulldog.core.pwm.AbstractPwm;
 
 public class MockedPwm extends AbstractPwm {
 
-	private boolean enableImplCalled = false;
-	private boolean disableImplCalled = false;
-	private boolean pwmImplCalled = false;
-	
-	public MockedPwm(Pin pin) {
-		super(pin);
-	}
+    private boolean enableImplCalled = false;
+    private boolean disableImplCalled = false;
+    private boolean pwmImplCalled = false;
 
-	@Override
-	protected void setupImpl() {
-	}
+    public MockedPwm(Pin pin) {
+        super(pin);
+    }
 
-	@Override
-	protected void teardownImpl() {
-	}
+    @Override
+    protected void setupImpl() {
+    }
 
-	@Override
-	protected void setPwmImpl(double frequency, double duty) {
-		pwmImplCalled = true;
-	}
-	
-	public boolean pwmImplCalled() {
-		return pwmImplCalled;
-	}
+    @Override
+    protected void teardownImpl() {
+    }
 
-	@Override
-	protected void enableImpl() {
-		enableImplCalled = true;
-	}
-	
-	public boolean enableImplCalled() {
-		return enableImplCalled;
-	}
+    @Override
+    protected void setPwmImpl(double frequency, double duty) {
+        pwmImplCalled = true;
+    }
 
-	@Override
-	protected void disableImpl() {
-		disableImplCalled = true;
-	}
-	
-	public boolean disableImplCalled() {
-		return disableImplCalled;
-	}
-	
-	public void reset() {
-		disableImplCalled = false;
-		enableImplCalled = false;
-		pwmImplCalled = false;
-	}
-	
+    public boolean pwmImplCalled() {
+        return pwmImplCalled;
+    }
 
+    @Override
+    protected void enableImpl() {
+        enableImplCalled = true;
+    }
+
+    public boolean enableImplCalled() {
+        return enableImplCalled;
+    }
+
+    @Override
+    protected void disableImpl() {
+        disableImplCalled = true;
+    }
+
+    public boolean disableImplCalled() {
+        return disableImplCalled;
+    }
+
+    public void reset() {
+        disableImplCalled = false;
+        enableImplCalled = false;
+        pwmImplCalled = false;
+    }
 
 }

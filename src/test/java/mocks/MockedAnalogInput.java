@@ -22,54 +22,54 @@ import java.util.concurrent.Future;
 
 public class MockedAnalogInput extends AbstractAnalogInput {
 
-	private double value;
-	private double[] samples;
-	
-	public MockedAnalogInput(Pin pin) {
-		super(pin);
-	}
+    private double value;
+    private double[] samples;
 
-	public void setValueToRead(double value) {
-		this.value = value;
-	}
-	
-	public void setSamples(double[] samples) {
-		this.samples = samples;
-	}
-	
-	@Override
-	public double read() {
-		return value;
-	}
+    public MockedAnalogInput(Pin pin) {
+        super(pin);
+    }
 
-	@Override
-	public double[] sample(int amountSamples) {
-		return samples;
-	}
+    public void setValueToRead(double value) {
+        this.value = value;
+    }
 
-	@Override
-	public double[] sample(int amountSamples, float frequency) {
-		return samples;
-	}
+    public void setSamples(double[] samples) {
+        this.samples = samples;
+    }
 
-	@Override
-	public Future<double[]> sampleAsync(int amountSamples) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public double read() {
+        return value;
+    }
 
-	@Override
-	public Future<double[]> sampleAsync(int amountSamples, float frequency) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public double[] sample(int amountSamples) {
+        return samples;
+    }
 
-	@Override
-	protected void setupImpl() {
-	}
+    @Override
+    public double[] sample(int amountSamples, float frequency) {
+        return samples;
+    }
 
-	@Override
-	protected void teardownImpl() {
-	}
+    @Override
+    public Future<double[]> sampleAsync(int amountSamples) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
+    @Override
+    public Future<double[]> sampleAsync(int amountSamples, float frequency) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected void setupImpl() {
+    }
+
+    @Override
+    protected void teardownImpl() {
+    }
+    
 }

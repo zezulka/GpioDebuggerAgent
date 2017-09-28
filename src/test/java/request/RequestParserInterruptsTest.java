@@ -20,6 +20,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 
 import request.interrupt.*;
+
 /**
  *
  * @author Miloslav Zezulka
@@ -35,7 +36,7 @@ public class RequestParserInterruptsTest {
             fail(ex.getMessage());
         }
     }
-    
+
     @Test
     public void deregisterInterrupt() {
         try {
@@ -45,19 +46,19 @@ public class RequestParserInterruptsTest {
             fail(ex.getMessage());
         }
     }
-    
+
     @Test
     public void erroneousOperation() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR____:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING")).
                 isInstanceOf(IllegalRequestException.class);
     }
-    
+
     @Test
     public void erroneousEdge() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " FAILING")).
                 isInstanceOf(IllegalRequestException.class);
     }
-    
+
     @Test
     public void erroneousPin() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:123 FALLING")).

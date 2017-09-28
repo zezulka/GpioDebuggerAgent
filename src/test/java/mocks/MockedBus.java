@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Copyright (c) 2016 Silverspoon.io (silverspoon@silverware.io)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
+ ****************************************************************************** */
 package mocks;
 
 import io.silverspoon.bulldog.core.io.bus.Bus;
@@ -24,90 +24,90 @@ import java.io.IOException;
 
 public class MockedBus implements Bus {
 
-	private String name;
-	private String alias;
-	private boolean isOpen = false;
-	private int selectedAddress = 0;
-	
-	public MockedBus(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
+    private String name;
+    private String alias;
+    private boolean isOpen = false;
+    private int selectedAddress = 0;
 
-	public String getAlias() {
-		return alias;
-	}
+    public MockedBus(String name) {
+        this.name = name;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void open() throws IOException {
-		isOpen = true;
-	}
+    public String getAlias() {
+        return alias;
+    }
 
-	public boolean isOpen() {
-		return isOpen;
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
-	public void close() throws IOException {
-		isOpen = false;
-	}
+    public void open() throws IOException {
+        isOpen = true;
+    }
 
-	public void writeByte(byte b) throws IOException {
-	}
+    public boolean isOpen() {
+        return isOpen;
+    }
 
-	public byte readByte() throws IOException {
-		return 0;
-	}
+    public void close() throws IOException {
+        isOpen = false;
+    }
 
-	public void selectSlave(int address) throws IOException {
-		selectedAddress = address;
-	}
+    public void writeByte(byte b) throws IOException {
+    }
 
-	public boolean isSlaveSelected(int address) {
-		return selectedAddress == address;
-	}
+    public byte readByte() throws IOException {
+        return 0;
+    }
 
-	public BusConnection createConnection(int address) {
-		return new BusConnection(this, address);
-	}
+    public void selectSlave(int address) throws IOException {
+        selectedAddress = address;
+    }
 
-	@Override
-	public FileOutputStream getOutputStream() throws IOException {
-		return null;
-	}
+    public boolean isSlaveSelected(int address) {
+        return selectedAddress == address;
+    }
 
-	@Override
-	public FileInputStream getInputStream() throws IOException {
-		return null;
-	}
+    public BusConnection createConnection(int address) {
+        return new BusConnection(this, address);
+    }
 
-	@Override
-	public void writeBytes(byte[] bytes) {
-	}
+    @Override
+    public FileOutputStream getOutputStream() throws IOException {
+        return null;
+    }
 
-	@Override
-	public int readBytes(byte[] buffer) {
-		return 0;
-	}
+    @Override
+    public FileInputStream getInputStream() throws IOException {
+        return null;
+    }
 
-	@Override
-	public void writeString(String string) throws IOException {	
-	}
+    @Override
+    public void writeBytes(byte[] bytes) {
+    }
 
-	@Override
-	public String readString() throws IOException {
-		return null;
-	}
+    @Override
+    public int readBytes(byte[] buffer) {
+        return 0;
+    }
 
-	@Override
-	public void writeByte(int b) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void writeString(String string) throws IOException {
+    }
+
+    @Override
+    public String readString() throws IOException {
+        return null;
+    }
+
+    @Override
+    public void writeByte(int b) throws IOException {
+        // TODO Auto-generated method stub
+
+    }
 
 }

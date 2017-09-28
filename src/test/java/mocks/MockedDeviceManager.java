@@ -28,13 +28,14 @@ import java.util.List;
  * @author Miloslav Zezulka
  */
 public class MockedDeviceManager implements BoardManager {
+
     private static final Board BOARD = new MockedBoard();
     private static final List<I2cBus> I2CBUSES = new ArrayList<>();
     private static final List<SpiBus> SPIBUSES = new ArrayList<>();
     private static final BoardManager INSTANCE = new MockedDeviceManager();
 
-    private MockedDeviceManager() {
-        if(BOARD == null) {
+    public MockedDeviceManager() {
+        if (BOARD == null) {
             throw new IllegalArgumentException("board cannot be null");
         }
         I2CBUSES.addAll(BOARD.getI2cBuses());
@@ -44,8 +45,10 @@ public class MockedDeviceManager implements BoardManager {
     public static BoardManager getInstance() {
         return INSTANCE;
     }
+
     /**
      * Returns board name.
+     *
      * @return String representation of the name.
      */
     @Override
@@ -58,11 +61,11 @@ public class MockedDeviceManager implements BoardManager {
         return I2CBUSES.size() < 1 ? null : I2CBUSES.get(0);
     }
 
-
     @Override
     public SpiBus getSpi() {
         return SPIBUSES.size() < 1 ? null : SPIBUSES.get(0);
     }
+
     /*
      * NO-OP
      */

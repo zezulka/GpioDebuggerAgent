@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** *****************************************************************************
  * Copyright (c) 2016 Silverspoon.io (silverspoon@silverware.io)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
+ ****************************************************************************** */
 package mocks;
 
 import io.silverspoon.bulldog.core.pin.Pin;
 
 public class MockedPinFeature3 extends MockedPinFeature2 {
 
-	public MockedPinFeature3(Pin pin) {
-		super(pin);
-	}
+    public MockedPinFeature3(Pin pin) {
+        super(pin);
+    }
 
 }
