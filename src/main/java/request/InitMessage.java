@@ -41,8 +41,8 @@ public class InitMessage implements Request {
     /**
      * For testing purposes only.
      */
-    protected void addFeatures(Feature... feats) {
-        this.features.addAll(Arrays.asList(feats));
+    protected final List<Feature> getFeatures() {
+        return features;
     }
 
     protected enum Feature {

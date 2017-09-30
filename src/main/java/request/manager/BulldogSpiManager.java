@@ -17,12 +17,8 @@ public final class BulldogSpiManager implements SpiManager {
     private final BoardManager manager;
     private static final int MAX_SLAVE_INDEX = 2;
 
-    private BulldogSpiManager(BoardManager boardManager) {
+    public BulldogSpiManager(BoardManager boardManager) {
         this.manager = boardManager;
-    }
-
-    public static BulldogSpiManager getInstance(BoardManager boardManager) {
-        return new BulldogSpiManager(boardManager);
     }
 
     @Override

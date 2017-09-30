@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mocks;
+package board.manager;
 
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.Signal;
@@ -24,13 +24,15 @@ import io.silverspoon.bulldog.core.pin.AbstractPinFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
 import java.util.List;
 
-public class MockedDigitalIoFeature extends AbstractPinFeature implements DigitalIO {
+public class TestingDigitalIoFeature extends AbstractPinFeature
+        implements DigitalIO {
 
     private static final String NAME_FORMAT = "Digital IO on Pin %s";
-    private MockedDigitalOutput output;
-    private MockedDigitalInput input;
+    private TestingDigitalOutput output;
+    private TestingDigitalInput input;
 
-    public MockedDigitalIoFeature(Pin pin, MockedDigitalInput input, MockedDigitalOutput output) {
+    public TestingDigitalIoFeature(Pin pin, TestingDigitalInput input,
+            TestingDigitalOutput output) {
         super(pin);
         this.output = output;
         this.input = input;
@@ -56,7 +58,6 @@ public class MockedDigitalIoFeature extends AbstractPinFeature implements Digita
             if (input.isSetup()) {
                 input.teardown();
             }
-            ;
             output.setup();
         }
     }
@@ -245,7 +246,9 @@ public class MockedDigitalIoFeature extends AbstractPinFeature implements Digita
 
     @Override
     public boolean isBlocking() {
-        return getPin().getBlocker() == this || getPin().getBlocker() == output || getPin().getBlocker() == input;
+        return getPin().getBlocker() == this
+                || getPin().getBlocker() == output
+                || getPin().getBlocker() == input;
     }
 
     @Override

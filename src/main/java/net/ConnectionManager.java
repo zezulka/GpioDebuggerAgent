@@ -19,12 +19,8 @@ import request.DeviceInterface;
 import request.interrupt.EpollInterruptListenerManager;
 import request.interrupt.InterruptListenerManager;
 import board.manager.BoardManager;
-import board.manager.BoardManagerBulldogImpl;
 import request.InitMessage;
-import request.manager.BulldogGpioManager;
-import request.manager.BulldogI2cManager;
 import request.manager.InterfaceManager;
-import request.manager.BulldogSpiManager;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -52,20 +48,10 @@ public final class ConnectionManager implements Runnable {
 
     private static final ConnectionManager INSTANCE = new ConnectionManager();
     private static final BoardManager BOARD_MANAGER
-            = BoardManagerBulldogImpl.getInstance();
+            = BoardManagerFactory.getInstance();
     private static final Function<DeviceInterface, InterfaceManager> CONVERTER
-            = (t) -> {
-                switch (t) {
-                    case GPIO:
-                        return new BulldogGpioManager(BOARD_MANAGER);
-                    case I2C:
-                        return BulldogI2cManager.getInstance(BOARD_MANAGER);
-                    case SPI:
-                        return BulldogSpiManager.getInstance(BOARD_MANAGER);
-                    default:
-                        throw new IllegalArgumentException();
-                }
-            };
+            = DeviceManagerConvertorFactory
+                    .getInstance(BOARD_MANAGER);
 
     private static final ProtocolManager PROTOCOL_MANAGER
             = new ProtocolManager(CONVERTER);

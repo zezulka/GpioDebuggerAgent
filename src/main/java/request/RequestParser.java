@@ -20,11 +20,11 @@ public final class RequestParser {
      *
      * GPIO:READ:{PIN_NAME} GPIO:WRITE:{PIN_NAME}{:{0,1}?}
      *
-     * I2C:READ:{SLAVE_ADDRESS_HEX}:{LEN} 
+     * I2C:READ:{SLAVE_ADDRESS_HEX}:{LEN}
      * I2C:WRITE:{SLAVE_ADDRESS_HEX}:{DATA}+
      * I2C:WRITE_READ:{SLAVE_ADDRESS_HEX}:{DATA}+
      *
-     * SPI:READ:{CHIP_INDEX}:{DATA}* 
+     * SPI:READ:{CHIP_INDEX}:{DATA}*
      * SPI:WRITE:{CHIP_INDEX}:{DATA}*
      * SPI:WRITE_READ:{CHIP_INDEX}:{DATA}*
      *

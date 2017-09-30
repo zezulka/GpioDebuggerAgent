@@ -20,12 +20,12 @@ public abstract class AbstractWriteReadRequest implements Request {
     }
 
     @Override
-    public String getFormattedResponse() {
+    public final String getFormattedResponse() {
         return read.getFormattedResponse();
     }
 
     @Override
-    public void performRequest() {
+    public final void performRequest() {
         write.performRequest();
     }
 

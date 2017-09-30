@@ -18,12 +18,8 @@ public final class BulldogI2cManager implements I2cManager {
     private static I2cConnection i2cConnection;
     private final BoardManager boardManager;
 
-    private BulldogI2cManager(BoardManager boardManager) {
+    public BulldogI2cManager(BoardManager boardManager) {
         this.boardManager = boardManager;
-    }
-
-    public static BulldogI2cManager getInstance(BoardManager boardManager) {
-        return new BulldogI2cManager(boardManager);
     }
 
     @Override
