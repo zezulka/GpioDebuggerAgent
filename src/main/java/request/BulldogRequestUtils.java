@@ -15,6 +15,7 @@ public final class BulldogRequestUtils {
      * Converts byte array input into formatted String such that it conforms
      * with the defined protocol between agent and client. This usually means
      * that the bytes contained in the array are separated by a special char.
+     * Bytes as such are in hexadecimal format.
      */
     public static String getFormattedByteArray(byte[] array) {
         if (array == null) {
@@ -25,13 +26,21 @@ public final class BulldogRequestUtils {
         }
 
         StringBuilder result = new StringBuilder()
-                .append((short) array[0] & MASK);
+                .append(getHexStringFromByte(array[0]));
         for (int i = 1; i < array.length; i++) {
             //byte is always interpreted as signed, we
             //dont want that in this case
             result = result.append(' ')
-                    .append((short) (array[i] & MASK));
+                    .append(getHexStringFromByte(array[i]));
         }
         return result.toString();
+    }
+
+    private static String getHexStringFromByte(short b) {
+        String str = Integer.toHexString((short) (b & MASK));
+        if (str.length() == 2) {
+            return str;
+        }
+        return "0" + str;
     }
 }

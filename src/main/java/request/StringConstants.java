@@ -12,10 +12,10 @@ public final class StringConstants {
     public static final String GPIO_RESPONSE_FORMAT = "GPIO:%s:%s";
     public static final String I2C_READ_RESPONSE_FORMAT = "I2C:%s";
     public static final String I2C_WRITE_RESPONSE_FORMAT
-            = "I2C:Write completed successfully";
+            = "I2C:Write OK";
     public static final String SPI_READ_RESPONSE_FORMAT = "SPI:%s";
     public static final String SPI_WRITE_RESPONSE_FORMAT
-            = "SPI:Write completed successfully";
+            = "SPI:Write OK";
 
     private static final String INTRS_APPENDIX = ":%s:%s:%s";
     public static final String START_INTRS_RESPONSE_FORMAT

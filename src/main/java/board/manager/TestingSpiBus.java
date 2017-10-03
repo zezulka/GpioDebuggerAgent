@@ -133,11 +133,10 @@ public class TestingSpiBus extends TestingBus implements SpiBus {
     @Override
     public SpiMessage transfer(byte[] buffer) {
         SpiMessage msg = new SpiMessage();
-        byte[] randBuff = new byte[buffer.length];
-        new Random().nextBytes(randBuff);
-        msg.setReceivedBytes(randBuff);
-        new Random().nextBytes(randBuff);
-        msg.setSentBytes(randBuff);
+        new Random().nextBytes(buffer);
+        msg.setReceivedBytes(buffer);
+        new Random().nextBytes(buffer);
+        msg.setSentBytes(buffer);
         return msg;
     }
 

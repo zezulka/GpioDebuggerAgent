@@ -1,6 +1,7 @@
 package request;
 
 import board.manager.BoardManager;
+import board.manager.TestingBoardManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ public class InitMessage implements Request {
 
     @Override
     public void performRequest() {
-        if (Util.isUserRoot()) {
+        if (manager instanceof TestingBoardManager || Util.isUserRoot()) {
             features.addAll(Arrays.asList(Feature.values()));
         } else if (Util.isUserInGpioGroup()) {
             features.add(Feature.GPIO);
