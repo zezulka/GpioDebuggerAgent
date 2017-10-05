@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 import request.manager.InterfaceManager;
+import request.writeread.WriteReadRequestFactory;
 
 public final class RequestParser {
 
@@ -72,7 +73,8 @@ public final class RequestParser {
                         Arrays.copyOfRange(request, 2, request.length));
             }
             case WRITE_READ: {
-                throw new UnsupportedOperationException();
+                return WriteReadRequestFactory.of(converter.apply(interfc),
+                        Arrays.copyOfRange(request, 2, request.length));
             }
             case INTR_STOP: {
                 return StopInterruptRequestFactory.of(converter.apply(interfc),
