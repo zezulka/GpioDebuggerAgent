@@ -28,7 +28,7 @@ public final class WriteReadRequestFactory {
         throw new IllegalRequestException();
     }
 
-    private static SpiWriteReadRequest spi(SpiManager spiManager, 
+    private static SpiWriteReadRequest spi(SpiManager spiManager,
             String content, String content1) throws IllegalRequestException {
         int slaveIndex;
         byte[] tBuf;
@@ -48,14 +48,14 @@ public final class WriteReadRequestFactory {
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);
         }
-        final SpiReadRequest read 
+        final SpiReadRequest read
                 = new SpiReadRequest(spiManager, slaveIndex, tBuf);
-        final SpiWriteRequest write 
+        final SpiWriteRequest write
                 = new SpiWriteRequest(spiManager, slaveIndex, tBuf);
         return new SpiWriteReadRequest(write, read);
     }
 
-    private static I2cWriteReadRequest i2c(I2cManager i2cManager, 
+    private static I2cWriteReadRequest i2c(I2cManager i2cManager,
             String content, String content1) throws IllegalRequestException {
         int slaveAddr;
         byte[] bytes;
@@ -77,9 +77,9 @@ public final class WriteReadRequestFactory {
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);
         }
-        final I2cReadRequest read 
+        final I2cReadRequest read
                 = new I2cReadRequest(i2cManager, slaveAddr, bytes.length);
-        final I2cWriteRequest write 
+        final I2cWriteRequest write
                 = new I2cWriteRequest(i2cManager, slaveAddr, bytes);
         return new I2cWriteReadRequest(write, read);
     }
