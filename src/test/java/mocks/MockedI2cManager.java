@@ -1,6 +1,6 @@
 package mocks;
 
-import request.manager.I2cManager;
+import protocol.request.manager.I2cManager;
 
 public class MockedI2cManager implements I2cManager {
 

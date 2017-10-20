@@ -15,10 +15,13 @@
  */
 package request;
 
+import protocol.request.Request;
+import protocol.request.IllegalRequestException;
+import protocol.request.RequestParser;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
-import request.read.SpiReadRequest;
-import request.write.SpiWriteRequest;
+import protocol.request.read.SpiReadRequest;
+import protocol.request.write.SpiWriteRequest;
 
 /**
  *

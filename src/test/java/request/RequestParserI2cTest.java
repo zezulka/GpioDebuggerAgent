@@ -1,13 +1,15 @@
 package request;
 
+import protocol.request.write.I2cWriteRequest;
+import protocol.request.read.I2cReadRequest;
+import protocol.request.Request;
+import protocol.request.IllegalRequestException;
+import protocol.request.RequestParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;
-
-import request.read.*;
-import request.write.*;
 
 /**
  *

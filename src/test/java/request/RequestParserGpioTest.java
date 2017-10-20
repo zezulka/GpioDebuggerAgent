@@ -1,11 +1,14 @@
 package request;
 
+import protocol.request.Request;
+import protocol.request.IllegalRequestException;
+import protocol.request.RequestParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import request.read.GpioReadRequest;
-import request.write.GpioWriteRequest;
+import protocol.request.read.GpioReadRequest;
+import protocol.request.write.GpioWriteRequest;
 
 import static org.assertj.core.api.Assertions.*;
 

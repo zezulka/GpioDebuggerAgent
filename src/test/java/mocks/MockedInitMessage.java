@@ -1,7 +1,7 @@
 package mocks;
 
-import board.manager.BoardManager;
-import request.InitMessage;
+import board.test.BoardManager;
+import protocol.request.InitMessage;
 
 public class MockedInitMessage extends InitMessage {
 

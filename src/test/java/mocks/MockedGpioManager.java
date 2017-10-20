@@ -1,12 +1,12 @@
 package mocks;
 
-import board.manager.BoardManager;
+import board.test.BoardManager;
 import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.platform.Board;
 
-import request.IllegalRequestException;
-import request.manager.GpioManager;
+import protocol.request.IllegalRequestException;
+import protocol.request.manager.GpioManager;
 
 public class MockedGpioManager implements GpioManager {
 

@@ -14,6 +14,7 @@
  * limitations under the License.
  ****************************************************************************** */
 package mocks;
+
 import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.platform.AbstractBoard;
 

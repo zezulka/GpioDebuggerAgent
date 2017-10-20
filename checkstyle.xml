@@ -50,20 +50,20 @@
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sf.net/config_misc.html -->
     <module name="RegexpSingleline">
-       <property name="format" value="\s+$"/>
-       <property name="minimum" value="0"/>
-       <property name="maximum" value="0"/>
-       <property name="message" value="Line has trailing spaces."/>
+        <property name="format" value="\s+$"/>
+        <property name="minimum" value="0"/>
+        <property name="maximum" value="0"/>
+        <property name="message" value="Line has trailing spaces."/>
     </module>
 
     <module name="TreeWalker">
         <!-- JavaDocs are intentionally skipped. Use documentation only when
-	     the code does not explain itself, not in every instance!-->
+        the code does not explain itself, not in every instance!-->
 
         <!-- Checks for Naming Conventions.                  -->
         <!-- See http://checkstyle.sf.net/config_naming.html -->
         <module name="ConstantName"/>
-	<module name="LocalFinalVariableName"/>
+        <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
         <module name="MemberName"/>
         <module name="MethodName"/>
@@ -76,15 +76,15 @@
         <!-- Checks for Headers                                -->
         <!-- See http://checkstyle.sf.net/config_header.html   -->
         <!-- <module name="Header">                            -->
-            <!-- The follow property value demonstrates the ability     -->
-            <!-- to have access to ANT properties. In this case it uses -->
-            <!-- the ${basedir} property to allow Checkstyle to be run  -->
-            <!-- from any directory within a project. See property      -->
-            <!-- expansion,                                             -->
-            <!-- http://checkstyle.sf.net/config.html#properties        -->
-            <!-- <property                                              -->
-            <!--     name="headerFile"                                  -->
-            <!--     value="${basedir}/java.header"/>                   -->
+        <!-- The follow property value demonstrates the ability     -->
+        <!-- to have access to ANT properties. In this case it uses -->
+        <!-- the ${basedir} property to allow Checkstyle to be run  -->
+        <!-- from any directory within a project. See property      -->
+        <!-- expansion,                                             -->
+        <!-- http://checkstyle.sf.net/config.html#properties        -->
+        <!-- <property                                              -->
+        <!--     name="headerFile"                                  -->
+        <!--     value="${basedir}/java.header"/>                   -->
         <!-- </module> -->
 
         <!-- Following interprets the header file as regular expressions. -->
@@ -128,9 +128,9 @@
 
         <!-- Checks for blocks. You know, those {}'s         -->
         <!-- See http://checkstyle.sf.net/config_blocks.html -->
-	<module name="AvoidNestedBlocks"> 
-	    <property name="allowInSwitchCase" value="true"/> 
-	</module>
+        <module name="AvoidNestedBlocks"> 
+            <property name="allowInSwitchCase" value="true"/> 
+        </module>
         <module name="EmptyBlock"/>
         <module name="LeftCurly"/>
         <module name="NeedBraces"/>
@@ -140,19 +140,19 @@
         <!-- Checks for common coding problems               -->
         <!-- See http://checkstyle.sf.net/config_coding.html -->
         <module name="EmptyStatement"/>
-	<module name="EqualsHashCode"/>
-	<module name="HiddenField">
+        <module name="EqualsHashCode"/>
+        <module name="HiddenField">
             <property name="ignoreConstructorParameter" value="true"/>
 
             <property name="ignoreSetter" value="true"/>
-	    <!--<property name="setterType" value="extended"/>-->
+            <!--<property name="setterType" value="extended"/>-->
         </module>
-	<module name="IllegalInstantiation"/>
+        <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>
-	<module name="MagicNumber">
-	    <property name="ignoreHashCodeMethod" value="true"/>
+        <module name="MagicNumber">
+            <property name="ignoreHashCodeMethod" value="true"/>
             <property name="ignoreNumbers" value="0, 1, 2, 3"/>
-	</module>
+        </module>
         <module name="MissingSwitchDefault"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
@@ -162,7 +162,7 @@
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
-	<module name="VisibilityModifier"/>
+        <module name="VisibilityModifier"/>
 
 
         <!-- Miscellaneous other checks.                   -->

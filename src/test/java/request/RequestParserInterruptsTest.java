@@ -15,11 +15,14 @@
  */
 package request;
 
+import protocol.request.interrupt.StopEpollInterruptListenerRequest;
+import protocol.request.interrupt.StartEpollInterruptListenerRequest;
+import protocol.request.Request;
+import protocol.request.IllegalRequestException;
+import protocol.request.RequestParser;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;
-
-import request.interrupt.*;
 
 /**
  *

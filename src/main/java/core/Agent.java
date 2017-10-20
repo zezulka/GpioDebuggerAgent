@@ -21,6 +21,7 @@ public final class Agent {
 
     public static void main(String[] args) {
         try {
+            //Checks for already running instance of agent.
             ServerSocket s = new ServerSocket(SERVER_SOCKET_PORT);
             new Thread(ConnectionManager.getManagerWithDefaultPort()).start();
         } catch (IOException ex) {

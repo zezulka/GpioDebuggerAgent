@@ -1,6 +1,6 @@
 package mocks;
 
-import request.manager.SpiManager;
+import protocol.request.manager.SpiManager;
 
 public class MockedSpiManager implements SpiManager {
 

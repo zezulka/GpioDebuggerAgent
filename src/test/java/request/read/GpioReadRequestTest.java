@@ -1,14 +1,15 @@
 package request.read;
 
+import protocol.request.read.GpioReadRequest;
 import io.silverspoon.bulldog.core.Signal;
 import mocks.MockedGpioManager;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 import org.junit.Before;
-import request.Request;
+import protocol.request.Request;
 import request.RequestParserUtils;
-import request.StringConstants;
-import request.manager.GpioManager;
+import protocol.request.StringConstants;
+import protocol.request.manager.GpioManager;
 
 public class GpioReadRequestTest {
 

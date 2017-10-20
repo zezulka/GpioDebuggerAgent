@@ -15,6 +15,7 @@
  */
 package request;
 
+import protocol.request.IllegalRequestException;
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.gpio.DigitalInput;
@@ -24,8 +25,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import request.interrupt.EpollInterruptListenerManager;
-import request.interrupt.InterruptListenerManager;
+import protocol.request.interrupt.EpollInterruptListenerManager;
+import protocol.request.interrupt.InterruptListenerManager;
 
 /**
  *

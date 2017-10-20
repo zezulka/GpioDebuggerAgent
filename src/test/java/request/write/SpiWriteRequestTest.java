@@ -2,11 +2,11 @@ package request.write;
 
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
-import request.IllegalRequestException;
-import request.Request;
-import request.RequestParser;
+import protocol.request.IllegalRequestException;
+import protocol.request.Request;
+import protocol.request.RequestParser;
 import request.RequestParserUtils;
-import request.StringConstants;
+import protocol.request.StringConstants;
 
 public class SpiWriteRequestTest {
 

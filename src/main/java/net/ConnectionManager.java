@@ -1,5 +1,8 @@
 package net;
 
+import protocol.ProtocolManager;
+import protocol.ProtocolMessages;
+import board.BoardManagerFactory;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -14,13 +17,13 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import request.IllegalRequestException;
-import request.DeviceInterface;
-import request.interrupt.EpollInterruptListenerManager;
-import request.interrupt.InterruptListenerManager;
-import board.manager.BoardManager;
-import request.InitMessage;
-import request.manager.InterfaceManager;
+import protocol.request.IllegalRequestException;
+import protocol.request.DeviceInterface;
+import protocol.request.interrupt.EpollInterruptListenerManager;
+import protocol.request.interrupt.InterruptListenerManager;
+import board.test.BoardManager;
+import protocol.request.InitMessage;
+import protocol.request.manager.InterfaceManager;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -50,7 +53,7 @@ public final class ConnectionManager implements Runnable {
     private static final BoardManager BOARD_MANAGER
             = BoardManagerFactory.getInstance();
     private static final Function<DeviceInterface, InterfaceManager> CONVERTER
-            = DeviceManagerConvertorFactory
+            = BoardManagerConvertorFactory
                     .getInstance(BOARD_MANAGER);
 
     private static final ProtocolManager PROTOCOL_MANAGER

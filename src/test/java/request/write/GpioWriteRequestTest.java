@@ -1,15 +1,16 @@
 package request.write;
 
+import protocol.request.write.GpioWriteRequest;
 import io.silverspoon.bulldog.core.Signal;
 import static org.assertj.core.api.Assertions.*;
 import mocks.MockedGpioManager;
 import org.junit.Before;
 import org.junit.Test;
-import request.IllegalRequestException;
-import request.Request;
+import protocol.request.IllegalRequestException;
+import protocol.request.Request;
 import request.RequestParserUtils;
-import request.StringConstants;
-import request.manager.GpioManager;
+import protocol.request.StringConstants;
+import protocol.request.manager.GpioManager;
 
 public class GpioWriteRequestTest {
 

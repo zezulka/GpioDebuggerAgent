@@ -1,6 +1,8 @@
 package request;
 
-import board.manager.BoardManager;
+import protocol.request.Request;
+import protocol.request.StringConstants;
+import board.test.BoardManager;
 import mocks.MockedDeviceManager;
 import mocks.MockedInitMessage;
 import org.junit.Test;

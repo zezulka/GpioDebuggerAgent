@@ -1,13 +1,14 @@
 package request.read;
 
+import protocol.request.read.SpiReadRequest;
 import mocks.MockedSpiManager;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Before;
 import org.junit.Test;
-import request.BulldogRequestUtils;
-import request.Request;
-import request.StringConstants;
-import request.manager.SpiManager;
+import protocol.request.BulldogRequestUtils;
+import protocol.request.Request;
+import protocol.request.StringConstants;
+import protocol.request.manager.SpiManager;
 
 /**
  *

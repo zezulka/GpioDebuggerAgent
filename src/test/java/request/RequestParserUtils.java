@@ -15,14 +15,16 @@
  */
 package request;
 
+import protocol.request.manager.I2cManager;
+import protocol.request.manager.InterfaceManager;
+import protocol.request.manager.SpiManager;
+import protocol.request.DeviceInterface;
 import io.silverspoon.bulldog.core.pin.Pin;
 import java.util.function.Function;
 
 import mocks.MockedSpiManager;
 import mocks.MockedGpioManager;
 import mocks.MockedI2cManager;
-
-import request.manager.*;
 
 public class RequestParserUtils {
 

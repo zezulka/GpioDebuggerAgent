@@ -15,7 +15,7 @@
  */
 package mocks;
 
-import board.manager.BoardManager;
+import board.test.BoardManager;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
 
