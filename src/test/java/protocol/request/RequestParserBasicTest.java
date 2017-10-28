@@ -1,7 +1,5 @@
-package request;
+package protocol.request;
 
-import protocol.request.IllegalRequestException;
-import protocol.request.RequestParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

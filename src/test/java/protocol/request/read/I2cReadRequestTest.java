@@ -1,4 +1,4 @@
-package request.read;
+package protocol.request.read;
 
 import protocol.request.read.I2cReadRequest;
 import mocks.MockedI2cManager;

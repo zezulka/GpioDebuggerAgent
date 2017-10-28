@@ -1,22 +1,20 @@
-package request.write;
+package protocol.request.read;
 
-import protocol.request.write.GpioWriteRequest;
 import io.silverspoon.bulldog.core.Signal;
-import static org.assertj.core.api.Assertions.*;
 import mocks.MockedGpioManager;
-import org.junit.Before;
+import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
-import protocol.request.IllegalRequestException;
+import org.junit.Before;
 import protocol.request.Request;
-import request.RequestParserUtils;
+import protocol.request.RequestParserUtils;
 import protocol.request.StringConstants;
 import protocol.request.manager.GpioManager;
 
-public class GpioWriteRequestTest {
+public class GpioReadRequestTest {
 
     private GpioManager manager;
 
-    public GpioWriteRequestTest() {
+    public GpioReadRequestTest() {
     }
 
     @Before
@@ -26,7 +24,7 @@ public class GpioWriteRequestTest {
 
     @Test
     public void gpioResponse() {
-        Request req = new GpioWriteRequest(manager, RequestParserUtils.REQUESTED_PIN_NAME);
+        Request req = new GpioReadRequest(manager, RequestParserUtils.REQUESTED_PIN_NAME);
         String expectedLow = String.format(StringConstants.GPIO_RESPONSE_FORMAT,
                 RequestParserUtils.REQUESTED_PIN_NAME,
                 Signal.Low.toString().toUpperCase());
@@ -35,7 +33,7 @@ public class GpioWriteRequestTest {
 
     @Test
     public void gpioErrorResponse() {
-        Request req = new GpioWriteRequest(manager, "");
+        Request req = new GpioReadRequest(manager, "");
         assertThat(req.getFormattedResponse()).isEqualTo(StringConstants.ERROR_RESPONSE);
     }
 

@@ -1,6 +1,5 @@
-package request;
+package protocol.request;
 
-import protocol.request.BulldogRequestUtils;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -16,6 +15,6 @@ public class BulldogRequestUtilsTest {
 
     @Test
     public void testByteArrayFormatterThreeBytes() {
-        assertThat(BulldogRequestUtils.getFormattedByteArray(new byte[]{10, -1, 17})).isEqualToIgnoringCase("0A FF 11");
+        assertThat(BulldogRequestUtils.getFormattedByteArray(new byte[]{10, -1, 17})).isEqualToIgnoringCase("0AFF11");
     }
 }

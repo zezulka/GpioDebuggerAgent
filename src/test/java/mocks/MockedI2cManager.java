@@ -9,12 +9,17 @@ public class MockedI2cManager implements I2cManager {
 
     @Override
     public byte[] readFromI2c(int slave, int len) {
-        return new byte[]{-128, 127};
+        len = (byte) len;
+        byte[] bytes = new byte[len];
+        for(byte i = 0; i < bytes.length; i++) {
+            bytes[i] = i;
+        }
+        return bytes;
     }
 
     @Override
     public void writeIntoI2c(int slave, byte[] message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //NO-OP
     }
 
 }

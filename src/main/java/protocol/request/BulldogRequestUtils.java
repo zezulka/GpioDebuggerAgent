@@ -18,20 +18,15 @@ public final class BulldogRequestUtils {
      * Bytes as such are in hexadecimal format.
      */
     public static String getFormattedByteArray(byte[] array) {
-        if (array == null) {
-            return null;
-        }
-        if (array.length == 0) {
+        if (array == null || array.length == 0) {
             return "";
         }
 
-        StringBuilder result = new StringBuilder()
-                .append(getHexStringFromByte(array[0]));
-        for (int i = 1; i < array.length; i++) {
+        StringBuilder result = new StringBuilder();
+        for (short i : array) {
             //byte is always interpreted as signed, we
             //dont want that in this case
-            result = result.append(' ')
-                    .append(getHexStringFromByte(array[i]));
+            result = result.append(getHexStringFromByte(i));
         }
         return result.toString();
     }

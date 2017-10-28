@@ -20,8 +20,8 @@ public final class WriteReadRequestFactory {
 
     public static Request of(InterfaceManager manager, String... args)
             throws IllegalRequestException {
-        if (manager instanceof I2cManager && args.length == 2) {
-            return i2c((I2cManager) manager, args[0], args[1]);
+        if (manager instanceof I2cManager && args.length == 3) {
+            return i2c((I2cManager) manager, args[0], args[1], args[2]);
         } else if (manager instanceof SpiManager && args.length == 2) {
             return spi((SpiManager) manager, args[0], args[1]);
         }
@@ -56,8 +56,10 @@ public final class WriteReadRequestFactory {
     }
 
     private static I2cWriteReadRequest i2c(I2cManager i2cManager,
-            String content, String content1) throws IllegalRequestException {
+            String content, String content1, String content2)
+            throws IllegalRequestException {
         int slaveAddr;
+        int readLen;
         byte[] bytes;
         try {
             slaveAddr = Integer.decode(content);
@@ -66,19 +68,20 @@ public final class WriteReadRequestFactory {
                         .format("slave address not in bounds [0;%d]",
                                 NumericConstants.I2C_MAX_ADDR));
             }
-            if (content1.length() % 2 == 1) {
+            readLen = Integer.parseInt(content1);
+            if (content2.length() % 2 == 1) {
                 throw new IllegalRequestException("odd number of digits");
             }
-            bytes = new byte[content1.length() / 2];
-            for (int i = 0; i < content1.length(); i += 2) {
+            bytes = new byte[content2.length() / 2];
+            for (int i = 0; i < content2.length(); i += 2) {
                 bytes[i / 2] = (byte) Short
-                        .parseShort(content1.substring(i, i + 2), HEX);
+                        .parseShort(content2.substring(i, i + 2), HEX);
             }
         } catch (NumberFormatException nfe) {
             throw new IllegalRequestException(nfe);
         }
         final I2cReadRequest read
-                = new I2cReadRequest(i2cManager, slaveAddr, bytes.length);
+                = new I2cReadRequest(i2cManager, slaveAddr, readLen);
         final I2cWriteRequest write
                 = new I2cWriteRequest(i2cManager, slaveAddr, bytes);
         return new I2cWriteReadRequest(write, read);

@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package request;
+package protocol.request;
 
 import protocol.request.interrupt.StopEpollInterruptListenerRequest;
 import protocol.request.interrupt.StartEpollInterruptListenerRequest;
-import protocol.request.Request;
-import protocol.request.IllegalRequestException;
-import protocol.request.RequestParser;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;

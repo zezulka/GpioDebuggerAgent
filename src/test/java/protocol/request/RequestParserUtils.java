@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package request;
+package protocol.request;
 
 import protocol.request.manager.I2cManager;
 import protocol.request.manager.InterfaceManager;
 import protocol.request.manager.SpiManager;
-import protocol.request.DeviceInterface;
 import io.silverspoon.bulldog.core.pin.Pin;
 import java.util.function.Function;
 

@@ -1,6 +1,5 @@
-package request.read;
+package protocol.request.read;
 
-import protocol.request.read.SpiReadRequest;
 import mocks.MockedSpiManager;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Before;

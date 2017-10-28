@@ -1,12 +1,17 @@
 package mocks;
 
+import java.util.Objects;
 import protocol.request.manager.SpiManager;
 
 public class MockedSpiManager implements SpiManager {
 
     @Override
     public byte[] readFromSpi(int slaveIndex, byte[] rBuffer) {
-        return new byte[]{-128, 127};
+        Objects.requireNonNull(rBuffer, "rBuffer");
+        for(byte i = 0; i < rBuffer.length; i++) {
+            rBuffer[i] = i;
+        }
+        return rBuffer;
     }
 
     @Override

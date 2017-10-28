@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package request;
+package protocol.request;
 
-import protocol.request.IllegalRequestException;
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.gpio.DigitalInput;

@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package request;
+package protocol.request;
 
-import protocol.request.Request;
-import protocol.request.IllegalRequestException;
-import protocol.request.RequestParser;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 import protocol.request.read.SpiReadRequest;
