@@ -4,6 +4,7 @@ import board.test.BoardManager;
 import board.test.BulldogBoardManager;
 import board.test.TestingBoardManager;
 import io.silverspoon.bulldog.linux.sysinfo.CpuInfo;
+import util.OsUtil;
 
 public final class BoardManagerFactory {
 
@@ -13,7 +14,10 @@ public final class BoardManagerFactory {
     public static BoardManager getInstance() {
         // This is pretty much one of the few signs we have from bulldog
         // that the agent is not being run on the target device
-        if (CpuInfo.getHardware() == null) {
+        //
+        // Bulldog does not support Windows, so run it in testing
+        // mode instead
+        if (OsUtil.isWindows() || CpuInfo.getHardware() == null) {
             return new TestingBoardManager();
         } else {
             return new BulldogBoardManager();
