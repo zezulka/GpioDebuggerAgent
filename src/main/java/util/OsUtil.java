@@ -1,7 +1,7 @@
 package util;
 
 /**
- * 
+ *
  * Utility class for determining which OS agent runs on.
  */
 public final class OsUtil {
