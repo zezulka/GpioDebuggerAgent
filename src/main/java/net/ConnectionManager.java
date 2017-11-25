@@ -17,10 +17,10 @@ import protocol.request.IllegalRequestException;
 import protocol.request.InitMessage;
 import protocol.request.interrupt.EpollInterruptListenerManager;
 import protocol.request.interrupt.InterruptListenerManager;
+import util.ApplicationProperties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.ApplicationProperties;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -31,7 +31,6 @@ public final class ConnectionManager implements Runnable {
     private static ServerSocketChannel serverSocketChannel;
     private static SocketChannel socketChannel;
     private static Selector selector;
-    private static int port;
     private static String messageToSend;
     private static final int BUFF_SIZE = 1024;
     private static final int END_OF_STREAM = -1;
@@ -46,12 +45,14 @@ public final class ConnectionManager implements Runnable {
     private static final Logger LOGGER
             = LoggerFactory.getLogger(ConnectionManager.class);
 
+    private int port;
+
     private ConnectionManager() {
         this(ApplicationProperties.socketPort());
     }
 
     public ConnectionManager(int sockPort) {
-        ConnectionManager.port = sockPort;
+        this.port = sockPort;
     }
 
     /**

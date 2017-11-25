@@ -3,6 +3,7 @@ package util;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +11,12 @@ import org.slf4j.LoggerFactory;
 public final class ApplicationProperties {
 
     private static final Properties PROPS = new Properties();
-        private static final Logger LOGGER
+    private static final Logger LOGGER
             = LoggerFactory.getLogger(ApplicationProperties.class);
 
     static {
-        try {
-            PROPS.load(new FileInputStream("default.properties"));
+        try (InputStream is = new FileInputStream("default.properties")) {
+            PROPS.load(is);
         } catch (FileNotFoundException ex) {
             throw new RuntimeException("could not find properties file", ex);
         } catch (IOException ex) {
@@ -26,7 +27,7 @@ public final class ApplicationProperties {
     private ApplicationProperties() {
     }
 
-     /**
+    /**
      *
      * @return Null if the property found is malformed and not a number, or
      * boxed int representing value of the property

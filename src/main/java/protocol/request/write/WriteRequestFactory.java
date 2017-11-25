@@ -18,12 +18,7 @@ public final class WriteRequestFactory {
     public static WriteRequest of(InterfaceManager manager, String... args)
             throws IllegalRequestException {
         if (manager instanceof GpioManager && args.length == 1) {
-            if (args.length == 1) {
-                return gpioValImplicit((GpioManager) manager, args[0]);
-            } else if (args.length == 2) {
-                return gpioValExplicit((GpioManager) manager, args[0],
-                        args[1]);
-            }
+            return gpioValImplicit((GpioManager) manager, args[0]);
         } else if (manager instanceof I2cManager && args.length == 2) {
             return i2c((I2cManager) manager, args[0], args[1]);
         } else if (manager instanceof SpiManager && args.length == 2) {
@@ -35,12 +30,6 @@ public final class WriteRequestFactory {
     private static WriteRequest gpioValImplicit(GpioManager pinAccessor,
             String content) throws IllegalRequestException {
         return new GpioWriteRequest(pinAccessor, content.trim());
-    }
-
-    private static WriteRequest gpioValExplicit(GpioManager pinAccessor,
-            String content, String content1) throws IllegalRequestException {
-        return new GpioWriteRequest(pinAccessor, content.trim(),
-                content1.trim());
     }
 
     private static WriteRequest spi(SpiManager spiManager, String content,

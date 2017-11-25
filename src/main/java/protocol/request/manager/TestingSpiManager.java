@@ -4,9 +4,11 @@ import java.util.Random;
 
 public final class TestingSpiManager implements SpiManager {
 
+    private static final Random RANDOM = new Random();
+
     @Override
     public byte[] readFromSpi(int slaveIndex, byte[] rBuffer) {
-        new Random(slaveIndex).nextBytes(rBuffer);
+        RANDOM.nextBytes(rBuffer);
         return rBuffer;
     }
 

@@ -4,10 +4,13 @@ import java.util.Random;
 
 public final class TestingI2cManager implements I2cManager {
 
+    private static final Random RANDOM = new Random();
+
     @Override
     public byte[] readFromI2c(int slave, int len) {
         byte[] result = new byte[len];
-        new Random(slave).nextBytes(result);
+
+        RANDOM.nextBytes(result);
         return result;
     }
 

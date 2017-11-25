@@ -11,6 +11,8 @@ import java.util.Random;
 
 public class TestingSpiBus extends TestingBus implements SpiBus {
 
+    private static final Random RANDOM = new Random();
+
     public TestingSpiBus(String name) {
         super(name);
     }
@@ -133,9 +135,9 @@ public class TestingSpiBus extends TestingBus implements SpiBus {
     @Override
     public SpiMessage transfer(byte[] buffer) {
         SpiMessage msg = new SpiMessage();
-        new Random().nextBytes(buffer);
+        RANDOM.nextBytes(buffer);
         msg.setReceivedBytes(buffer);
-        new Random().nextBytes(buffer);
+        RANDOM.nextBytes(buffer);
         msg.setSentBytes(buffer);
         return msg;
     }
