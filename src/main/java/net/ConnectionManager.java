@@ -1,8 +1,7 @@
 package net;
 
-import protocol.ProtocolManager;
-import protocol.ProtocolMessages;
 import board.BoardManagerFactory;
+import board.test.BoardManager;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -13,17 +12,18 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.function.Function;
+import protocol.ProtocolManager;
+import protocol.ProtocolMessages;
+import protocol.request.DeviceInterface;
+import protocol.request.IllegalRequestException;
+import protocol.request.InitMessage;
+import protocol.request.interrupt.EpollInterruptListenerManager;
+import protocol.request.interrupt.InterruptListenerManager;
+import protocol.request.manager.InterfaceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import protocol.request.IllegalRequestException;
-import protocol.request.DeviceInterface;
-import protocol.request.interrupt.EpollInterruptListenerManager;
-import protocol.request.interrupt.InterruptListenerManager;
-import board.test.BoardManager;
-import protocol.request.InitMessage;
-import protocol.request.manager.InterfaceManager;
+import util.ApplicationProperties;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -34,37 +34,23 @@ public final class ConnectionManager implements Runnable {
     private static ServerSocketChannel serverSocketChannel;
     private static SocketChannel socketChannel;
     private static Selector selector;
-    /**
-     * Default socket port.
-     */
-    public static final int DEFAULT_SOCK_PORT = 8088;
     private static int port;
     private static String messageToSend;
-
-    /**
-     * Timeout used in connection manager thread. Generally, the time which the
-     * agent waits for incoming connections for.
-     */
-    public static final long TIMEOUT = 10 * 1000;
     private static final int BUFF_SIZE = 1024;
     private static final int END_OF_STREAM = -1;
 
     private static final ConnectionManager INSTANCE = new ConnectionManager();
     private static final BoardManager BOARD_MANAGER
             = BoardManagerFactory.getInstance();
-    private static final Function<DeviceInterface, InterfaceManager> CONVERTER
-            = BoardManagerConvertorFactory
-                    .getInstance(BOARD_MANAGER);
-
     private static final ProtocolManager PROTOCOL_MANAGER
-            = new ProtocolManager(CONVERTER);
+            = new ProtocolManager(BOARD_MANAGER.deviceToInterfaceMapper());
     private static final InterruptListenerManager LISTENER_MANAGER
             = EpollInterruptListenerManager.getInstance();
     private static final Logger LOGGER
             = LoggerFactory.getLogger(ConnectionManager.class);
 
     private ConnectionManager() {
-        this(DEFAULT_SOCK_PORT);
+        this(ApplicationProperties.socketPort());
     }
 
     public ConnectionManager(int sockPort) {
@@ -162,7 +148,7 @@ public final class ConnectionManager implements Runnable {
      */
     private void runImpl() {
         try {
-            while (true) {
+            while (!Thread.interrupted()) {
                 if (!selector.isOpen()) {
                     return;
                 }
@@ -281,6 +267,5 @@ public final class ConnectionManager implements Runnable {
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
         }
-
     }
 }

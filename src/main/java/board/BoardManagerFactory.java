@@ -1,7 +1,6 @@
 package board;
 
 import board.test.BoardManager;
-import board.test.BulldogBoardManager;
 import board.test.TestingBoardManager;
 import io.silverspoon.bulldog.linux.sysinfo.CpuInfo;
 import util.OsUtil;
