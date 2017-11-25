@@ -29,6 +29,6 @@ public interface BoardManager {
     I2cBus getI2c();
 
     SpiBus getSpi();
-    
+
     Function<DeviceInterface, InterfaceManager> deviceToInterfaceMapper();
 }

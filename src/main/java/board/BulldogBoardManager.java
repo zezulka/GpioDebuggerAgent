@@ -23,7 +23,8 @@ public final class BulldogBoardManager extends AbstractBoardManager {
     }
 
     @Override
-    public Function<DeviceInterface, InterfaceManager> deviceToInterfaceMapper() {
+    public Function<DeviceInterface, InterfaceManager>
+            deviceToInterfaceMapper() {
         return (t) -> {
             switch (t) {
                 case GPIO:

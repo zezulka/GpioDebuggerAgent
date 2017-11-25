@@ -11,15 +11,12 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
-import java.util.function.Function;
 import protocol.ProtocolManager;
 import protocol.ProtocolMessages;
-import protocol.request.DeviceInterface;
 import protocol.request.IllegalRequestException;
 import protocol.request.InitMessage;
 import protocol.request.interrupt.EpollInterruptListenerManager;
 import protocol.request.interrupt.InterruptListenerManager;
-import protocol.request.manager.InterfaceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

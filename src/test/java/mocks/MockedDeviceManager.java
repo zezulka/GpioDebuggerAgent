@@ -22,6 +22,9 @@ import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
 import io.silverspoon.bulldog.core.platform.Board;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import protocol.request.DeviceInterface;
+import protocol.request.manager.InterfaceManager;
 
 /**
  *
@@ -76,5 +79,10 @@ public class MockedDeviceManager implements BoardManager {
     @Override
     public Board getBoard() {
         return BOARD;
+    }
+
+    @Override
+    public Function<DeviceInterface, InterfaceManager> deviceToInterfaceMapper() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
