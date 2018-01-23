@@ -3,8 +3,21 @@ Gpio debugger agent
 
 Introduction
 ------------ 
-This agent is the server part of a debugging tool based on *[bulldog library](https://github.com/SilverThings/bulldog "Bulldog")*. To use it, simply install it via Maven. Agent must be run as root (access to `/dev/mem` is required for the agent to work properly).
+This agent is the server part of a debugging tool based on *[bulldog library](https://github.com/SilverThings/bulldog "Bulldog")*. Agent must be run as root (access to `/dev/mem` is required for the agent to work properly).
+
+Installation
+------------
+Releases are placed in the *[releases tab of this Github repository](https://github.com/zezulka/GpioDebuggerAgent/releases "releases")*. Otherwise, you can use Maven to compile the whole project which consists of two modules: bulldog library and the agent itself.
+
+Bulldog
+-----------
+All the prerequisites are listed in `https://github.com/SilverThings/bulldog` and hold true also for the repository used to store the Bullog for the agent, `https://github.com/zezulka/bulldog`. Building the library itself should also be equivalent to what is mentioned on the same page.
+Due to the limited resources of the Raspberry Pi devices, it is highly recommended to compile and build the library outside of a Pi and then simply `scp` the resulting .jar file.
+
+Agent
+----------
+
 
 Application output
 ------------------
-Important actions are recorded via logging. By default, there are two appenders created: console and file output. Log files can be found in the `/logs/` folder relative to project path.
+Important actions are recorded via logging. By default, there are two appenders created: console and file output. Log files can be found in the `./logs/ folder.

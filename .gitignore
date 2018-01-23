@@ -1,6 +1,7 @@
-/target/
-/nbproject/
 *.log
 .ftpconfig
 .ftpignore
 /logs/
+/nbproject/
+/reports/
+/target/
