@@ -10,6 +10,6 @@ public class MockedInitMessage extends InitMessage {
     }
 
     @Override
-    public void performRequest() {
+    public void action() {
     }
 }

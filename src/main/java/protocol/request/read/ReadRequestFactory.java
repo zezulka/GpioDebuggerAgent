@@ -32,14 +32,10 @@ public final class ReadRequestFactory {
     /**
      * Returns ReadRequest instance based on the {@code interfc} Interface.
      *
-     * @param interfc
      * @param content String variable which has got different meaning based upon
      * the interface it is being passed to
-     * @return
-     * @throws protocol.request.IllegalRequestException
      */
-    private static ReadRequest gpio(GpioManager pinAccessor, String content)
-            throws IllegalRequestException {
+    private static ReadRequest gpio(GpioManager pinAccessor, String content) {
         return new GpioReadRequest(pinAccessor, content);
     }
 

@@ -2,7 +2,7 @@
 *.iml
 .ftpconfig
 .ftpignore
-.idea/
+/.idea/
 /logs/
 /nbproject/
 /reports/

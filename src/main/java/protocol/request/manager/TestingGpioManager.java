@@ -18,20 +18,19 @@ public class TestingGpioManager implements GpioManager {
     }
 
     @Override
-    public boolean read(String pinName) throws IllegalRequestException {
+    public boolean read(String pinName) {
         return getPin(pinName).getFeature(TestingDigitalIoFeature.class)
                 .read().getBooleanValue();
     }
 
     @Override
-    public void write(Signal sig, String pinName)
-            throws IllegalRequestException {
+    public void write(Signal sig, String pinName) {
         getPin(pinName).getFeature(TestingDigitalIoFeature.class)
                 .write(sig);
     }
 
     @Override
-    public Pin getPin(String pinName) throws IllegalRequestException {
+    public Pin getPin(String pinName) {
         return boardManager.getBoard().getPin(pinName);
     }
 

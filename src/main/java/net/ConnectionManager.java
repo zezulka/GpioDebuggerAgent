@@ -4,6 +4,7 @@ import board.BoardManagerFactory;
 import board.test.BoardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import protocol.Feature;
 import protocol.ProtocolManager;
 import protocol.ProtocolMessages;
 import protocol.request.IllegalRequestException;
@@ -11,12 +12,14 @@ import protocol.request.InitMessage;
 import protocol.request.interrupt.EpollInterruptListenerManager;
 import protocol.request.interrupt.InterruptListenerManager;
 import util.ApplicationProperties;
+import util.Unix;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -54,7 +57,7 @@ public final class ConnectionManager implements Runnable {
      * such attempt is ignored.
      */
     private void preAccept() {
-        LOGGER.info(ProtocolMessages.SERVER_INIT.toString());
+        LOGGER.debug(ProtocolMessages.SERVER_INIT.toString());
         try {
             selector = Selector.open();
             serverSocketChannel = ServerSocketChannel.open();
@@ -62,15 +65,16 @@ public final class ConnectionManager implements Runnable {
             serverSocketChannel.bind(new InetSocketAddress(port));
             serverSocketChannel.socket().setReuseAddress(true);
             serverSocketChannel.configureBlocking(false);
+            LOGGER.info(String.format("Server socket configured, listening on port %d.", port));
         } catch (IOException ex) {
             LOGGER.error(ProtocolMessages.IO_EXCEPTION.toString(), ex);
         }
-        LOGGER.info(ProtocolMessages.SERVER_INIT_SUCCESS.toString());
+        LOGGER.debug(ProtocolMessages.SERVER_INIT_SUCCESS.toString());
     }
 
     private void registerAccept() {
         try {
-            LOGGER.info("now accepting connection from client");
+            LOGGER.info("Ready to accept connection.");
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
@@ -86,9 +90,7 @@ public final class ConnectionManager implements Runnable {
     }
 
     public static void setMessage(String message) {
-        if (message == null) {
-            throw new IllegalArgumentException("message cannot be null");
-        }
+        Objects.requireNonNull(message, "message");
         messageToSend = message;
         try {
             socketChannel.register(selector, SelectionKey.OP_WRITE);
@@ -105,7 +107,11 @@ public final class ConnectionManager implements Runnable {
      */
     @Override
     public void run() {
-        LOGGER.info("Agent launched.");
+        LOGGER.info("Launched.");
+        LOGGER.info("Available features:");
+        for(Feature f : Unix.getAppFeatures()) {
+            LOGGER.info("\t" + f.toString());
+        }
         preAccept();
         while (true) {
             registerAccept();
@@ -197,7 +203,6 @@ public final class ConnectionManager implements Runnable {
      * initial message into map which contains name of the device, thus forcing
      * server to send this message as the first one.
      *
-     * @throws IOException
      */
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
@@ -210,13 +215,12 @@ public final class ConnectionManager implements Runnable {
      * Performs the actual write operation. Reads data stored in internal buffer
      * and attempts to send them to the output stream.
      *
-     * @param key
      */
     private void write(SelectionKey key) {
         try {
             socketChannel.write(ByteBuffer.wrap(messageToSend.getBytes()));
             LOGGER.debug(String
-                    .format("sent to client %s", messageToSend));
+                    .format("sent to client:\n %s", messageToSend));
             key.interestOps(SelectionKey.OP_READ);
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
@@ -228,7 +232,6 @@ public final class ConnectionManager implements Runnable {
      *
      * @return String representation of data received. Data sent to the server
      * should be a sequence of characters convertible into String.
-     * @throws IOException
      */
     private String read() throws IOException {
         ByteBuffer readBuffer = ByteBuffer.allocate(BUFF_SIZE);

@@ -21,25 +21,25 @@ public class RequestParserBasicTest {
     }
 
     @Test
-    public void nullTest() throws Exception {
+    public void nullTest() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, null)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
-    public void emptyString() throws Exception {
+    public void emptyString() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
-    public void emptyRequest() throws Exception {
+    public void emptyRequest() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "::")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
-    public void illegalSeparators() throws Exception {
+    public void illegalSeparators() {
         assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio;read;" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }

@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TestingI2cBus extends TestingBus implements I2cBus {
 
-    public TestingI2cBus(String name) {
+    TestingI2cBus(String name) {
         super(name);
     }
 
@@ -28,27 +28,25 @@ public class TestingI2cBus extends TestingBus implements I2cBus {
     }
 
     @Override
-    public void writeByteToRegister(int register, int b) throws IOException {
+    public void writeByteToRegister(int register, int b) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void writeBytesToRegister(int register, byte[] bytes)
-            throws IOException {
+    public void writeBytesToRegister(int register, byte[] bytes) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public byte readByteFromRegister(int register) throws IOException {
+    public byte readByteFromRegister(int register) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int readBytesFromRegister(int register, byte[] buffer)
-            throws IOException {
+    public int readBytesFromRegister(int register, byte[] buffer) {
         // TODO Auto-generated method stub
         return 0;
     }

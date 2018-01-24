@@ -20,7 +20,7 @@ public final class SpiWriteRequest implements WriteRequest {
     }
 
     @Override
-    public void performRequest() {
+    public void action() {
         StringBuilder builder = new StringBuilder();
         builder.append("Spi write request:\n");
         builder.append("contents of transferbuffer:\n");
@@ -41,6 +41,6 @@ public final class SpiWriteRequest implements WriteRequest {
      */
     @Override
     public String getFormattedResponse() {
-        return String.format(StringConstants.SPI_WRITE_RESPONSE_FORMAT);
+        return StringConstants.SPI_WRITE_RESPONSE;
     }
 }

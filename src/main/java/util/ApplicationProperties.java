@@ -47,12 +47,12 @@ public final class ApplicationProperties {
         }
     }
 
-    public static Integer serverSocketPort() {
-        return parseNumber("net.server.socket.port");
+    public static Integer lockPort() {
+        return parseNumber("lock.port");
     }
 
     public static Integer socketPort() {
-        return parseNumber("net.socket.port");
+        return parseNumber("server.socket.port");
     }
 
     public static Integer timeout() {

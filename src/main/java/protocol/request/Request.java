@@ -8,6 +8,5 @@ package protocol.request;
 public interface Request {
 
     String getFormattedResponse();
-
-    void performRequest();
+    void action();
 }

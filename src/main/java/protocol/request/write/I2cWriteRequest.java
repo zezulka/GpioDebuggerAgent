@@ -28,7 +28,7 @@ public final class I2cWriteRequest implements WriteRequest {
     }
 
     @Override
-    public void performRequest() {
+    public void action() {
         LOGGER.info(String.format("I2c write request slave %x, length %d",
                 slaveAddress, content.length));
         i2cManager.writeIntoI2c(this.slaveAddress, this.content);
@@ -36,7 +36,7 @@ public final class I2cWriteRequest implements WriteRequest {
 
     @Override
     public String getFormattedResponse() {
-        return String.format(StringConstants.I2C_WRITE_RESPONSE_FORMAT);
+        return StringConstants.I2C_WRITE_RESPONSE;
     }
 
 }

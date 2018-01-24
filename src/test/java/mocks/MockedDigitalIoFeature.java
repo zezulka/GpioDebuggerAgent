@@ -31,7 +31,7 @@ public class MockedDigitalIoFeature extends AbstractPinFeature implements Digita
     private MockedDigitalOutput output;
     private MockedDigitalInput input;
 
-    public MockedDigitalIoFeature(Pin pin, MockedDigitalInput input, MockedDigitalOutput output) {
+    MockedDigitalIoFeature(Pin pin, MockedDigitalInput input, MockedDigitalOutput output) {
         super(pin);
         this.output = output;
         this.input = input;
@@ -57,7 +57,6 @@ public class MockedDigitalIoFeature extends AbstractPinFeature implements Digita
             if (input.isSetup()) {
                 input.teardown();
             }
-            ;
             output.setup();
         }
     }

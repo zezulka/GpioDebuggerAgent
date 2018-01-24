@@ -23,7 +23,7 @@ public final class Agent {
     public static void main(String[] args) {
         try {
             //Checks for already running instance of agent.
-            new ServerSocket(ApplicationProperties.serverSocketPort());
+            new ServerSocket(ApplicationProperties.lockPort());
             new Thread(ConnectionManager.getDefaultManager()).start();
         } catch (IOException ex) {
             LOGGER.error("Application already running!");

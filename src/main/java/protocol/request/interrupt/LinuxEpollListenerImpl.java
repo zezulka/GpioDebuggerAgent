@@ -15,17 +15,17 @@ public final class LinuxEpollListenerImpl
     private static final Logger LOGGER
             = LoggerFactory.getLogger(LinuxEpollListenerImpl.class);
 
+    LinuxEpollListenerImpl(InterruptEventArgs arg) {
+        super(arg);
+    }
+
     @Override
     protected String getMessageFormatter() {
         return StringConstants.GENERATED_INTR_RESPONSE_FORMAT;
     }
 
-    public LinuxEpollListenerImpl(InterruptEventArgs arg) {
-        super(arg);
-    }
-
     @Override
-    public void performRequest() {
+    public void action() {
         /**
          * NO-OP: this is not a client generated request, there is nothing to
          * do, only send message to client that the event happened
@@ -41,7 +41,7 @@ public final class LinuxEpollListenerImpl
         /**
          * Classes in this package should not invoke setMessageToSend, but
          * method of this class gets invoked asynchronously outside of the
-         * message parser cycle (see ProtocolManager.performRequest for more
+         * message parser cycle (see ProtocolManager.action for more
          * details). In general, interruptRequest method gets invoked outside of
          * the main thread, so additional threading needn't be dealt with.
          *
@@ -53,9 +53,7 @@ public final class LinuxEpollListenerImpl
         InterruptEventArgs regArg = getArg();
         Edge registeredEdge = regArg.getEdge();
         boolean registeredForBoth = registeredEdge.equals(Edge.Both);
-        boolean filterSuccessful = registeredForBoth || registeredEdge
+        return registeredForBoth || registeredEdge
                 .equals(input.getEdge());
-
-        return filterSuccessful;
     }
 }

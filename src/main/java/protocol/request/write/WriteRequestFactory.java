@@ -27,7 +27,7 @@ public final class WriteRequestFactory {
     }
 
     private static WriteRequest gpioValImplicit(GpioManager pinAccessor,
-            String content) throws IllegalRequestException {
+            String content) {
         return new GpioWriteRequest(pinAccessor, content.trim());
     }
 

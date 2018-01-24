@@ -5,5 +5,5 @@ public enum Operation {
     WRITE,
     WRITE_READ,
     INTR_STOP,
-    INTR_START;
+    INTR_START
 }

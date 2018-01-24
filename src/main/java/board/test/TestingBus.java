@@ -14,7 +14,7 @@ public class TestingBus implements Bus {
     private boolean isOpen = false;
     private int selectedAddress = 0;
 
-    public TestingBus(String name) {
+    TestingBus(String name) {
         this.name = name;
     }
 
@@ -34,7 +34,7 @@ public class TestingBus implements Bus {
     }
 
     @Override
-    public void open() throws IOException {
+    public void open() {
         isOpen = true;
     }
 
@@ -44,20 +44,20 @@ public class TestingBus implements Bus {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         isOpen = false;
     }
 
-    public void writeByte(byte b) throws IOException {
+    public void writeByte(byte b) {
     }
 
     @Override
-    public byte readByte() throws IOException {
+    public byte readByte() {
         return 0;
     }
 
     @Override
-    public void selectSlave(int address) throws IOException {
+    public void selectSlave(int address) {
         selectedAddress = address;
     }
 
@@ -72,12 +72,12 @@ public class TestingBus implements Bus {
     }
 
     @Override
-    public FileOutputStream getOutputStream() throws IOException {
+    public FileOutputStream getOutputStream() {
         return null;
     }
 
     @Override
-    public FileInputStream getInputStream() throws IOException {
+    public FileInputStream getInputStream() {
         return null;
     }
 
@@ -91,16 +91,16 @@ public class TestingBus implements Bus {
     }
 
     @Override
-    public void writeString(String string) throws IOException {
+    public void writeString(String string) {
     }
 
     @Override
-    public String readString() throws IOException {
+    public String readString() {
         return null;
     }
 
     @Override
-    public void writeByte(int b) throws IOException {
+    public void writeByte(int b) {
     }
 
 }

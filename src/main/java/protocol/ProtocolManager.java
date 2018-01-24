@@ -44,7 +44,7 @@ public final class ProtocolManager {
     private void performRequest(Request request) {
         LOGGER.info(String.format("%s has been submitted",
                 request.getClass().getSimpleName()));
-        request.performRequest();
+        request.action();
         ConnectionManager.setMessage(request.getFormattedResponse());
     }
 }

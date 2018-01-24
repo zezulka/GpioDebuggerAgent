@@ -14,7 +14,7 @@ public final class StartEpollInterruptListenerRequest
     private static final InterruptListenerManager MANAGER
             = EpollInterruptListenerManager.getInstance();
 
-    public StartEpollInterruptListenerRequest(InterruptEventArgs arg) {
+    StartEpollInterruptListenerRequest(InterruptEventArgs arg) {
         super(arg);
     }
 
@@ -24,7 +24,7 @@ public final class StartEpollInterruptListenerRequest
     }
 
     @Override
-    public void performRequest() {
+    public void action() {
         try {
             MANAGER.registerListener(super.getArg());
         } catch (IllegalRequestException ex) {

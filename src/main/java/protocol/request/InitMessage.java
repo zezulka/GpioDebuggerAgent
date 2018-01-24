@@ -28,7 +28,7 @@ public class InitMessage implements Request {
     }
 
     @Override
-    public void performRequest() {
+    public void action() {
         //NO-OP
     }
 }

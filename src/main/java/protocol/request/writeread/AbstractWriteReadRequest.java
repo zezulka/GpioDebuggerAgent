@@ -14,7 +14,7 @@ public abstract class AbstractWriteReadRequest implements Request {
     private final WriteRequest write;
     private final ReadRequest read;
 
-    public AbstractWriteReadRequest(WriteRequest write, ReadRequest read) {
+    AbstractWriteReadRequest(WriteRequest write, ReadRequest read) {
         this.write = write;
         this.read = read;
     }
@@ -25,8 +25,8 @@ public abstract class AbstractWriteReadRequest implements Request {
     }
 
     @Override
-    public final void performRequest() {
-        write.performRequest();
+    public final void action() {
+        write.action();
     }
 
 }

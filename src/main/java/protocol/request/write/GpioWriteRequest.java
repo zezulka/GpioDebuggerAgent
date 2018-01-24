@@ -30,8 +30,6 @@ public final class GpioWriteRequest implements WriteRequest {
      * This constructor derives desired voltage level from the current one on
      * the pin; inverted value is written onto the pin as result.
      *
-     * @throws IllegalRequestException pin provided does not exist on this
-     * board.
      */
     public GpioWriteRequest(GpioManager gpioManager, String pinName) {
         this.pinAccessor = gpioManager;
@@ -39,7 +37,7 @@ public final class GpioWriteRequest implements WriteRequest {
     }
 
     @Override
-    public void performRequest() {
+    public void action() {
         try {
             if (desiredVoltage == null) {
                 this.desiredVoltage = !this.pinAccessor.read(this.pinName);
