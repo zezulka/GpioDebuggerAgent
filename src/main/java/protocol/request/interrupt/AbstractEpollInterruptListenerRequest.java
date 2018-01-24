@@ -2,13 +2,13 @@ package protocol.request.interrupt;
 
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
-import java.time.LocalTime;
-import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import protocol.request.BulldogRequestUtils;
 import protocol.request.Request;
+
+import java.time.LocalTime;
+import java.util.Objects;
 
 /**
  * Abstract class roofing all classes dealing with interrupt listeners.

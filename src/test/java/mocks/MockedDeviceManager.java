@@ -18,13 +18,13 @@ package mocks;
 import board.test.BoardManager;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
-
 import io.silverspoon.bulldog.core.platform.Board;
+import protocol.request.DeviceInterface;
+import protocol.request.manager.InterfaceManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import protocol.request.DeviceInterface;
-import protocol.request.manager.InterfaceManager;
 
 /**
  *

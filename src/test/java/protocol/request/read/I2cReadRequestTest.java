@@ -1,14 +1,14 @@
 package protocol.request.read;
 
-import protocol.request.read.I2cReadRequest;
 import mocks.MockedI2cManager;
-import static org.assertj.core.api.Assertions.*;
 import org.junit.Before;
 import org.junit.Test;
 import protocol.request.BulldogRequestUtils;
 import protocol.request.Request;
 import protocol.request.StringConstants;
 import protocol.request.manager.I2cManager;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  *

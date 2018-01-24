@@ -2,11 +2,10 @@ package protocol.request.write;
 
 import protocol.request.IllegalRequestException;
 import protocol.request.NumericConstants;
-
-import protocol.request.manager.I2cManager;
-import protocol.request.manager.SpiManager;
-import protocol.request.manager.InterfaceManager;
 import protocol.request.manager.GpioManager;
+import protocol.request.manager.I2cManager;
+import protocol.request.manager.InterfaceManager;
+import protocol.request.manager.SpiManager;
 
 public final class WriteRequestFactory {
 

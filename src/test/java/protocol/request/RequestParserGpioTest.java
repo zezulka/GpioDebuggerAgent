@@ -3,7 +3,6 @@ package protocol.request;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import protocol.request.read.GpioReadRequest;
 import protocol.request.write.GpioWriteRequest;
 

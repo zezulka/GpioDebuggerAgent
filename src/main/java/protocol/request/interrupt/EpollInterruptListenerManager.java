@@ -6,10 +6,10 @@ import io.silverspoon.bulldog.core.gpio.DigitalInput;
 import io.silverspoon.bulldog.linux.gpio.LinuxDigitalInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import protocol.request.IllegalRequestException;
 
 import java.util.HashMap;
 import java.util.Map;
-import protocol.request.IllegalRequestException;
 
 public final class EpollInterruptListenerManager
         implements InterruptListenerManager {

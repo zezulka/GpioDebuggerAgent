@@ -3,14 +3,13 @@ package protocol.request.interrupt;
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.pin.Pin;
-import protocol.request.manager.InterfaceManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import protocol.request.IllegalRequestException;
 import protocol.request.Request;
 import protocol.request.StringConstants;
 import protocol.request.manager.GpioManager;
+import protocol.request.manager.InterfaceManager;
 
 /**
  * Handles client request for deregistering interrupt listener (edge-triggered).

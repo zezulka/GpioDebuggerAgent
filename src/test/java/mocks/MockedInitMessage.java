@@ -11,6 +11,5 @@ public class MockedInitMessage extends InitMessage {
 
     @Override
     public void performRequest() {
-        getFeatures().add(Feature.GPIO);
     }
 }

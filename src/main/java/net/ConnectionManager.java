@@ -2,15 +2,8 @@ package net;
 
 import board.BoardManagerFactory;
 import board.test.BoardManager;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
-import java.util.Iterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import protocol.ProtocolManager;
 import protocol.ProtocolMessages;
 import protocol.request.IllegalRequestException;
@@ -19,8 +12,11 @@ import protocol.request.interrupt.EpollInterruptListenerManager;
 import protocol.request.interrupt.InterruptListenerManager;
 import util.ApplicationProperties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.*;
+import java.util.Iterator;
 
 /**
  * Responsibility: manage all the connections binded to the device.
@@ -48,11 +44,7 @@ public final class ConnectionManager implements Runnable {
     private int port;
 
     private ConnectionManager() {
-        this(ApplicationProperties.socketPort());
-    }
-
-    public ConnectionManager(int sockPort) {
-        this.port = sockPort;
+        this.port = ApplicationProperties.socketPort();
     }
 
     /**
@@ -61,7 +53,7 @@ public final class ConnectionManager implements Runnable {
      * initialised only once). Should the method be executed more than once,
      * such attempt is ignored.
      */
-    private void prepareForAcceptingConnection() {
+    private void preAccept() {
         LOGGER.info(ProtocolMessages.SERVER_INIT.toString());
         try {
             selector = Selector.open();
@@ -76,7 +68,7 @@ public final class ConnectionManager implements Runnable {
         LOGGER.info(ProtocolMessages.SERVER_INIT_SUCCESS.toString());
     }
 
-    private void registerAcceptOperation() {
+    private void registerAccept() {
         try {
             LOGGER.info("now accepting connection from client");
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
@@ -88,14 +80,12 @@ public final class ConnectionManager implements Runnable {
     /**
      * Returns connection manager which listens to the default port
      * {@code AgentConnectionManager.DEFAULT_SOCKET_PORT}.
-     *
-     * @return
      */
-    public static ConnectionManager getManagerWithDefaultPort() {
+    public static ConnectionManager getDefaultManager() {
         return INSTANCE;
     }
 
-    public static void setMessageToSend(String message) {
+    public static void setMessage(String message) {
         if (message == null) {
             throw new IllegalArgumentException("message cannot be null");
         }
@@ -116,9 +106,9 @@ public final class ConnectionManager implements Runnable {
     @Override
     public void run() {
         LOGGER.info("Agent launched.");
-        prepareForAcceptingConnection();
+        preAccept();
         while (true) {
-            registerAcceptOperation();
+            registerAccept();
             runImpl();
         }
     }
@@ -193,7 +183,7 @@ public final class ConnectionManager implements Runnable {
                 LOGGER.info(ProtocolMessages.REQUEST_OK.toString());
             } catch (IllegalRequestException ex) {
                 LOGGER.error(null, ex);
-                setMessageToSend(ProtocolMessages.ILLEGAL_REQUEST.toString());
+                setMessage(ProtocolMessages.ILLEGAL_REQUEST.toString());
             }
         }
         if (key.isWritable()) {
@@ -207,13 +197,12 @@ public final class ConnectionManager implements Runnable {
      * initial message into map which contains name of the device, thus forcing
      * server to send this message as the first one.
      *
-     * @param key
      * @throws IOException
      */
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        setMessageToSend(new InitMessage(BOARD_MANAGER).getFormattedResponse());
+        setMessage(new InitMessage(BOARD_MANAGER).getFormattedResponse());
         socketChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
@@ -237,7 +226,6 @@ public final class ConnectionManager implements Runnable {
     /**
      * Reads data stored in internal buffer.
      *
-     * @param key
      * @return String representation of data received. Data sent to the server
      * should be a sequence of characters convertible into String.
      * @throws IOException

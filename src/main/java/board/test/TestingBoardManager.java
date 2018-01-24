@@ -1,11 +1,12 @@
 package board.test;
 
-import java.util.function.Function;
 import protocol.request.DeviceInterface;
 import protocol.request.manager.InterfaceManager;
 import protocol.request.manager.TestingGpioManager;
 import protocol.request.manager.TestingI2cManager;
 import protocol.request.manager.TestingSpiManager;
+
+import java.util.function.Function;
 
 public class TestingBoardManager extends AbstractBoardManager {
 

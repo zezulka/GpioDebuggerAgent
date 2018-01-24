@@ -1,11 +1,9 @@
 package protocol.request.write;
 
-import protocol.request.StringConstants;
-
-import protocol.request.manager.I2cManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import protocol.request.StringConstants;
+import protocol.request.manager.I2cManager;
 
 public final class I2cWriteRequest implements WriteRequest {
 

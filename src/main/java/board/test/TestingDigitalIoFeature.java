@@ -22,6 +22,7 @@ import io.silverspoon.bulldog.core.event.InterruptListener;
 import io.silverspoon.bulldog.core.gpio.DigitalIO;
 import io.silverspoon.bulldog.core.pin.AbstractPinFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
+
 import java.util.List;
 
 public class TestingDigitalIoFeature extends AbstractPinFeature

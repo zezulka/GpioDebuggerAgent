@@ -1,12 +1,10 @@
 package util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Properties;
 
 public final class ApplicationProperties {
 
@@ -15,11 +13,14 @@ public final class ApplicationProperties {
             = LoggerFactory.getLogger(ApplicationProperties.class);
 
     static {
-        try (InputStream is = new FileInputStream("default.properties")) {
-            PROPS.load(is);
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException("could not find properties file", ex);
+
+
+        try {
+            PROPS.load(ApplicationProperties.class
+                    .getClassLoader()
+                    .getResourceAsStream("default.properties"));
         } catch (IOException ex) {
+            LOGGER.error("Fatal error: default properties file is missing in resources.");
             throw new RuntimeException(ex);
         }
     }

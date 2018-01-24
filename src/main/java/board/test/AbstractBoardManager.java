@@ -3,6 +3,7 @@ package board.test;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
 import io.silverspoon.bulldog.core.platform.Board;
+
 import java.util.List;
 
 public abstract class AbstractBoardManager implements BoardManager {

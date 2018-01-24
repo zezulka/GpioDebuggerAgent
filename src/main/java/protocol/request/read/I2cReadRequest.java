@@ -1,12 +1,12 @@
 package protocol.request.read;
 
-import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import protocol.request.BulldogRequestUtils;
 import protocol.request.StringConstants;
 import protocol.request.manager.I2cManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 public final class I2cReadRequest extends AbstractReadRequest {
 

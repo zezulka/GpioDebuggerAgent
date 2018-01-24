@@ -15,9 +15,9 @@
  */
 package protocol.request;
 
-import protocol.request.interrupt.StopEpollInterruptListenerRequest;
-import protocol.request.interrupt.StartEpollInterruptListenerRequest;
 import org.junit.Test;
+import protocol.request.interrupt.StartEpollInterruptListenerRequest;
+import protocol.request.interrupt.StopEpollInterruptListenerRequest;
 
 import static org.assertj.core.api.Assertions.*;
 

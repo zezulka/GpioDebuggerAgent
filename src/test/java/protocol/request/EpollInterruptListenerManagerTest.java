@@ -18,14 +18,14 @@ package protocol.request;
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.gpio.DigitalInput;
-import static org.assertj.core.api.Assertions.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import protocol.request.interrupt.EpollInterruptListenerManager;
 import protocol.request.interrupt.InterruptListenerManager;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  *

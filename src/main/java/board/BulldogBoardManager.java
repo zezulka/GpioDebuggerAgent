@@ -2,12 +2,13 @@ package board;
 
 import board.test.AbstractBoardManager;
 import io.silverspoon.bulldog.core.platform.Platform;
-import java.util.function.Function;
 import protocol.request.DeviceInterface;
 import protocol.request.manager.BulldogGpioManager;
 import protocol.request.manager.BulldogI2cManager;
 import protocol.request.manager.BulldogSpiManager;
 import protocol.request.manager.InterfaceManager;
+
+import java.util.function.Function;
 
 /**
  * Class which takes care of communicating with the device itself, namely using

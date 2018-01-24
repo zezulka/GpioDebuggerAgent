@@ -15,15 +15,15 @@
  */
 package protocol.request;
 
+import io.silverspoon.bulldog.core.pin.Pin;
+import mocks.MockedGpioManager;
+import mocks.MockedI2cManager;
+import mocks.MockedSpiManager;
 import protocol.request.manager.I2cManager;
 import protocol.request.manager.InterfaceManager;
 import protocol.request.manager.SpiManager;
-import io.silverspoon.bulldog.core.pin.Pin;
-import java.util.function.Function;
 
-import mocks.MockedSpiManager;
-import mocks.MockedGpioManager;
-import mocks.MockedI2cManager;
+import java.util.function.Function;
 
 public class RequestParserUtils {
 

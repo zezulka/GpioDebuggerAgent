@@ -3,13 +3,11 @@ package protocol.request.manager;
 import board.test.BoardManager;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cConnection;
-
-import java.io.IOException;
-
-import protocol.ProtocolMessages;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import protocol.ProtocolMessages;
+
+import java.io.IOException;
 
 public final class BulldogI2cManager implements I2cManager {
 

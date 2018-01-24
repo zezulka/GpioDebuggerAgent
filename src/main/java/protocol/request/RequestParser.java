@@ -1,15 +1,14 @@
 package protocol.request;
 
-import protocol.request.interrupt.StopInterruptRequestFactory;
 import protocol.request.interrupt.StartInterruptRequestFactory;
+import protocol.request.interrupt.StopInterruptRequestFactory;
+import protocol.request.manager.InterfaceManager;
 import protocol.request.read.ReadRequestFactory;
 import protocol.request.write.WriteRequestFactory;
-import java.util.Arrays;
-
-import java.util.function.Function;
-
-import protocol.request.manager.InterfaceManager;
 import protocol.request.writeread.WriteReadRequestFactory;
+
+import java.util.Arrays;
+import java.util.function.Function;
 
 public final class RequestParser {
 

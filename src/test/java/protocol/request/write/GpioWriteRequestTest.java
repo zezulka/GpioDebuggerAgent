@@ -1,7 +1,6 @@
 package protocol.request.write;
 
 import io.silverspoon.bulldog.core.Signal;
-import static org.assertj.core.api.Assertions.*;
 import mocks.MockedGpioManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +8,8 @@ import protocol.request.Request;
 import protocol.request.RequestParserUtils;
 import protocol.request.StringConstants;
 import protocol.request.manager.GpioManager;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GpioWriteRequestTest {
 

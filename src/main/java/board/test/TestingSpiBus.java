@@ -6,6 +6,7 @@ import io.silverspoon.bulldog.core.io.bus.spi.SpiConnection;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiMessage;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiMode;
 import io.silverspoon.bulldog.core.pin.Pin;
+
 import java.util.List;
 import java.util.Random;
 

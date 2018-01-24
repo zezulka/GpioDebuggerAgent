@@ -1,12 +1,10 @@
 package protocol.request.write;
 
 import io.silverspoon.bulldog.core.Signal;
-
-import protocol.request.IllegalRequestException;
-import protocol.request.StringConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import protocol.request.IllegalRequestException;
+import protocol.request.StringConstants;
 import protocol.request.manager.GpioManager;
 
 public final class GpioWriteRequest implements WriteRequest {

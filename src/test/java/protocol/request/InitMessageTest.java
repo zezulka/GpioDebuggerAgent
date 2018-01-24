@@ -1,13 +1,14 @@
 package request;
 
-import protocol.request.Request;
-import protocol.request.StringConstants;
 import board.test.BoardManager;
 import mocks.MockedDeviceManager;
 import mocks.MockedInitMessage;
-import org.junit.Test;
 import org.junit.Before;
-import static org.assertj.core.api.Assertions.*;
+import org.junit.Test;
+import protocol.request.Request;
+import protocol.request.StringConstants;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class InitMessageTest {
 
@@ -23,9 +24,9 @@ public class InitMessageTest {
 
     @Test
     public void initMessage() {
-        String expected = StringConstants.INIT_PREFIX + manager.getBoardName() + StringConstants.REQ_SEPARATOR + "GPIO ";
+        String expected = StringConstants.INIT_PREFIX + manager.getBoardName() + StringConstants.REQ_SEPARATOR + "GPIO INTERRUPTS";
         Request req = new MockedInitMessage(manager);
-        assertThat(req.getFormattedResponse()).isEqualTo(expected);
+        assertThat(req.getFormattedResponse()).startsWith(expected); // in case root runs this
     }
 
 }

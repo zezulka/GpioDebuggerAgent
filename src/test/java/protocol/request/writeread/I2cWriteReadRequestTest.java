@@ -6,17 +6,16 @@
 package protocol.request.writeread;
 
 import mocks.MockedI2cManager;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Test;
 import protocol.request.IllegalRequestException;
 import protocol.request.Request;
 import protocol.request.RequestParser;
 import protocol.request.RequestParserUtils;
-
 import protocol.request.manager.I2cManager;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  *

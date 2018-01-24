@@ -1,10 +1,10 @@
 package protocol.request;
 
-import protocol.request.write.I2cWriteRequest;
-import protocol.request.read.I2cReadRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import protocol.request.read.I2cReadRequest;
+import protocol.request.write.I2cWriteRequest;
 
 import static org.assertj.core.api.Assertions.*;
 

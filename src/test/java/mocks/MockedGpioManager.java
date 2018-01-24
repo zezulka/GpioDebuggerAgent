@@ -4,7 +4,6 @@ import board.test.BoardManager;
 import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.platform.Board;
-
 import protocol.request.IllegalRequestException;
 import protocol.request.manager.GpioManager;
 

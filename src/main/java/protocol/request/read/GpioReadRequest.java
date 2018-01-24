@@ -2,7 +2,6 @@ package protocol.request.read;
 
 import protocol.request.IllegalRequestException;
 import protocol.request.StringConstants;
-
 import protocol.request.manager.GpioManager;
 
 public final class GpioReadRequest extends AbstractReadRequest {

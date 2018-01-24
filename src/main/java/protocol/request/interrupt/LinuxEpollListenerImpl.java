@@ -4,7 +4,6 @@ import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
 import io.silverspoon.bulldog.core.event.InterruptListener;
 import net.ConnectionManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import protocol.request.StringConstants;
@@ -47,7 +46,7 @@ public final class LinuxEpollListenerImpl
          * the main thread, so additional threading needn't be dealt with.
          *
          */
-        ConnectionManager.setMessageToSend(super.getFormattedResponse());
+        ConnectionManager.setMessage(super.getFormattedResponse());
     }
 
     private boolean shouldBeEventProcessed(InterruptEventArgs input) {

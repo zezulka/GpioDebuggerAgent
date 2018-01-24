@@ -1,11 +1,10 @@
 package protocol.request.manager;
 
 import board.test.BoardManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.silverspoon.bulldog.core.io.bus.spi.SpiConnection;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 

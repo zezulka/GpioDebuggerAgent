@@ -1,13 +1,10 @@
 package protocol.request.write;
 
+import org.junit.Test;
+import protocol.request.*;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import org.junit.Test;
-import protocol.request.IllegalRequestException;
-import protocol.request.Request;
-import protocol.request.RequestParser;
-import protocol.request.RequestParserUtils;
-import protocol.request.StringConstants;
 
 public class I2cWriteRequestTest {
 

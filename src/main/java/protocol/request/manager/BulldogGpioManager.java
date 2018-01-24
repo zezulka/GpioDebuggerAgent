@@ -1,13 +1,12 @@
 package protocol.request.manager;
 
 import board.test.BoardManager;
-
 import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.gpio.base.DigitalIOFeature;
 import io.silverspoon.bulldog.core.pin.Pin;
+import protocol.request.IllegalRequestException;
 
 import java.util.Objects;
-import protocol.request.IllegalRequestException;
 
 public final class BulldogGpioManager implements GpioManager {
 

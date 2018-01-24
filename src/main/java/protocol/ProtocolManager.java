@@ -1,19 +1,15 @@
 package protocol;
 
-import java.io.IOException;
-import protocol.request.DeviceInterface;
-
-import java.util.function.Function;
 import net.ConnectionManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import protocol.request.DeviceInterface;
 import protocol.request.IllegalRequestException;
 import protocol.request.Request;
 import protocol.request.RequestParser;
-
 import protocol.request.manager.InterfaceManager;
+
+import java.util.function.Function;
 
 /**
  * Responsibilities: provide utility methods which are going to enable request
@@ -37,19 +33,18 @@ public final class ProtocolManager {
      * IllegalRequestException is thrown. In case request is valid, request is
      * performed and appropriate response is sent back to client.
      *
-     * @throws IOException
      */
     public void parseRequest(String receivedMessage)
-            throws IllegalRequestException, IOException {
+            throws IllegalRequestException {
         LOGGER.info(ProtocolMessages.REQUEST_CAPTURED + " " + receivedMessage);
         Request req = RequestParser.parse(converter, receivedMessage);
         performRequest(req);
     }
 
-    private void performRequest(Request request) throws IOException {
+    private void performRequest(Request request) {
         LOGGER.info(String.format("%s has been submitted",
                 request.getClass().getSimpleName()));
         request.performRequest();
-        ConnectionManager.setMessageToSend(request.getFormattedResponse());
+        ConnectionManager.setMessage(request.getFormattedResponse());
     }
 }
