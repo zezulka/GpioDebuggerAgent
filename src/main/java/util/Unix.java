@@ -21,14 +21,14 @@ public final class Unix {
     private static final String USERNAME = System.getProperty("user.name");
     private static final String ROOT = "root";
 
-    private static final List<Feature> features = new ArrayList<>();
+    private static final List<Feature> FEATURES = new ArrayList<>();
 
     static {
         if (Unix.isUserRoot()) {
-            features.addAll(Arrays.asList(Feature.values()));
+            FEATURES.addAll(Arrays.asList(Feature.values()));
         } else if (Unix.isUserInGpioGroup()) {
-            features.add(Feature.GPIO);
-            features.add(Feature.INTERRUPTS);
+            FEATURES.add(Feature.GPIO);
+            FEATURES.add(Feature.INTERRUPTS);
         }
     }
 
@@ -40,7 +40,7 @@ public final class Unix {
      * For testing purposes only.
      */
     public static List<Feature> getAppFeatures() {
-        return features;
+        return FEATURES;
     }
 
     private static boolean checkOsNameProperty(String substring) {
@@ -74,11 +74,11 @@ public final class Unix {
         return isLinux() || isMac();
     }
 
-    public static boolean isLinux() {
+    private static boolean isLinux() {
         return checkOsNameProperty("linux");
     }
 
-    public static boolean isMac() {
+    private static boolean isMac() {
         return checkOsNameProperty("mac");
     }
 }

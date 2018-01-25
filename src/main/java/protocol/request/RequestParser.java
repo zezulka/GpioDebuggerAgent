@@ -40,15 +40,18 @@ public final class RequestParser {
             throw new IllegalRequestException("requestDeque cannot be null");
         }
         Deque<String> requestDeque = new ArrayDeque<>();
-        Collections.addAll(requestDeque, clientInput.split(StringConstants.REQ_SEPARATOR));
+        Collections.addAll(requestDeque,
+                clientInput.split(StringConstants.REQ_SEPARATOR));
         if (requestDeque.size() < NumericConstants.MIN_NUM_ARGS) {
             throw new IllegalRequestException(String
-                    .format("Request must have at least %d args.", requestDeque.size()));
+                    .format("Request must have at least %d args.",
+                            requestDeque.size()));
         }
         Operation op;
         InterfaceManager manager;
         try {
-            manager = converter.apply(DeviceInterface.valueOf(requestDeque.removeFirst().trim().toUpperCase()));
+            manager = converter.apply(DeviceInterface.valueOf(
+                    requestDeque.removeFirst().trim().toUpperCase()));
             op = Operation.valueOf(requestDeque.removeFirst().toUpperCase());
         } catch (IllegalArgumentException ex) {
             throw new IllegalRequestException(ex);
@@ -56,8 +59,9 @@ public final class RequestParser {
         return parserHelper(op, manager, requestDeque.toArray(new String[0]));
     }
 
-    private static Request parserHelper(Operation op,
-                                        InterfaceManager manager, String[] rest) throws IllegalRequestException {
+    private static Request parserHelper(Operation op, InterfaceManager manager,
+                                        String[] rest)
+            throws IllegalRequestException {
         switch (op) {
             case READ: {
                 return ReadRequestFactory.of(manager, rest);

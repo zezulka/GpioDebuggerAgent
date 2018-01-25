@@ -20,7 +20,7 @@ public final class ApplicationProperties {
                     .getClassLoader()
                     .getResourceAsStream("default.properties"));
         } catch (IOException ex) {
-            LOGGER.error("Fatal error: default properties file is missing in resources.");
+            LOGGER.error("Fatal error: missing default properties file.");
             throw new RuntimeException(ex);
         }
     }

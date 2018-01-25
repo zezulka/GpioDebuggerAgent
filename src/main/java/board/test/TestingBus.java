@@ -5,7 +5,6 @@ import io.silverspoon.bulldog.core.io.bus.BusConnection;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class TestingBus implements Bus {
 
@@ -46,9 +45,6 @@ public class TestingBus implements Bus {
     @Override
     public void close() {
         isOpen = false;
-    }
-
-    public void writeByte(byte b) {
     }
 
     @Override

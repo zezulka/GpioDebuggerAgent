@@ -17,23 +17,21 @@ import util.Unix;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.ClosedChannelException;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Objects;
 
 /**
  * Responsibility: manage all the connections binded to the device.
- *
  */
 public final class ConnectionManager implements Runnable {
 
-    private static ServerSocketChannel serverSocketChannel;
-    private static SocketChannel socketChannel;
-    private static Selector selector;
-    private static String messageToSend;
     private static final int BUFF_SIZE = 1024;
     private static final int END_OF_STREAM = -1;
-
     private static final ConnectionManager INSTANCE = new ConnectionManager();
     private static final BoardManager BOARD_MANAGER
             = BoardManagerFactory.getInstance();
@@ -43,42 +41,14 @@ public final class ConnectionManager implements Runnable {
             = EpollInterruptListenerManager.getInstance();
     private static final Logger LOGGER
             = LoggerFactory.getLogger(ConnectionManager.class);
-
+    private static ServerSocketChannel serverSocketChannel;
+    private static SocketChannel socketChannel;
+    private static Selector selector;
+    private static String messageToSend;
     private int port;
 
     private ConnectionManager() {
         this.port = ApplicationProperties.socketPort();
-    }
-
-    /**
-     * Prepares agent for accepting connection (on the network level). This
-     * method must be executed only once per client (i.e. resources must be
-     * initialised only once). Should the method be executed more than once,
-     * such attempt is ignored.
-     */
-    private void preAccept() {
-        LOGGER.debug(ProtocolMessages.SERVER_INIT.toString());
-        try {
-            selector = Selector.open();
-            serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.configureBlocking(true);
-            serverSocketChannel.bind(new InetSocketAddress(port));
-            serverSocketChannel.socket().setReuseAddress(true);
-            serverSocketChannel.configureBlocking(false);
-            LOGGER.info(String.format("Server socket configured, listening on port %d.", port));
-        } catch (IOException ex) {
-            LOGGER.error(ProtocolMessages.IO_EXCEPTION.toString(), ex);
-        }
-        LOGGER.debug(ProtocolMessages.SERVER_INIT_SUCCESS.toString());
-    }
-
-    private void registerAccept() {
-        try {
-            LOGGER.info("Ready to accept connection.");
-            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-        }
     }
 
     /**
@@ -102,6 +72,37 @@ public final class ConnectionManager implements Runnable {
     }
 
     /**
+     * Prepares agent for accepting connection (on the network level). This
+     * method must be executed only once per client (i.e. resources must be
+     * initialised only once). Should the method be executed more than once,
+     * such attempt is ignored.
+     */
+    private void preAccept() {
+        LOGGER.debug(ProtocolMessages.SERVER_INIT.toString());
+        try {
+            selector = Selector.open();
+            serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.configureBlocking(true);
+            serverSocketChannel.bind(new InetSocketAddress(port));
+            serverSocketChannel.socket().setReuseAddress(true);
+            serverSocketChannel.configureBlocking(false);
+            LOGGER.info(String.format("Listening on port %d.", port));
+        } catch (IOException ex) {
+            LOGGER.error(ProtocolMessages.IO_EXCEPTION.toString(), ex);
+        }
+        LOGGER.debug(ProtocolMessages.SERVER_INIT_SUCCESS.toString());
+    }
+
+    private void registerAccept() {
+        try {
+            LOGGER.info("Ready to accept connection.");
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+    /**
      * Runs in an infinite loop, therefore the only way to stop this thread from
      * running is to kill the whole process.
      */
@@ -109,7 +110,7 @@ public final class ConnectionManager implements Runnable {
     public void run() {
         LOGGER.info("Launched.");
         LOGGER.info("Available features:");
-        for(Feature f : Unix.getAppFeatures()) {
+        for (Feature f : Unix.getAppFeatures()) {
             LOGGER.info("\t" + f.toString());
         }
         preAccept();
@@ -202,7 +203,6 @@ public final class ConnectionManager implements Runnable {
      * Enables server to accept incoming connections. Accept method also stores
      * initial message into map which contains name of the device, thus forcing
      * server to send this message as the first one.
-     *
      */
     private void accept() throws IOException {
         socketChannel = serverSocketChannel.accept();
@@ -214,7 +214,6 @@ public final class ConnectionManager implements Runnable {
     /**
      * Performs the actual write operation. Reads data stored in internal buffer
      * and attempts to send them to the output stream.
-     *
      */
     private void write(SelectionKey key) {
         try {

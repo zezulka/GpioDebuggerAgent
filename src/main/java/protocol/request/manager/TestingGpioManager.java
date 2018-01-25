@@ -4,7 +4,6 @@ import board.test.BoardManager;
 import board.test.TestingDigitalIoFeature;
 import io.silverspoon.bulldog.core.Signal;
 import io.silverspoon.bulldog.core.pin.Pin;
-import protocol.request.IllegalRequestException;
 
 import java.util.Objects;
 
