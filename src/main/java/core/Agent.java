@@ -3,15 +3,13 @@ package core;
 import net.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.ApplicationProperties;
 
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.RandomAccessFile;
 
 /**
  * Main class, which represents an entry point for the whole application. Only
  * one instance can be run at a time.
- *
  */
 public final class Agent {
 
@@ -21,11 +19,16 @@ public final class Agent {
     }
 
     public static void main(String[] args) {
+        boolean ok;
         try {
-            //Checks for already running instance of agent.
-            new ServerSocket(ApplicationProperties.lockPort());
-            new Thread(ConnectionManager.getDefaultManager()).start();
+            ok = new RandomAccessFile("/tmp/lock", "rw").
+                    getChannel().tryLock() != null;
         } catch (IOException ex) {
+            ok = false;
+        }
+        if (ok) {
+            new Thread(ConnectionManager.getDefaultManager()).start();
+        } else {
             LOGGER.error("Application already running!");
             System.exit(1);
         }
