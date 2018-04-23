@@ -16,7 +16,7 @@ the agent itself again by `mvn clean install` in the root folder of the agent pr
 Bulldog
 -----------
 All the prerequisites are listed in `https://github.com/SilverThings/bulldog` and hold true also for the repository used to store the Bullog for the agent, `https://github.com/zezulka/bulldog`. Building the library itself should also be equivalent to what is mentioned on the same page.
-Due to the limited resources of the Raspberry Pi devices, it is highly recommended to compile and build the library outside of a Pi and then simply `scp` the resulting .jar file.
+Due to the limited resources of the Raspberry Pi devices, it is highly recommended to compile and build the library outside of a Pi and then simply copy the resulting .jar file to the remote machine. You can also use the deployment feature present in the client which does it for you.
 
 Agent
 ----------
