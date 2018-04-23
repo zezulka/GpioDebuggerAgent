@@ -7,7 +7,11 @@ This agent is the server part of a debugging tool based on *[bulldog library](ht
 
 Installation
 ------------
-Releases are placed in the *[releases tab of this Github repository](https://github.com/zezulka/GpioDebuggerAgent/releases "releases")*. Otherwise, you can use Maven to compile the whole project which consists of two modules: bulldog library and the agent itself.
+Releases are placed in the *[releases tab of this Github repository](https://github.com/zezulka/GpioDebuggerAgent/releases "releases")*. Otherwise, you can use Maven to compile the whole project which consists of two projects: bulldog library and the agent itself.
+First, install Bulldog to your local repository by issuing `mvn clean install`
+in the root folder of Bulldog (you must install required gcc cross compiler first in order to do that).
+Once you have Bulldog installed in your local repository, you can then install
+the agent itself again by `mvn clean install` in the root folder of the agent project.
 
 Bulldog
 -----------
