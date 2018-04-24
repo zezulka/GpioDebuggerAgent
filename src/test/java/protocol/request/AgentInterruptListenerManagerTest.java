@@ -15,14 +15,16 @@
  */
 package protocol.request;
 
+import bulldog.TestInterruptListener;
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
+import io.silverspoon.bulldog.core.event.InterruptListener;
 import io.silverspoon.bulldog.core.gpio.DigitalInput;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import protocol.request.interrupt.EpollInterruptListenerManager;
+import protocol.request.interrupt.AgentInterruptListenerManager;
 import protocol.request.interrupt.InterruptListenerManager;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,18 +33,25 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Miloslav Zezulka
  */
-public class EpollInterruptListenerManagerTest {
+public class AgentInterruptListenerManagerTest {
 
     private InterruptListenerManager MANAGER;
 
     @Before
     public void initialize() {
-        MANAGER = EpollInterruptListenerManager.getInstance();
+        MANAGER = AgentInterruptListenerManager.getInstance();
     }
 
     @After
     public void teardown() {
         MANAGER.clearAllListeners();
+    }
+
+    @Test
+    public void interruptListenerEvents() {
+        InterruptEventArgs args = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Rising);
+        InterruptListener ail = new TestInterruptListener(args);
+        ail.interruptRequest(new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Falling));
     }
 
     /**
@@ -53,8 +62,8 @@ public class EpollInterruptListenerManagerTest {
     public void deregisterExistingInterruptListener() {
         InterruptEventArgs args = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Both);
         try {
-            MANAGER.registerListener(args);
-            MANAGER.deregisterListener(args);
+            MANAGER.registerListener(args, new TestInterruptListener(args));
+            MANAGER.deregisterListener(args, new TestInterruptListener(args));
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }
@@ -68,10 +77,10 @@ public class EpollInterruptListenerManagerTest {
     public void deregisterExistingInterruptListenerTwice() {
         InterruptEventArgs args = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Both);
         try {
-            MANAGER.registerListener(args);
-            MANAGER.deregisterListener(args);
-            MANAGER.registerListener(args);
-            MANAGER.deregisterListener(args);
+            MANAGER.registerListener(args, new TestInterruptListener(args));
+            MANAGER.deregisterListener(args, new TestInterruptListener(args));
+            MANAGER.registerListener(args, new TestInterruptListener(args));
+            MANAGER.deregisterListener(args, new TestInterruptListener(args));
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }
@@ -87,9 +96,9 @@ public class EpollInterruptListenerManagerTest {
         InterruptEventArgs argsRising = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Rising);
         InterruptEventArgs argsBoth = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Both);
         try {
-            MANAGER.registerListener(argsFalling);
-            MANAGER.registerListener(argsRising);
-            MANAGER.registerListener(argsBoth);
+            MANAGER.registerListener(argsFalling, new TestInterruptListener(argsFalling));
+            MANAGER.registerListener(argsRising, new TestInterruptListener(argsRising));
+            MANAGER.registerListener(argsBoth, new TestInterruptListener(argsBoth));
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }
@@ -103,7 +112,7 @@ public class EpollInterruptListenerManagerTest {
     public void registerInterruptListener() {
         InterruptEventArgs args = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Both);
         try {
-            MANAGER.registerListener(args);
+            MANAGER.registerListener(args, new TestInterruptListener(args));
             DigitalInput digIo = RequestParserUtils.REQUESTED_PIN.as(DigitalInput.class);
             assertThat(digIo.areInterruptsEnabled()).isTrue();
             assertThat(digIo.isSetup()).isTrue();
@@ -117,7 +126,7 @@ public class EpollInterruptListenerManagerTest {
     @Ignore
     public void deregisterNonexistingInterruptListener() {
         InterruptEventArgs args = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Both);
-        assertThatThrownBy(() -> MANAGER.deregisterListener(args)).
+        assertThatThrownBy(() -> MANAGER.deregisterListener(args, new TestInterruptListener(args))).
                 isInstanceOf(IllegalRequestException.class);
     }
 
@@ -126,11 +135,11 @@ public class EpollInterruptListenerManagerTest {
     public void registerInterruptListenerTwice() {
         InterruptEventArgs args = new InterruptEventArgs(RequestParserUtils.REQUESTED_PIN, Edge.Both);
         try {
-            MANAGER.registerListener(args);
+            MANAGER.registerListener(args, new TestInterruptListener(args));
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }
-        assertThatThrownBy(() -> MANAGER.registerListener(args)).
+        assertThatThrownBy(() -> MANAGER.registerListener(args, new TestInterruptListener(args))).
                 isInstanceOf(IllegalRequestException.class);
     }
 }

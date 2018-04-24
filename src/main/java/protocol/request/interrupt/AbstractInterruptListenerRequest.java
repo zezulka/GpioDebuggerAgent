@@ -2,6 +2,7 @@ package protocol.request.interrupt;
 
 import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
+import io.silverspoon.bulldog.core.event.InterruptListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import protocol.request.BulldogRequestUtils;
@@ -12,22 +13,18 @@ import java.util.Objects;
 
 /**
  * Abstract class roofing all classes dealing with interrupt listeners.
- *
  */
-public abstract class AbstractEpollInterruptListenerRequest
-        implements Request {
+public abstract class AbstractInterruptListenerRequest
+        implements Request, InterruptListener {
 
     private final InterruptEventArgs arg;
-    private boolean triggeredByBothEdgeListener = false;
-    private Edge bothEdgeListenerEdge;
-    private static final Logger LOGGER
-            = LoggerFactory
-                    .getLogger(AbstractEpollInterruptListenerRequest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            AbstractInterruptListenerRequest.class);
 
     /**
      * @throws IllegalArgumentException args is null
      */
-    public AbstractEpollInterruptListenerRequest(InterruptEventArgs arg) {
+    public AbstractInterruptListenerRequest(InterruptEventArgs arg) {
         Objects.requireNonNull(arg, "arg");
         this.arg = arg;
     }
@@ -37,23 +34,36 @@ public abstract class AbstractEpollInterruptListenerRequest
      * Message contains pin on which the interrupt was registered. In its
      * prefix, information about whether the interrupt listener has been
      * (de)registered or generated, is contained.
-     *
      */
     @Override
     public final String getFormattedResponse() {
         String response = String.format(getMessageFormatter(),
-                arg.getPin().getName(), (triggeredByBothEdgeListener
-                ? bothEdgeListenerEdge : arg.getEdge()),
+                arg.getPin().getName(), arg.getEdge(),
                 LocalTime.now().format(BulldogRequestUtils.FORMATTER));
-        triggeredByBothEdgeListener = false;
-        LOGGER.info(String
-                .format("sent to client: %s", response));
+        LOGGER.info(String.format("sent to client: %s", response));
         return response;
     }
 
-    protected final void setEdge(Edge edge) {
-        this.bothEdgeListenerEdge = edge;
-        this.triggeredByBothEdgeListener = true;
+    @Override
+    public void interruptRequest(InterruptEventArgs iea) {
+        //if (!shouldBeEventProcessed(iea)) {
+        //    return;
+        //}
+        LOGGER.debug(String.format("interrupt edge %s", iea.getEdge()));
+        interruptRequestImpl(iea);
+    }
+
+    /*
+     Extending classes can override this method but calling this method
+     is a NO-OP by default.
+     */
+    protected void interruptRequestImpl(InterruptEventArgs iea) {
+    }
+
+    private boolean shouldBeEventProcessed(InterruptEventArgs input) {
+        Edge registeredEdge = arg.getEdge();
+        boolean registeredForBoth = registeredEdge.equals(Edge.Both);
+        return registeredForBoth || registeredEdge.equals(input.getEdge());
     }
 
     protected final InterruptEventArgs getArg() {

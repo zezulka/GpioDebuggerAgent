@@ -1,28 +1,23 @@
 package protocol.request.interrupt;
 
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
+import io.silverspoon.bulldog.core.event.InterruptListener;
 import protocol.request.IllegalRequestException;
 
 public interface InterruptListenerManager {
 
     /**
-     * Registers new interrupt listener.
-     *
-     * @param input
      * @throws IllegalRequestException listener has been already registered
      * @throws IllegalArgumentException input is null
      */
-    void registerListener(InterruptEventArgs input)
+    void registerListener(InterruptEventArgs input, InterruptListener il)
             throws IllegalRequestException;
 
     /**
-     * Deregisters already existing listener.
-     *
-     * @param input
      * @throws IllegalRequestException no such interrupt listener exists
      * @throws IllegalArgumentException input is null
      */
-    void deregisterListener(InterruptEventArgs input)
+    void deregisterListener(InterruptEventArgs input, InterruptListener il)
             throws IllegalRequestException;
 
     /**

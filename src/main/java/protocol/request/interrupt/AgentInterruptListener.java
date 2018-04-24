@@ -1,21 +1,18 @@
 package protocol.request.interrupt;
 
-import io.silverspoon.bulldog.core.Edge;
 import io.silverspoon.bulldog.core.event.InterruptEventArgs;
-import io.silverspoon.bulldog.core.event.InterruptListener;
 import net.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import protocol.request.StringConstants;
 
-public final class LinuxEpollListenerImpl
-        extends AbstractEpollInterruptListenerRequest
-        implements InterruptListener {
+public final class AgentInterruptListener
+        extends AbstractInterruptListenerRequest {
 
     private static final Logger LOGGER
-            = LoggerFactory.getLogger(LinuxEpollListenerImpl.class);
+            = LoggerFactory.getLogger(AgentInterruptListener.class);
 
-    LinuxEpollListenerImpl(InterruptEventArgs arg) {
+    public AgentInterruptListener(InterruptEventArgs arg) {
         super(arg);
     }
 
@@ -33,11 +30,7 @@ public final class LinuxEpollListenerImpl
     }
 
     @Override
-    public void interruptRequest(InterruptEventArgs iea) {
-        if (!shouldBeEventProcessed(iea)) {
-            return;
-        }
-        LOGGER.debug(String.format("interrupt edge %s", iea.getEdge()));
+    protected void interruptRequestImpl(InterruptEventArgs iea) {
         /**
          * Classes in this package should not invoke setMessageToSend, but
          * method of this class gets invoked asynchronously outside of the
@@ -47,13 +40,5 @@ public final class LinuxEpollListenerImpl
          *
          */
         ConnectionManager.setMessage(super.getFormattedResponse());
-    }
-
-    private boolean shouldBeEventProcessed(InterruptEventArgs input) {
-        InterruptEventArgs regArg = getArg();
-        Edge registeredEdge = regArg.getEdge();
-        boolean registeredForBoth = registeredEdge.equals(Edge.Both);
-        return registeredForBoth || registeredEdge
-                .equals(input.getEdge());
     }
 }

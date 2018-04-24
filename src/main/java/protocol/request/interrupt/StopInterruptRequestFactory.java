@@ -47,7 +47,7 @@ public final class StopInterruptRequestFactory {
             } catch (IllegalArgumentException ex) {
                 throw new IllegalRequestException(ex);
             }
-            return new StopEpollInterruptListenerRequest(
+            return new StopInterruptListenerRequest(
                     new InterruptEventArgs(pin, edge)
             );
         }

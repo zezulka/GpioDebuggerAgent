@@ -9,7 +9,7 @@ import protocol.ProtocolManager;
 import protocol.ProtocolMessages;
 import protocol.request.IllegalRequestException;
 import protocol.request.InitMessage;
-import protocol.request.interrupt.EpollInterruptListenerManager;
+import protocol.request.interrupt.AgentInterruptListenerManager;
 import protocol.request.interrupt.InterruptListenerManager;
 import util.ApplicationProperties;
 import util.Unix;
@@ -38,7 +38,7 @@ public final class ConnectionManager implements Runnable {
     private static final ProtocolManager PROTOCOL_MANAGER
             = new ProtocolManager(BOARD_MANAGER.deviceToInterfaceMapper());
     private static final InterruptListenerManager LISTENER_MANAGER
-            = EpollInterruptListenerManager.getInstance();
+            = AgentInterruptListenerManager.getInstance();
     private static final Logger LOGGER
             = LoggerFactory.getLogger(ConnectionManager.class);
     private static ServerSocketChannel serverSocketChannel;

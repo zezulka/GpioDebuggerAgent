@@ -16,8 +16,8 @@
 package protocol.request;
 
 import org.junit.Test;
-import protocol.request.interrupt.StartEpollInterruptListenerRequest;
-import protocol.request.interrupt.StopEpollInterruptListenerRequest;
+import protocol.request.interrupt.StartInterruptListenerRequest;
+import protocol.request.interrupt.StopInterruptListenerRequest;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -31,7 +31,7 @@ public class RequestParserInterruptsTest {
     public void registerInterrupt() {
         try {
             Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_START:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING");
-            assertThat(gpioRead.getClass()).isEqualTo(StartEpollInterruptListenerRequest.class);
+            assertThat(gpioRead.getClass()).isEqualTo(StartInterruptListenerRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }
@@ -41,7 +41,7 @@ public class RequestParserInterruptsTest {
     public void deregisterInterrupt() {
         try {
             Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " BOTH");
-            assertThat(gpioRead.getClass()).isEqualTo(StopEpollInterruptListenerRequest.class);
+            assertThat(gpioRead.getClass()).isEqualTo(StopInterruptListenerRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }

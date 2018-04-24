@@ -6,30 +6,30 @@ import org.slf4j.LoggerFactory;
 import protocol.request.IllegalRequestException;
 import protocol.request.StringConstants;
 
-public final class StopEpollInterruptListenerRequest
-        extends AbstractEpollInterruptListenerRequest {
+public final class StartInterruptListenerRequest
+        extends AbstractInterruptListenerRequest {
 
     private static final Logger LOGGER
-            = LoggerFactory.getLogger(StopEpollInterruptListenerRequest.class);
+            = LoggerFactory.getLogger(StartInterruptListenerRequest.class);
     private static final InterruptListenerManager MANAGER
-            = EpollInterruptListenerManager.getInstance();
+            = AgentInterruptListenerManager.getInstance();
 
-    StopEpollInterruptListenerRequest(InterruptEventArgs arg) {
+    StartInterruptListenerRequest(InterruptEventArgs arg) {
         super(arg);
     }
 
     @Override
     protected String getMessageFormatter() {
-        return StringConstants.STOP_INTRS_RESPONSE_FORMAT;
+        return StringConstants.START_INTRS_RESPONSE_FORMAT;
     }
 
     @Override
     public void action() {
         try {
-            MANAGER.deregisterListener(super.getArg());
+            MANAGER.registerListener(super.getArg(),
+                    new AgentInterruptListener(getArg()));
         } catch (IllegalRequestException ex) {
             LOGGER.error(null, ex);
         }
-
     }
 }
