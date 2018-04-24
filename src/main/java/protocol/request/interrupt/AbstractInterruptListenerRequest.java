@@ -46,9 +46,9 @@ public abstract class AbstractInterruptListenerRequest
 
     @Override
     public void interruptRequest(InterruptEventArgs iea) {
-        //if (!shouldBeEventProcessed(iea)) {
-        //    return;
-        //}
+        if (!shouldBeEventProcessed(iea)) {
+            return;
+        }
         LOGGER.debug(String.format("interrupt edge %s", iea.getEdge()));
         interruptRequestImpl(iea);
     }
