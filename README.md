@@ -33,4 +33,4 @@ does it for you.
 Application output
 ------------------
 Important actions are recorded via logging. By default, there are two appenders
-created: console and file output. Log files can be found in the `./logs/ folder.
+created: console and file output. Log files can be found in the `./logs/` folder.
