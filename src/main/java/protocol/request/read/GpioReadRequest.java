@@ -15,7 +15,7 @@ public final class GpioReadRequest extends AbstractReadRequest {
     }
 
     @Override
-    public String getFormattedResponse() {
+    public String responseString() {
         try {
             String voltageLvl;
             if (gpioManager.read(pinName)) {

@@ -36,7 +36,7 @@ public abstract class AbstractInterruptListenerRequest
      * (de)registered or generated, is contained.
      */
     @Override
-    public final String getFormattedResponse() {
+    public final String responseString() {
         String response = String.format(getMessageFormatter(),
                 arg.getPin().getName(), arg.getEdge(),
                 LocalTime.now().format(BulldogRequestUtils.FORMATTER));

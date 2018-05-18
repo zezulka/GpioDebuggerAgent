@@ -36,7 +36,7 @@ public final class I2cReadRequest extends AbstractReadRequest {
     }
 
     @Override
-    public String getFormattedResponse() {
+    public String responseString() {
         return formattedResponse();
     }
 

@@ -55,7 +55,7 @@ public final class GpioWriteRequest implements WriteRequest {
      * turned off or on.
      */
     @Override
-    public String getFormattedResponse() {
+    public String responseString() {
         try {
             return String.format(
                     StringConstants.GPIO_RESPONSE_FORMAT,

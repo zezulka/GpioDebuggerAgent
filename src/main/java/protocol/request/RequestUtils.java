@@ -1,5 +1,6 @@
 package protocol.request;
 
+import board.test.BoardManager;
 import protocol.request.interrupt.StartInterruptRequestFactory;
 import protocol.request.interrupt.StopInterruptRequestFactory;
 import protocol.request.manager.InterfaceManager;
@@ -10,11 +11,10 @@ import protocol.request.writeread.WriteReadRequestFactory;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.function.Function;
 
-public final class RequestParser {
+public final class RequestUtils {
 
-    private RequestParser() {
+    private RequestUtils() {
     }
 
     /**
@@ -33,30 +33,35 @@ public final class RequestParser {
      * @throws IllegalRequestException in case illegal String request has been
      *                                 provided, including null parameter
      */
-    public static Request parse(
-            Function<DeviceInterface, InterfaceManager> converter,
-            String clientInput) throws IllegalRequestException {
+    public static Request parse(BoardManager boardManager, String clientInput)
+            throws IllegalRequestException {
         if (clientInput == null) {
-            throw new IllegalRequestException("requestDeque cannot be null");
+            throw new IllegalRequestException("cannot be null");
         }
         Deque<String> requestDeque = new ArrayDeque<>();
         Collections.addAll(requestDeque,
                 clientInput.split(StringConstants.REQ_SEPARATOR));
-        if (requestDeque.size() < NumericConstants.MIN_NUM_ARGS) {
-            throw new IllegalRequestException(String
-                    .format("Request must have at least %d args.",
-                            requestDeque.size()));
+        if (requestDeque.isEmpty()) {
+            throw new IllegalRequestException("cannot be empty");
         }
         Operation op;
         InterfaceManager manager;
         try {
-            manager = converter.apply(DeviceInterface.valueOf(
-                    requestDeque.removeFirst().trim().toUpperCase()));
-            op = Operation.valueOf(requestDeque.removeFirst().toUpperCase());
+            RequestType rt = RequestType.valueOf(requestDeque.removeFirst().
+                    trim().toUpperCase());
+            if (rt.equals(RequestType.INIT)) {
+                return new InitMessage(boardManager);
+            } else {
+                manager = boardManager.deviceToInterfaceMapper().apply(rt);
+                op = Operation.valueOf(requestDeque.removeFirst().
+                        toUpperCase());
+                return parserHelper(op, manager, requestDeque.
+                        toArray(new String[0]));
+            }
         } catch (IllegalArgumentException ex) {
             throw new IllegalRequestException(ex);
         }
-        return parserHelper(op, manager, requestDeque.toArray(new String[0]));
+
     }
 
     private static Request parserHelper(Operation op, InterfaceManager manager,

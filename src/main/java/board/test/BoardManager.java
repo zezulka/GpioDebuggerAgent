@@ -3,7 +3,7 @@ package board.test;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
 import io.silverspoon.bulldog.core.platform.Board;
-import protocol.request.DeviceInterface;
+import protocol.request.RequestType;
 import protocol.request.manager.InterfaceManager;
 
 import java.util.function.Function;
@@ -31,5 +31,5 @@ public interface BoardManager {
 
     SpiBus getSpi();
 
-    Function<DeviceInterface, InterfaceManager> deviceToInterfaceMapper();
+    Function<RequestType, InterfaceManager> deviceToInterfaceMapper();
 }

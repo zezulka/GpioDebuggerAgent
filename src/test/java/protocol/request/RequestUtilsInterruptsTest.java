@@ -25,12 +25,12 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Miloslav Zezulka
  */
-public class RequestParserInterruptsTest {
+public class RequestUtilsInterruptsTest {
 
     @Test
     public void registerInterrupt() {
         try {
-            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_START:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING");
+            Request gpioRead = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "GPIO:INTR_START:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING");
             assertThat(gpioRead.getClass()).isEqualTo(StartInterruptListenerRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -40,7 +40,7 @@ public class RequestParserInterruptsTest {
     @Test
     public void deregisterInterrupt() {
         try {
-            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " BOTH");
+            Request gpioRead = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " BOTH");
             assertThat(gpioRead.getClass()).isEqualTo(StopInterruptListenerRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -49,19 +49,19 @@ public class RequestParserInterruptsTest {
 
     @Test
     public void erroneousOperation() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR____:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "GPIO:INTR____:" + RequestParserUtils.REQUESTED_PIN_NAME + " FALLING")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void erroneousEdge() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " FAILING")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "GPIO:INTR_STOP:" + RequestParserUtils.REQUESTED_PIN_NAME + " FAILING")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void erroneousPin() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "GPIO:INTR_STOP:123 FALLING")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "GPIO:INTR_STOP:123 FALLING")).
                 isInstanceOf(IllegalRequestException.class);
     }
 }

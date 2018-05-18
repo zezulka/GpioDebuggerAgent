@@ -17,7 +17,7 @@ public final class SpiReadRequest extends AbstractReadRequest {
     }
 
     @Override
-    public String getFormattedResponse() {
+    public String responseString() {
         String formattedBytes = BulldogRequestUtils
                 .getFormattedByteArray(spiMngr.readFromSpi(slaveIndex, tBuf));
         return String.format(StringConstants.SPI_READ_RESPONSE_FORMAT,

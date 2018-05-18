@@ -31,6 +31,6 @@ public class I2cReadRequestTest {
         final String expected = String.format(StringConstants.I2C_READ_RESPONSE_FORMAT,
                 BulldogRequestUtils.getFormattedByteArray(manager.readFromI2c(0, 2)));
         Request req = new I2cReadRequest(manager, 0, 2);
-        assertThat(req.getFormattedResponse()).isEqualTo(expected);
+        assertThat(req.responseString()).isEqualTo(expected);
     }
 }

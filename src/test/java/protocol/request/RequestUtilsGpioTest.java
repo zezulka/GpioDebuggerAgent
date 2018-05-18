@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParserGpioTest {
+public class RequestUtilsGpioTest {
 
     @Before
     public void setUp() {
@@ -24,7 +24,7 @@ public class RequestParserGpioTest {
 
     @Test
     public void nonexistingPin() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "read:gpio:" + Integer.MAX_VALUE)).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "read:gpio:" + Integer.MAX_VALUE)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
@@ -34,7 +34,7 @@ public class RequestParserGpioTest {
     @Test
     public void gpioWriteTest() {
         try {
-            Request gpioWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:write:" + RequestParserUtils.REQUESTED_PIN_NAME);
+            Request gpioWrite = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "gpio:write:" + RequestParserUtils.REQUESTED_PIN_NAME);
             assertThat(gpioWrite.getClass()).isEqualTo(GpioWriteRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -47,7 +47,7 @@ public class RequestParserGpioTest {
     @Test
     public void gpioReadTest() {
         try {
-            Request gpioRead = RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:read:" + RequestParserUtils.REQUESTED_PIN_NAME);
+            Request gpioRead = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "gpio:read:" + RequestParserUtils.REQUESTED_PIN_NAME);
             assertThat(gpioRead.getClass()).isEqualTo(GpioReadRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());

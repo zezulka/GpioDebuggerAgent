@@ -35,7 +35,7 @@ public final class I2cWriteRequest implements WriteRequest {
     }
 
     @Override
-    public String getFormattedResponse() {
+    public String responseString() {
         return StringConstants.I2C_WRITE_RESPONSE;
     }
 

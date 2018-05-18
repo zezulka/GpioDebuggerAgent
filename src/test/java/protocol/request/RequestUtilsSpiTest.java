@@ -25,12 +25,12 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParserSpiTest {
+public class RequestUtilsSpiTest {
 
     @Test
     public void spiRead() {
         try {
-            Request spiRead = RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:0x00:0000FFFFCA");
+            Request spiRead = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "spi:read:0x00:0000FFFFCA");
             assertThat(spiRead.getClass()).isEqualTo(SpiReadRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -40,7 +40,7 @@ public class RequestParserSpiTest {
     @Test
     public void spiWrite() {
         try {
-            Request spiWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "spi:write:0x00:0000FFFFCA");
+            Request spiWrite = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "spi:write:0x00:0000FFFFCA");
             assertThat(spiWrite.getClass()).isEqualTo(SpiWriteRequest.class);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
@@ -49,19 +49,19 @@ public class RequestParserSpiTest {
 
     @Test
     public void spiReadMissingChipIndex() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read::0000FFFFCA")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "spi:read::0000FFFFCA")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void spiReadNegativeChipIndex() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:-1:0000FFFFCA")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "spi:read:-1:0000FFFFCA")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void spiReadNoData() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "spi:read:0x00:")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "spi:read:0x00:")).
                 isInstanceOf(IllegalRequestException.class);
     }
 }

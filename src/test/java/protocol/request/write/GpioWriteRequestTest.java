@@ -29,13 +29,13 @@ public class GpioWriteRequestTest {
         String expectedLow = String.format(StringConstants.GPIO_RESPONSE_FORMAT,
                 RequestParserUtils.REQUESTED_PIN_NAME,
                 Signal.Low.toString().toUpperCase());
-        assertThat(req.getFormattedResponse()).isEqualTo(expectedLow);
+        assertThat(req.responseString()).isEqualTo(expectedLow);
     }
 
     @Test
     public void gpioErrorResponse() {
         Request req = new GpioWriteRequest(manager, "");
-        assertThat(req.getFormattedResponse()).isEqualTo(StringConstants.ERROR_RESPONSE);
+        assertThat(req.responseString()).isEqualTo(StringConstants.ERROR_RESPONSE);
     }
 
 }

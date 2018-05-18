@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Miloslav Zezulka, 2017
  */
-public class RequestParserBasicTest {
+public class RequestUtilsBasicTest {
 
     @Before
     public void setUp() {
@@ -22,55 +22,55 @@ public class RequestParserBasicTest {
 
     @Test
     public void nullTest() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, null)).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, null)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void emptyString() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void emptyRequest() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "::")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "::")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void illegalSeparators() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio;read;" + RequestParserUtils.REQUESTED_PIN_NAME)).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "gpio;read;" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void nonexistingInterface() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "ggppiioo:read:" + RequestParserUtils.REQUESTED_PIN_NAME)).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "ggppiioo:read:" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void nonexistingOperation() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio:noop:" + RequestParserUtils.REQUESTED_PIN_NAME)).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "gpio:noop:" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void wrongOrderOfArgs() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "read:gpio:14")).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "read:gpio:14")).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void missingOperation() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, "gpio::" + RequestParserUtils.REQUESTED_PIN_NAME)).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "gpio::" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 
     @Test
     public void missingInterface() {
-        assertThatThrownBy(() -> RequestParser.parse(RequestParserUtils.CONVERTER, ":write:" + RequestParserUtils.REQUESTED_PIN_NAME)).
+        assertThatThrownBy(() -> RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, ":write:" + RequestParserUtils.REQUESTED_PIN_NAME)).
                 isInstanceOf(IllegalRequestException.class);
     }
 }

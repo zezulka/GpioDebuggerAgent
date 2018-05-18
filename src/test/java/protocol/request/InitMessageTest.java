@@ -26,7 +26,7 @@ public class InitMessageTest {
     public void initMessage() {
         String expected = StringConstants.INIT_PREFIX + manager.getBoardName() + StringConstants.REQ_SEPARATOR + "GPIO INTERRUPTS";
         Request req = new MockedInitMessage(manager);
-        assertThat(req.getFormattedResponse()).startsWith(expected); // in case root runs this
+        assertThat(req.responseString()).startsWith(expected); // in case root runs this
     }
 
 }

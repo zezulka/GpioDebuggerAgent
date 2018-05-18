@@ -14,8 +14,8 @@ public class I2cWriteRequestTest {
     @Test
     public void i2WriteResponse() {
         try {
-            Request i2cWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "i2c:write:0x00:0000FFFFCA");
-            assertThat(i2cWrite.getFormattedResponse()).isEqualTo(StringConstants.I2C_WRITE_RESPONSE);
+            Request i2cWrite = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "i2c:write:0x00:0000FFFFCA");
+            assertThat(i2cWrite.responseString()).isEqualTo(StringConstants.I2C_WRITE_RESPONSE);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }

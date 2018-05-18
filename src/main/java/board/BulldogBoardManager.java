@@ -2,7 +2,7 @@ package board;
 
 import board.test.AbstractBoardManager;
 import io.silverspoon.bulldog.core.platform.Platform;
-import protocol.request.DeviceInterface;
+import protocol.request.RequestType;
 import protocol.request.manager.BulldogGpioManager;
 import protocol.request.manager.BulldogI2cManager;
 import protocol.request.manager.BulldogSpiManager;
@@ -24,7 +24,7 @@ public final class BulldogBoardManager extends AbstractBoardManager {
     }
 
     @Override
-    public Function<DeviceInterface, InterfaceManager>
+    public Function<RequestType, InterfaceManager>
             deviceToInterfaceMapper() {
         return (t) -> {
             switch (t) {

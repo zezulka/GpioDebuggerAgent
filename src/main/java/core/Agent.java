@@ -27,7 +27,7 @@ public final class Agent {
             ok = false;
         }
         if (ok) {
-            new Thread(ConnectionManager.getDefaultManager()).start();
+            new Thread(ConnectionManager.getInstance()).start();
         } else {
             LOGGER.error("Application already running!");
             System.exit(1);

@@ -40,7 +40,7 @@ public final class Unix {
      * For testing purposes only.
      */
     public static List<Feature> getAppFeatures() {
-        return FEATURES;
+        return new ArrayList<>(FEATURES);
     }
 
     private static boolean checkOsNameProperty(String substring) {

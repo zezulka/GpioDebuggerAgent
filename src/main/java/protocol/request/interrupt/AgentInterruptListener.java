@@ -39,6 +39,6 @@ public final class AgentInterruptListener
          * the main thread, so additional threading needn't be dealt with.
          *
          */
-        ConnectionManager.setMessage(super.getFormattedResponse());
+        ConnectionManager.getInstance().sendMessage(super.responseString());
     }
 }

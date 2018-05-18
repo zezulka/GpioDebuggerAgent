@@ -15,7 +15,12 @@
  */
 package protocol.request;
 
+import board.test.BoardManager;
+import board.test.TestingBoard;
+import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
+import io.silverspoon.bulldog.core.io.bus.spi.SpiBus;
 import io.silverspoon.bulldog.core.pin.Pin;
+import io.silverspoon.bulldog.core.platform.Board;
 import mocks.MockedGpioManager;
 import mocks.MockedI2cManager;
 import mocks.MockedSpiManager;
@@ -32,16 +37,46 @@ public class RequestParserUtils {
     public static final SpiManager MOCKED_SPI_MANAGER = new MockedSpiManager();
     public static final Pin REQUESTED_PIN = MOCKED_PIN_ACCESSOR.getBoard().getPin("P0");
     public static final String REQUESTED_PIN_NAME = REQUESTED_PIN.getName();
-    public static final Function<DeviceInterface, InterfaceManager> CONVERTER = (t) -> {
-        switch (t) {
-            case GPIO:
-                return MOCKED_PIN_ACCESSOR;
-            case I2C:
-                return MOCKED_I2C_MANAGER;
-            case SPI:
-                return MOCKED_SPI_MANAGER;
-            default:
-                throw new IllegalArgumentException();
+    public static final BoardManager BOARD_MANAGER = new BoardManager() {
+        @Override
+        public String getBoardName() {
+            return "TEST_DEVICE";
+        }
+
+        @Override
+        public Board getBoard() {
+            return new TestingBoard();
+        }
+
+        @Override
+        public void cleanUpResources() {
+            //NO-OP
+        }
+
+        @Override
+        public I2cBus getI2c() {
+            return null;
+        }
+
+        @Override
+        public SpiBus getSpi() {
+            return null;
+        }
+
+        @Override
+        public Function<RequestType, InterfaceManager> deviceToInterfaceMapper() {
+            return (t) -> {
+                switch (t) {
+                    case GPIO:
+                        return MOCKED_PIN_ACCESSOR;
+                    case I2C:
+                        return MOCKED_I2C_MANAGER;
+                    case SPI:
+                        return MOCKED_SPI_MANAGER;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            };
         }
     };
 }

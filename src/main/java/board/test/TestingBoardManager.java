@@ -1,6 +1,6 @@
 package board.test;
 
-import protocol.request.DeviceInterface;
+import protocol.request.RequestType;
 import protocol.request.manager.InterfaceManager;
 import protocol.request.manager.TestingGpioManager;
 import protocol.request.manager.TestingI2cManager;
@@ -15,7 +15,7 @@ public class TestingBoardManager extends AbstractBoardManager {
     }
 
     @Override
-    public Function<DeviceInterface, InterfaceManager>
+    public Function<RequestType, InterfaceManager>
             deviceToInterfaceMapper() {
         return (t) -> {
             switch (t) {

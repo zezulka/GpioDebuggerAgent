@@ -40,7 +40,7 @@ public final class SpiWriteRequest implements WriteRequest {
      * request, he must submit another SPI read request instead.
      */
     @Override
-    public String getFormattedResponse() {
+    public String responseString() {
         return StringConstants.SPI_WRITE_RESPONSE;
     }
 }

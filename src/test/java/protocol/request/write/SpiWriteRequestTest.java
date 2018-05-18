@@ -14,8 +14,8 @@ public class SpiWriteRequestTest {
     @Test
     public void spiWriteResponse() {
         try {
-            Request spiWrite = RequestParser.parse(RequestParserUtils.CONVERTER, "spi:write:0x00:0000FFFFCA");
-            assertThat(spiWrite.getFormattedResponse()).isEqualTo(StringConstants.SPI_WRITE_RESPONSE);
+            Request spiWrite = RequestUtils.parse(RequestParserUtils.BOARD_MANAGER, "spi:write:0x00:0000FFFFCA");
+            assertThat(spiWrite.responseString()).isEqualTo(StringConstants.SPI_WRITE_RESPONSE);
         } catch (IllegalRequestException ex) {
             fail(ex.getMessage());
         }

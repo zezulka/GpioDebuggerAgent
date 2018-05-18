@@ -15,7 +15,7 @@ public class InitMessage implements Request {
     }
 
     @Override
-    public final String getFormattedResponse() {
+    public final String responseString() {
         List<Feature> fs = Unix.getAppFeatures();
         StringBuilder builder = new StringBuilder(StringConstants.INIT_PREFIX)
                 .append(manager.getBoardName())

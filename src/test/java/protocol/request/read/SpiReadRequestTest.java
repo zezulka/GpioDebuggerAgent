@@ -31,7 +31,7 @@ public class SpiReadRequestTest {
         final String expected = String.format(StringConstants.SPI_READ_RESPONSE_FORMAT,
                 BulldogRequestUtils.getFormattedByteArray(manager.readFromSpi(0, new byte[]{})));
         Request req = new SpiReadRequest(manager, 0, new byte[]{});
-        assertThat(req.getFormattedResponse()).isEqualTo(expected);
+        assertThat(req.responseString()).isEqualTo(expected);
     }
 
 }
