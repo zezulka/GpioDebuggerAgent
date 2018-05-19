@@ -11,7 +11,7 @@ import protocol.ProtocolMessages;
 import protocol.request.IllegalRequestException;
 import protocol.request.Request;
 import util.ApplicationProperties;
-import util.Unix;
+import util.Os;
 
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Context;
@@ -64,7 +64,7 @@ public final class ConnectionManager implements Runnable {
         }
         LOGGER.info("Launched.");
         LOGGER.info("Available features:");
-        for (Feature f : Unix.getAppFeatures()) {
+        for (Feature f : Os.getAppFeatures()) {
             LOGGER.info("\t" + f.toString());
         }
         while (true) {

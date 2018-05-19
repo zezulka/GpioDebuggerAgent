@@ -3,7 +3,7 @@ package board;
 import board.test.BoardManager;
 import board.test.TestingBoardManager;
 import io.silverspoon.bulldog.linux.sysinfo.CpuInfo;
-import util.Unix;
+import util.Os;
 
 public final class BoardManagerFactory {
 
@@ -16,7 +16,7 @@ public final class BoardManagerFactory {
         //
         // Bulldog does not support Windows, so run it in testing
         // mode instead
-        if (Unix.isWindows() || CpuInfo.getHardware() == null) {
+        if (Os.isWindows() || CpuInfo.getHardware() == null) {
             return new TestingBoardManager();
         } else {
             return new BulldogBoardManager();

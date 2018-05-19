@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Utility class for determining which OS agent runs on.
  */
-public final class Unix {
+public final class Os {
 
     private static final String OS_NAME = "os.name";
     private static final Path ETC_GROUP = Paths.get("/etc/group");
@@ -24,15 +24,17 @@ public final class Unix {
     private static final List<Feature> FEATURES = new ArrayList<>();
 
     static {
-        if (Unix.isUserRoot()) {
+        // We consider Windows to be only a testing OS only (=nonARM) as Bulldog
+        // currently does not support it.
+        if (isUserRoot()) {
             FEATURES.addAll(Arrays.asList(Feature.values()));
-        } else if (Unix.isUserInGpioGroup()) {
+        } else if (isWindows() || isUserInGpioGroup()) {
             FEATURES.add(Feature.GPIO);
             FEATURES.add(Feature.INTERRUPTS);
         }
     }
 
-    private Unix() {
+    private Os() {
         /* do not instantiate this class  */
     }
 
@@ -48,6 +50,9 @@ public final class Unix {
     }
 
     private static boolean isUserInGpioGroup() {
+        if (!isLinux()) {
+            return false;
+        }
         try (BufferedReader br
                      = new BufferedReader(new FileReader(ETC_GROUP.toFile()))) {
             String nextLine;
@@ -70,15 +75,7 @@ public final class Unix {
         return checkOsNameProperty("windows");
     }
 
-    public static boolean isUnix() {
-        return isLinux() || isMac();
-    }
-
     private static boolean isLinux() {
         return checkOsNameProperty("linux");
-    }
-
-    private static boolean isMac() {
-        return checkOsNameProperty("mac");
     }
 }

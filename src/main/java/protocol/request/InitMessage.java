@@ -2,7 +2,7 @@ package protocol.request;
 
 import board.test.BoardManager;
 import protocol.Feature;
-import util.Unix;
+import util.Os;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class InitMessage implements Request {
 
     @Override
     public final String responseString() {
-        List<Feature> fs = Unix.getAppFeatures();
+        List<Feature> fs = Os.getAppFeatures();
         StringBuilder builder = new StringBuilder(StringConstants.INIT_PREFIX)
                 .append(manager.getBoardName())
                 .append(StringConstants.REQ_SEPARATOR)
