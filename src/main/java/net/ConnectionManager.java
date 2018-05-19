@@ -4,6 +4,7 @@ import board.BoardManagerFactory;
 import board.test.BoardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zeromq.ZMQException;
 import protocol.Feature;
 import protocol.ProtocolManager;
 import protocol.ProtocolMessages;
@@ -52,12 +53,20 @@ public final class ConnectionManager implements Runnable {
      */
     @Override
     public void run() {
+        try {
+            zmqSocket.bind("tcp://*:" + port);
+        } catch (ZMQException zmq) {
+            LOGGER.error(String.format("The port associated with the agent (%d)"
+                    + " is already in use. This either means that the agent is "
+                    + "already running or another application is already using "
+                    + "this resource.", port));
+            System.exit(1);
+        }
         LOGGER.info("Launched.");
         LOGGER.info("Available features:");
         for (Feature f : Unix.getAppFeatures()) {
             LOGGER.info("\t" + f.toString());
         }
-        zmqSocket.bind("tcp://*:" + port);
         while (true) {
             while (!Thread.currentThread().isInterrupted()) {
                 String request = new String(zmqSocket.recv(0));
